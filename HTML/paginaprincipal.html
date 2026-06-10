@@ -1,0 +1,462 @@
+<!-- ============================================================================ -->
+<!-- AUTOR: [Gabriel de Moraes Rocha]                                             -->
+<!-- DATA: Junho/Julho de 2026                                                    -->
+<!-- PROJETO: Agrinho 2026 - Agro forte futuro sustentável                                      -->
+<!-- ARQUIVO: paginaprincipal.html - Dashboard Principal                          -->
+<!-- DESCRIÇÃO: Página principal do site contendo:                                -->
+<!--            - Menu de navegação com 3 seções (Agro, Interatividade, Mapeamento) -->
+<!--            - Gráficos interativos (Chart.js)                                 -->
+<!--            - Mapa mundial interativo (Leaflet)                               -->
+<!--            - Quiz educativo com 31 perguntas                                 -->
+<!--            - Widgets de relógio e temperatura em tempo real                  -->
+<!--            - Notícias do setor com modal de leitura                          -->
+<!--            - Recursos de acessibilidade (alto contraste, daltonismo, Libras) -->
+<!-- ============================================================================ -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- ===== METADADOS E CONFIGURAÇÕES ===== -->
+    <meta charset="UTF-8">                              <!-- Define codificação UTF-8 para suporte a acentos -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna o site responsivo -->
+    <title>Página Inicial</title>                       <!-- Título exibido na aba do navegador -->
+
+    <!-- ===== FONTES EXTERNAS ===== -->
+    <!-- Pré-conexões para otimizar o carregamento das fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Importa a fonte Nunito do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- ===== BIBLIOTECAS EXTERNAS ===== -->
+    <!-- Leaflet CSS - Biblioteca para mapas interativos -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS - Biblioteca JavaScript para mapas -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Chart.js - Biblioteca para criação de gráficos interativos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- ===== ESTILOS CSS ===== -->
+    <!-- Link para o arquivo de estilos principal (caminho absoluto) -->
+    <link rel="stylesheet" href="/CSS/style.css">
+</head>
+
+<!-- ===== ESTILOS ESPECÍFICOS DA JANELA AMBIENTE ===== -->
+<!-- Define cores mais escuras para os textos da seção "Agro & Meio Ambiente Sustentável" -->
+<style>
+/* Cor principal do texto na seção ambiente */
+.janela-conteudo#janela-ambiente,
+.janela-conteudo#janela-ambiente .hero-ambiente,
+.janela-conteudo#janela-ambiente .info-card,
+.janela-conteudo#janela-ambiente .highlight-box {
+    color: #1a1a1a !important;                           /* Texto escuro para melhor legibilidade */
+}
+
+/* Todos os elementos de texto na seção ambiente */
+.janela-conteudo#janela-ambiente h1,
+.janela-conteudo#janela-ambiente h2,
+.janela-conteudo#janela-ambiente h3,
+.janela-conteudo#janela-ambiente p,
+.janela-conteudo#janela-ambiente li,
+.janela-conteudo#janela-ambiente .stat-label {
+    color: #1a1a1a !important;                           /* Mantém consistência de cor escura */
+}
+
+/* Título principal da seção hero ambiente */
+.janela-conteudo#janela-ambiente .hero-ambiente h1 {
+    color: #0d3b0d !important;                           /* Verde escuro para destaque */
+}
+
+/* Títulos dos cards informativos */
+.janela-conteudo#janela-ambiente .info-card h3 {
+    color: #0044cc !important;                           /* Azul para títulos de cards */
+}
+
+/* Números estatísticos */
+.janela-conteudo#janela-ambiente .stat-number {
+    color: #1b5e20 !important;                           /* Verde para números estatísticos */
+}
+</style>
+
+<body>
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 1: BOLHAS DECORATIVAS                                       -->
+    <!-- ============================================================================ -->
+    <!-- Bolhas flutuantes (efeito visual decorativo) -->
+    <div class="bubble b1"></div>   <!-- Bolha 1 - posicionada na área superior esquerda -->
+    <div class="bubble b2"></div>   <!-- Bolha 2 - posicionada na área superior direita -->
+    <div class="bubble b3"></div>   <!-- Bolha 3 - posicionada na área inferior esquerda -->
+    <div class="bubble b4"></div>   <!-- Bolha 4 - posicionada na área inferior direita -->
+
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 2: CABEÇALHO (NAVBAR)                                                  -->
+    <!-- ============================================================================ -->
+    <!-- Barra de navegação superior fixa -->
+    <header class="navbar">
+        <!-- Logo do projeto -->
+        <div class="logo">Agrinho<span>2026</span></div>
+        
+        <!-- Wrapper para o menu de acessibilidade -->
+        <div class="accessibility-wrapper">
+            <!-- Botão que abre/fecha o menu de acessibilidade (ícone universal de acessibilidade) -->
+            <button class="accessibility-btn" id="accessibleToggle" aria-label="Menu de Acessibilidade" title="Acessibilidade">♿</button>
+            
+            <!-- Menu dropdown com opções de acessibilidade -->
+            <div class="accessibility-menu" id="accessibleMenu">
+                <button id="btnIncText">➕ Aumentar Texto</button>                <!-- Aumenta o tamanho da fonte -->
+                <button id="btnDecText">➖ Diminuir Texto</button>                <!-- Diminui o tamanho da fonte -->
+                <button id="btnContrast">☯️ Alto Contraste</button>              <!-- Ativa modo de alto contraste -->
+                <button id="btnDaltonismo">👁️ Modo Daltonismo (Vermelho/Verde)</button> <!-- Ativa modo para daltônicos -->
+                <button id="btnModoEscuro">🌙 Modo Escuro</button>               <!-- Ativa modo escuro -->
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 3: VLIBRAS - FERRAMENTA DE ACESSIBILIDADE                              -->
+    <!-- ============================================================================ -->
+    <!-- Widget oficial do governo brasileiro para tradução de conteúdo para Libras -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>      <!-- Botão flutuante do VLibras -->
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>    <!-- Container do plugin do VLibras -->
+        </div>
+    </div>
+
+    <!-- Espaçamento vertical para compensar o cabeçalho fixo -->
+    <br><br><br><br>
+    
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 4: CONTEÚDO PRINCIPAL (MAIN)                                           -->
+    <!-- ============================================================================ -->
+    <main>
+        <!-- ===== 4.1 PAINEL PRINCIPAL (MENU DE NAVEGAÇÃO) ===== -->
+        <!-- Menu inicial com 3 botões que alternam entre as seções do site -->
+        <div class="painel-aero" id="menuPrincipal">
+            <div class="painel-header">
+                <h1>O que deseja fazer primeiro?</h1>           <!-- Título de boas-vindas -->
+                <p>Temos várias páginas para serem exploradas, escolha algum tema para começar.</p> <!-- Subtítulo -->
+            </div>
+            <div class="grade-botoes">
+                <!-- Botão 1: Agro & Meio Ambiente Sustentável -->
+                <button class="botao-aero" data-target="janela-ambiente">
+                    <span class="icone">🌱</span>
+                    <span>Agro & Meio Ambiente Sustentável</span>
+                </button>
+                <!-- Botão 2: Interatividade e Jogos Ecológicos -->
+                <button class="botao-aero azul" data-target="janela-interatividade">
+                    <span class="icone">🧬</span>
+                    <span>Interatividade e Jogos Ecológicos</span>
+                </button>
+                <!-- Botão 3: Mapeamento e Dados de Produção -->
+                <button class="botao-aero" data-target="janela-mapeamento">
+                    <span class="icone">📊</span>
+                    <span>Mapeamento e Dados de Produção</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================================================== -->
+        <!-- SEÇÃO 4.2: ABA - MAPEAMENTO E DADOS DE PRODUÇÃO                            -->
+        <!-- ========================================================================== -->
+        <div class="janela-conteudo" id="janela-mapeamento">
+            <!-- Título da seção de mapeamento -->
+            <h2>🗺️ MAPEAMENTO MUNDIAL DO AGRO SUSTENTÁVEL</h2>
+            
+            <!-- Cards com estatísticas globais -->
+            <div class="stats-grid-mapeamento">
+                <div class="stat-card-mapeamento">
+                    <span class="stat-number-mapeamento">38%</span>                     <!-- Percentual global -->
+                    <span class="stat-label-mapeamento">da superfície terrestre ocupada por agricultura</span>
+                </div>
+                <div class="stat-card-mapeamento">
+                    <span class="stat-number-mapeamento">31%</span>                     <!-- Percentual de florestas preservadas -->
+                    <span class="stat-label-mapeamento">das florestas mundiais preservadas dentro de propriedades rurais</span>
+                </div>
+                <div class="stat-card-mapeamento">
+                    <span class="stat-number-mapeamento">11%</span>                     <!-- Redução da fome global -->
+                    <span class="stat-label-mapeamento">redução da fome global graças à agricultura sustentável</span>
+                </div>
+                <div class="stat-card-mapeamento">
+                    <span class="stat-number-mapeamento">189</span>                     <!-- Número de países -->
+                    <span class="stat-label-mapeamento">países adotam práticas agroecológicas</span>
+                </div>
+            </div>
+
+            <!-- Mapa Interativo Mundial -->
+            <div class="bloco-recurso">
+                <h3>🌍 Mapa Interativo do Agronegócio Sustentável no Mundo</h3>
+                <div class="mapa-interativo-container">
+                    <div id="mapaMundialInterativo"></div>      <!-- Container onde o mapa Leaflet será renderizado -->
+                </div>
+                <!-- Legenda do mapa com categorias de classificação -->
+                <div class="legenda-mapa">
+                    <div class="legenda-item"><div class="legenda-cor" style="background: #2e7d32;"></div><span>🟢 Maior produtor/tecnologia sustentável</span></div>
+                    <div class="legenda-item"><div class="legenda-cor" style="background: #f9a825;"></div><span>🟡 Alto potencial agrícola sustentável</span></div>
+                    <div class="legenda-item"><div class="legenda-cor" style="background: #1565c0;"></div><span>🔵 Agricultura tecnificada e inovadora</span></div>
+                    <div class="legenda-item"><div class="legenda-cor" style="background: #ef6c00;"></div><span>🟠 Produção em expansão sustentável</span></div>
+                </div>
+                <!-- Dica interativa para o usuário -->
+                <div class="info-mapa">
+                    💡 <strong>Dica:</strong> Clique nos marcadores do mapa para ver informações detalhadas sobre cada país!
+                </div>
+            </div>
+
+            <!-- Gráfico 1: Top 5 Países Produtores de Alimentos -->
+            <div class="bloco-recurso">
+                <h3>🥇 Top 5 Países Produtores de Alimentos (2025)</h3>
+                <div class="grafico-wrapper">
+                    <canvas id="chartTopProdutores"></canvas>   <!-- Canvas para renderizar gráfico de barras -->
+                </div>
+                <p style="font-size:12px; color:#555; margin-top:10px; text-align:center;">Fonte: FAO - Organização das Nações Unidas para Alimentação e Agricultura</p>
+            </div>
+
+            <!-- Gráfico 2: Agricultura Sustentável por Continente -->
+            <div class="bloco-recurso">
+                <h3>🌎 Agricultura Sustentável por Continente</h3>
+                <div class="grafico-wrapper-pequeno">
+                    <canvas id="chartContinentes"></canvas>     <!-- Canvas para renderizar gráfico de rosca/doughnut -->
+                </div>
+                <p style="font-size:12px; color:#555; margin-top:10px; text-align:center;">Percentual de áreas agrícolas com certificação sustentável</p>
+            </div>
+
+            <!-- Gráfico 3: Emissões de Gases de Efeito Estufa por Setor -->
+            <div class="bloco-recurso">
+                <h3>📊 Emissões de Gases de Efeito Estufa por Setor</h3>
+                <div class="grafico-wrapper">
+                    <canvas id="chartEmissoes"></canvas>        <!-- Canvas para renderizar gráfico de pizza -->
+                </div>
+                <p style="font-size:12px; color:#555; margin-top:10px; text-align:center;">Dados IPCC 2025 - Agricultura Sustentável reduz emissões</p>
+            </div>
+
+            <!-- Gráficos lado a lado (2 colunas) -->
+            <div class="two-columns">
+                <!-- Gráfico 4: Investimentos Globais -->
+                <div class="bloco-recurso">
+                    <h3>💰 Investimentos Globais (US$ Bilhões)</h3>
+                    <div class="grafico-wrapper-pequeno">
+                        <canvas id="chartInvestimentosGlobais"></canvas>  <!-- Canvas para renderizar gráfico de linha -->
+                    </div>
+                    <p style="font-size:11px; color:#555; margin-top:10px;">Bancos Mundiais e Fundos Verdes</p>
+                </div>
+                <!-- Gráfico 5: Recuperação de Solos -->
+                <div class="bloco-recurso">
+                    <h3>🌱 Recuperação de Solos no Mundo</h3>
+                    <div class="grafico-wrapper-pequeno">
+                        <canvas id="chartRecuperacaoSolos"></canvas>      <!-- Canvas para gráfico de barras horizontal -->
+                    </div>
+                    <p style="font-size:11px; color:#555; margin-top:10px;">Milhões de hectares recuperados via agricultura regenerativa</p>
+                </div>
+            </div>
+
+            <!-- Frase de impacto (citação da FAO/ONU) -->
+            <div class="frase-impacto">
+                <p>🌍 “O futuro sustentável do agronegócio mundial não depende de produzir em mais terras, mas de produzir melhor, utilizando tecnologia, inovação e preservação ambiental para alimentar o mundo sem comprometer os recursos naturais.”</p>
+                <small>— FAO/ONU - Relatório da Agricultura Mundial 2026</small>
+            </div>
+
+            <!-- Referências Globais (links externos para fontes confiáveis) -->
+            <div class="bloco-recurso" style="background: rgba(255,255,255,0.2); margin-top:20px;">
+                <h3>📖 Referências Globais</h3>
+                <p style="font-size:12px;">
+                    <a href="https://www.fao.org/home/en/" target="_blank" class="btn-referencia">🌾 FAO - Organização das Nações Unidas</a>
+                    <a href="https://www.ipcc.ch/" target="_blank" class="btn-referencia" style="margin-left:10px;">📊 IPCC - Mudanças Climáticas</a>
+                    <a href="https://www.worldbank.org/en/topic/agriculture" target="_blank" class="btn-referencia" style="margin-left:10px;">🏦 Banco Mundial - Agricultura</a>
+                </p>
+            </div>
+
+            <!-- Botão para voltar ao menu principal -->
+            <button class="btn-voltar" style="margin-top:20px;">← Voltar para a Home</button>
+        </div>
+
+        <!-- ========================================================================== -->
+        <!-- SEÇÃO 4.3: ABA - AGRO & MEIO AMBIENTE SUSTENTÁVEL (BRASIL)                 -->
+        <!-- ========================================================================== -->
+        <div class="janela-conteudo" id="janela-ambiente">
+            <!-- Hero da seção (título e descrição introdutória) -->
+            <div class="hero-ambiente">
+                <h1>🌿 Agro Forte, Futuro Sustentável: Equilíbrio entre Produção e Meio Ambiente</h1>
+                <p>O agronegócio desempenha um papel fundamental na economia brasileira...</p>
+            </div>
+            
+            <!-- Cards com estatísticas brasileiras -->
+            <div class="stats-grid">
+                <div class="stat-card"><span class="stat-number">65,6%</span><span class="stat-label">do território brasileiro com vegetação nativa preservada</span></div>
+                <div class="stat-card"><span class="stat-number">31,3%</span><span class="stat-label">do território ocupado por atividades agropecuárias</span></div>
+                <div class="stat-card"><span class="stat-number">29%</span><span class="stat-label">das matas nativas preservadas por produtores rurais</span></div>
+                <div class="stat-card"><span class="stat-number">+15%</span><span class="stat-label">aumento em produtividade com práticas sustentáveis</span></div>
+            </div>
+            
+            <!-- Card informativo sobre o papel do agronegócio -->
+            <div class="info-card"><h3>🇧🇷 O Papel do Agronegócio no Desenvolvimento do Brasil</h3><p>O Brasil é uma das maiores potências agropecuárias do mundo...</p></div>
+            
+            <!-- Colunas duplas com conteúdo educativo -->
+            <div class="two-columns">
+                <div class="info-card"><h3>🌍 Sustentabilidade: Uma Necessidade para o Futuro</h3><p>A sustentabilidade consiste em atender às necessidades atuais...</p></div>
+                <div class="info-card"><h3>⚖️ O Equilíbrio Entre Produção e Preservação</h3><p>Durante muito tempo acreditou-se que produzir mais significava ocupar mais áreas...</p></div>
+            </div>
+            
+            <!-- Lista de tecnologias sustentáveis aplicadas no campo -->
+            <div class="info-card"><h3>🚜 Tecnologia e Inovação no Campo</h3><ul class="tech-list"><li><strong>Drones Agrícolas:</strong> Monitoramento detalhado...</li><li><strong>Sensoriamento Remoto:</strong> Satélites auxiliam...</li><li><strong>Inteligência Artificial:</strong> Análise de dados...</li><li><strong>Bioinsumos:</strong> Substituição parcial...</li></ul></div>
+            
+            <!-- Card com imagem ilustrativa do produtor rural -->
+            <div class="info-card"><h3>👨‍🌾 O Produtor Rural Como Guardião do Meio Ambiente</h3><p>Estudos da Embrapa indicam que aproximadamente <strong>65,6% do território brasileiro ainda possui vegetação nativa preservada</strong>...</p><img class="img-ilustrativa" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&auto=format&fit=crop" alt="Produtor rural e natureza"></div>
+            
+            <!-- Benefícios econômicos e desafios climáticos -->
+            <div class="two-columns">
+                <div class="info-card"><h3>💰 Benefícios Econômicos da Sustentabilidade</h3><p>✓ Redução de custos<br>✓ Maior eficiência<br>✓ Acesso a mercados</p></div>
+                <div class="info-card"><h3>🌡️ Mudanças Climáticas e os Desafios da Agricultura</h3><p>As mudanças climáticas representam um dos maiores desafios...</p></div>
+            </div>
+            
+            <!-- Importância da educação ambiental no campo -->
+            <div class="info-card"><h3>📚 A Importância da Educação Ambiental no Campo</h3><p>A construção de um futuro sustentável depende também da conscientização...</p></div>
+            
+            <!-- Caixa de destaque com conclusão do tema -->
+            <div class="highlight-box"><h3 style="color:#0044cc;">🌟 Conclusão</h3><p>O futuro da agropecuária depende do equilíbrio...</p></div>
+            
+            <!-- Referências nacionais (Ministério da Agricultura e Embrapa) -->
+            <div class="info-card" style="background: rgba(255,255,255,0.2);"><h3>📖 Referências</h3><p><a href="https://www.gov.br/agricultura/pt-br/assuntos/politica-agricola/plano-safra/2025-2026/producao-sustentavel/" target="_blank" class="btn-referencia">📄 Produção + Sustentável — Ministério da Agricultura</a><br><a href="https://www.agrimidia.com.br/sustentabilidade/novo-estudo-da-embrapa-revela-que-produtores-rurais-preservam-29-das-matas-nativas-do-brasil/" target="_blank" class="btn-referencia" style="margin-top:8px;">📊 Estudo Embrapa - Preservação de Matas Nativas</a></p></div>
+            
+            <!-- Botão para voltar ao menu principal -->
+            <button class="btn-voltar" style="margin-top:20px;">← Voltar para a Home</button>
+        </div>
+
+        <!-- ========================================================================== -->
+        <!-- SEÇÃO 4.4: ABA - INTERATIVIDADE E JOGOS ECOLÓGICOS                         -->
+        <!-- ========================================================================== -->
+        <div class="janela-conteudo" id="janela-interatividade">
+            <!-- Título da seção interativa -->
+            <h2>🧬 QUIZ: AGRO FORTE, FUTURO SUSTENTÁVEL</h2>
+            <p style="color:#333; margin-bottom:20px;">Teste seus conhecimentos sobre agricultura sustentável! São 31 perguntas entre múltipla escolha, verdadeiro/falso e discursivas.</p>
+            
+            <!-- Container principal do Quiz -->
+            <div id="quizContainer" class="quiz-container">
+                <!-- Barra de progresso visual -->
+                <div class="quiz-progresso">
+                    <div class="quiz-progresso-bar" id="quizProgressoBar" style="width: 0%;"></div>
+                </div>
+                <!-- Contador textual de perguntas -->
+                <div class="quiz-contador" id="quizContador">Pergunta 1 de 31</div>
+                <!-- Área onde a pergunta atual será exibida -->
+                <div id="quizPergunta" class="quiz-pergunta"></div>
+                <!-- Área onde as alternativas de resposta serão exibidas -->
+                <div id="quizAlternativas" class="quiz-alternativas"></div>
+                <!-- Botões de navegação do quiz -->
+                <div class="quiz-botoes">
+                    <button id="quizBtnAnterior" class="quiz-btn" disabled>◀ Anterior</button>
+                    <button id="quizBtnProximo" class="quiz-btn">Próxima ▶</button>
+                </div>
+                <!-- Área onde o resultado final será exibido -->
+                <div id="quizResultado" class="quiz-resultado" style="display: none;"></div>
+            </div>
+
+            <!-- Botão para ir para a página de Passatempos (jogos adicionais) -->
+            <div style="display: flex; justify-content: center; margin: 20px 0;">
+                <button id="btnPassatempos" class="botao-passatempos" onclick="window.location.href='passatempos.html'">
+                    <span class="icone-passatempo">🎮</span>
+                    <span>Ir para Página de Passatempos</span>
+                    <span class="seta-passatempo">→</span>
+                </button>
+            </div>
+
+            <!-- Botão para voltar ao menu principal -->
+            <button class="btn-voltar" style="margin-top:20px;">← Voltar para a Home</button>
+        </div>
+
+        <!-- ========================================================================== -->
+        <!-- SEÇÃO 4.5: WIDGETS - RELÓGIO E CLIMA                                      -->
+        <!-- ========================================================================== -->
+        <!-- Barra com widgets de informações em tempo real -->
+        <div class="barra-widgets" id="barraWidgets">
+            <!-- Widget de relógio - exibe horário local atualizado -->
+            <div class="widget-item">
+                <div class="widget-info"><h3>🕒 HORÁRIO LOCAL</h3><p id="relogio">00:00:00</p></div>
+                <div class="widget-icone">⏰</div>
+            </div>
+            <!-- Widget de temperatura - exibe clima via API -->
+            <div class="widget-item">
+                <div class="widget-info"><h3>🌡️ TEMPERATURA</h3><p id="clima">Carregando...</p></div>
+                <div class="widget-icone" id="climaIcone">🌤️</div>
+            </div>
+        </div>
+
+        <!-- ========================================================================== -->
+        <!-- SEÇÃO 4.6: NOTÍCIAS DO AGRO SUSTENTÁVEL                                    -->
+        <!-- ========================================================================== -->
+        <div class="noticias-container" id="noticiasContainer">
+            <!-- Cabeçalho da seção de notícias -->
+            <div class="noticias-header">
+                <span class="header-icon">🌾</span>
+                <h2>📰 ÚLTIMAS NOTÍCIAS DO AGRO SUSTENTÁVEL</h2>
+                <span class="header-icon">🌍</span>
+            </div>
+            <!-- Grid onde as notícias serão renderizadas dinamicamente via JavaScript -->
+            <div class="noticias-grid" id="noticiasGrid"></div>
+        </div>
+    </main>
+
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 5: MODAL DE NOTÍCIAS                                                    -->
+    <!-- ============================================================================ -->
+    <!-- Modal (popup) que aparece ao clicar em uma notícia para exibir detalhes completos -->
+    <div id="modalNoticia" class="modal-noticia">
+        <div class="modal-conteudo">
+            <!-- Botão para fechar o modal -->
+            <button class="fechar-modal" onclick="fecharModal()">×</button>
+            <!-- Imagem da notícia -->
+            <img id="modalImagem" class="modal-imagem" src="" alt="">
+            <div class="modal-texto">
+                <!-- Título da notícia -->
+                <h2 id="modalTitulo"></h2>
+                <!-- Metadados (data e categoria) -->
+                <div class="modal-meta" id="modalMeta"></div>
+                <!-- Conteúdo completo da notícia -->
+                <p id="modalConteudo" class="modal-conteudo-texto"></p>
+                <!-- Tags temáticas da notícia -->
+                <div class="modal-tags" id="modalTags"></div>
+                <!-- Botão de compartilhar notícia -->
+                <div class="modal-fonte">
+                    <button class="btn-compartilhar" onclick="compartilharNoticia()">📤 Compartilhar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 6: RODAPÉ (FOOTER)                                                     -->
+    <!-- ============================================================================ -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <!-- Logo do projeto no rodapé -->
+                <div class="logo">Agrinho<span>2026</span></div>
+                <!-- Slogan do projeto -->
+                <p>Conectando a pureza da natureza com a inovação tecnológica para cultivar o amanhã.</p>
+            </div>
+
+            <!-- Créditos das mídias utilizadas (conforme exigido pelo regulamento) -->
+            <div class="creditos">
+                <p>Imagens: Unsplash - Licença gratuita</p>
+                <p>Música: Licença gratuita</p>
+            </div>
+        </div>
+        
+        <!-- Informações institucionais e créditos finais -->
+        <div class="footer-bottom">
+            <p>@sistema.faep</p>      <!-- SENAR/FAEP - Instituição promotora -->
+            <p>Agrinho @agrinho</p>    <!-- Marca do programa Agrinho -->
+        </div>
+    </footer>
+
+    <!-- ============================================================================ -->
+    <!-- SEÇÃO 7: SCRIPTS E INICIALIZAÇÃO                                             -->
+    <!-- ============================================================================ -->
+    <!-- Arquivo JavaScript principal (caminho absoluto para a pasta JS) -->
+    <script src="/JS/main.js"></script>
+    <!-- Biblioteca VLibras para acessibilidade em Libras -->
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <!-- Inicialização do widget VLibras -->
+    <script> new window.VLibras.Widget('https://vlibras.gov.br/app'); </script>
+
+</body>
+</html>

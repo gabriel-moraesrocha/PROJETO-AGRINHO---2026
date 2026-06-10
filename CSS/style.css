@@ -1,0 +1,4061 @@
+/* ============================================================================
+   AUTOR: [Gabriel de Moraes Rocha]
+   DATA: Junho/Julho de 2026
+   PROJETO: Agrinho 2026 - Agro forte futuro sustentável
+   DESCRIÇÃO: Arquivo de estilos principal do site, contendo temas de acessibilidade,
+              estilos do cabeçalho, rodapé, páginas index, principal e passatempos,
+              animações e responsividade.
+   ============================================================================ */
+
+/* ============================================================================
+   SEÇÃO 1: VARIÁVEIS GLOBAIS (ROOT)
+   ============================================================================ */
+/* Define variáveis CSS para facilitar manutenção e suporte a temas dinâmicos */
+:root {
+    --font-scale: 1.0;                    /* Controla escala da fonte (acessibilidade) */
+    --bg-gradient: linear-gradient(to bottom, rgba(54, 196, 255, 0.2) 0%, rgba(255, 255, 255, 0) 60%), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000&auto=format&fit=crop'); /* Fundo gradiente com imagem */
+    --text-color: #05220f;                /* Cor padrão do texto */
+    --title-color: #0090f0;               /* Cor dos títulos */
+    --hero-title-color: #032b13;          /* Cor do título na seção hero */
+    --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(240, 252, 255, 0.5) 100%); /* Fundo dos cards */
+    --right-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.35) 100%); /* Fundo da área direita do hero */
+    --btn-gradient: linear-gradient(to bottom, #7be250 0%, #3eb311 48%, #299103 52%, #49bd13 100%); /* Gradiente dos botões */
+    --btn-hover: linear-gradient(to bottom, #8eee64 0%, #52cb23 48%, #38aa0d 52%, #60d725 100%); /* Gradiente hover dos botões */
+    --btn-border: #236b03;                /* Cor da borda dos botões */
+    --text-shadow-white: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; /* Sombra branca para contraste */
+    --span-gradient: linear-gradient(45deg, #0052cc, #0099ff); /* Gradiente para spans especiais */
+}
+
+/* ============================================================================
+   SEÇÃO 2: ACESSIBILIDADE - TEMAS E MODOS ESPECIAIS
+   ============================================================================ */
+
+/* 2.1 MODO ESCURO - Para usuários que preferem tema noturno */
+body.modo-escuro {
+    background: #1a1a1a !important;      /* Fundo escuro */
+    color: #ffffff !important;            /* Texto branco */
+}
+
+body.modo-escuro .card,
+body.modo-escuro .video-card,
+body.modo-escuro .painel-aero,
+body.modo-escuro .janela-conteudo {
+    background: rgba(30, 30, 30, 0.9) !important; /* Cards com fundo escuro semi-transparente */
+    color: #ffffff !important;            /* Texto branco */
+}
+
+/* 2.2 ALTO CONTRASTE - Para usuários com baixa visão (Index.html) */
+/* Este modo força fundo preto, texto branco e bordas amarelas */
+body.alto-contraste {
+    --bg-gradient: none;                  /* Remove gradiente de fundo */
+    --text-color: #fff;                   /* Texto branco */
+    --title-color: #ffff00;               /* Títulos amarelos */
+    --hero-title-color: #ffff00;          /* Hero título amarelo */
+    --card-bg: #000;                      /* Fundo do card preto */
+    --right-bg: #000;                     /* Fundo da área direita preto */
+    --text-shadow-white: none;            /* Remove sombra branca */
+    background: #000 !important;          /* Fundo preto */
+    color: #fff !important;               /* Texto branco */
+}
+
+/* Estilos específicos para alto contraste no cabeçalho e menu */
+body.alto-contraste .navbar, 
+body.alto-contraste .accessibility-menu { 
+    background: #000 !important; 
+    border: 2px solid #ffff00 !important; /* Borda amarela */
+    color: #fff !important; 
+}
+
+/* Força todas as tags de texto a ficarem brancas no alto contraste */
+body.alto-contraste a, 
+body.alto-contraste h1, 
+body.alto-contraste h2, 
+body.alto-contraste h3, 
+body.alto-contraste p, 
+body.alto-contraste span { 
+    color: #fff !important; 
+    -webkit-text-fill-color: #fff !important; 
+    text-shadow: none !important; 
+    background: none !important; 
+}
+
+/* Botões no alto contraste - fundo amarelo com texto preto */
+body.alto-contraste .btn { 
+    background: #ffff00 !important; 
+    color: #000 !important; 
+    border: 2px solid #fff !important; 
+    text-shadow: none !important; 
+}
+
+/* Esconde bolhas decorativas no alto contraste para evitar poluição visual */
+body.alto-contraste .bubble { 
+    display: none; 
+}
+
+/* 2.3 MODO DALTONISMO - Para usuários com dificuldade em distinguir vermelho/verde */
+/* Ajusta cores para tons de azul e amarelo */
+body.daltonismo {
+    --text-color: #001133;
+    --title-color: #0044cc;
+    --hero-title-color: #002266;
+    --bg-gradient: linear-gradient(to bottom, rgba(230, 242, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2000&auto=format&fit=crop');
+    --btn-gradient: linear-gradient(to bottom, #ffdd00 0%, #ffcc00 100%); /* Botões amarelos */
+    --btn-hover: linear-gradient(to bottom, #ffee55 0%, #ffdd00 100%);
+    --btn-border: #ccaa00;
+    --span-gradient: linear-gradient(45deg, #002288, #0044cc);
+}
+
+/* Botões no modo daltonismo - texto preto */
+body.daltonismo .btn { 
+    color: #000 !important; 
+    text-shadow: none !important; 
+}
+
+/* Tags no modo daltonismo - fundo azul com texto branco */
+body.daltonismo .tags span { 
+    background: #0044cc !important; 
+    color: #fff !important; 
+    border: 1px solid #002288; 
+}
+
+/* Botões genéricos no modo daltonismo */
+body.daltonismo button {
+    background: #000a8f !important; 
+    color: #ffffff !important; 
+    border: 2px solid #000000 !important; 
+}
+
+/* 2.4 ESTILOS GLOBAIS DO CORPO DA PÁGINA */
+body {
+    font-family: 'Nunito', sans-serif;    /* Fonte principal */
+    min-height: 100vh;                    /* Altura mínima da tela */
+    overflow-x: hidden;                   /* Remove scroll horizontal */
+    color: var(--text-color);             /* Cor do texto via variável */
+    background: var(--bg-gradient);       /* Fundo com gradiente */
+    background-size: cover;               /* Fundo cobre toda área */
+    background-position: center bottom;   /* Posicionamento do fundo */
+    background-attachment: fixed;         /* Fundo fixo ao rolar */
+    position: relative;                   /* Para posicionamento de elementos filhos */
+}
+
+/* 2.5 ALTO CONTRASTE - ELEMENTOS INDEX */
+body.alto-contraste .card, 
+body.alto-contraste .right, 
+body.alto-contraste .objetivo { 
+    background: #000 !important; 
+    border: 2px solid #ffff00 !important; 
+    color: #fff !important; 
+}
+
+/* 2.6 ALTO CONTRASTE - POPUP README */
+body.alto-contraste .popup-readme {
+    background: rgba(0, 0, 0, 0.95) !important;
+}
+
+body.alto-contraste .popup-readme-conteudo {
+    background: #000000 !important;
+    border: 3px solid #ffee00 !important;
+    box-shadow: none !important;
+}
+
+/* Textos dentro do popup no alto contraste */
+body.alto-contraste .popup-readme-conteudo h1,
+body.alto-contraste .popup-readme-conteudo h2,
+body.alto-contraste .popup-readme-conteudo h3,
+body.alto-contraste .popup-readme-conteudo p,
+body.alto-contraste .popup-readme-conteudo li,
+body.alto-contraste .popup-readme-conteudo strong,
+body.alto-contraste .popup-readme-conteudo em {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .popup-readme-conteudo h1 {
+    color: #ffee00 !important;
+    border-bottom-color: #ffee00 !important;
+}
+
+body.alto-contraste .popup-readme-conteudo h2 {
+    color: #ffee00 !important;
+}
+
+body.alto-contraste .popup-readme-conteudo h3 {
+    color: #ffcc00 !important;
+}
+
+body.alto-contraste .popup-readme-conteudo hr {
+    border-color: #ffee00 !important;
+}
+
+/* Tabelas no popup - alto contraste */
+body.alto-contraste .popup-readme-conteudo table th {
+    background: #333333 !important;
+    color: #ffee00 !important;
+    border-color: #ffee00 !important;
+}
+
+body.alto-contraste .popup-readme-conteudo table td {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    border-color: #ffee00 !important;
+}
+
+/* Botão de fechar no popup - alto contraste */
+body.alto-contraste .popup-readme-fechar {
+    background: #000000 !important;
+    color: #ffee00 !important;
+    border: 2px solid #ffee00 !important;
+}
+
+body.alto-contraste .popup-readme-fechar:hover {
+    background: #ffee00 !important;
+    color: #000000 !important;
+}
+
+/* 2.7 DALTONISMO - POPUP README */
+body.daltonismo .popup-readme {
+    background: rgba(0, 0, 0, 0.85) !important;
+}
+
+body.daltonismo .popup-readme-conteudo {
+    background: linear-gradient(135deg, #ffffff 0%, #e6f0ff 100%) !important;
+    border: 2px solid #0055a5 !important;
+}
+
+/* Textos no popup - modo daltonismo */
+body.daltonismo .popup-readme-conteudo h1,
+body.daltonismo .popup-readme-conteudo h2,
+body.daltonismo .popup-readme-conteudo h3,
+body.daltonismo .popup-readme-conteudo p,
+body.daltonismo .popup-readme-conteudo li,
+body.daltonismo .popup-readme-conteudo strong {
+    color: #0055a5 !important;
+}
+
+body.daltonismo .popup-readme-conteudo h1 {
+    border-bottom-color: #0055a5 !important;
+}
+
+body.daltonismo .popup-readme-conteudo hr {
+    border-color: #0055a5 !important;
+}
+
+/* Tabelas no popup - modo daltonismo */
+body.daltonismo .popup-readme-conteudo table th {
+    background: #0055a5 !important;
+    color: #ffffff !important;
+}
+
+body.daltonismo .popup-readme-conteudo table td {
+    background: #f0f5ff !important;
+    color: #333333 !important;
+}
+
+/* Botão de fechar - modo daltonismo */
+body.daltonismo .popup-readme-fechar {
+    background: #0055a5 !important;
+    color: #ffffff !important;
+}
+
+body.daltonismo .popup-readme-fechar:hover {
+    background: #003d7a !important;
+    transform: scale(1.1) !important;
+}
+
+/* ============================================================================
+   SEÇÃO 3: ESTILOS ESPECÍFICOS DA PÁGINA PRINCIPAL (paginaprincipal.html)
+   ============================================================================ */
+
+/* 3.1 ALTO CONTRASTE - Elementos principais da página */
+body.alto-contraste .painel-aero, 
+body.alto-contraste button, 
+body.alto-contraste .janela-conteudo, 
+body.alto-contraste .widget-item, 
+body.alto-contraste .noticias-container, 
+body.alto-contraste .noticia-card, 
+body.alto-contraste .quiz-container,
+body.alto-contraste .bloco-recurso, 
+body.alto-contraste .info-card, 
+body.alto-contraste .stat-card,
+body.alto-contraste .stat-card-mapeamento, 
+body.alto-contraste .quiz-alternativa, 
+body.alto-contraste .hero-ambiente,
+body.alto-contraste .highlight-box, 
+body.alto-contraste .frase-impacto, 
+body.alto-contraste .modal-conteudo,
+body.alto-contraste .mapa-interativo-container, 
+body.alto-contraste .legenda-mapa, 
+body.alto-contraste .info-mapa { 
+    background: #1a1a1a !important; 
+    background-color: #1a1a1a !important;
+    border: 2px solid #ffee00 !important; 
+    color: #ffffff !important; 
+}
+
+/* 3.2 ALTO CONTRASTE - Textos de cards, quiz e notícias */
+body.alto-contraste .noticia-card h3, 
+body.alto-contraste .noticia-card p,
+body.alto-contraste .quiz-pergunta, 
+body.alto-contraste .quiz-texto,
+body.alto-contraste .stat-number-mapeamento, 
+body.alto-contraste .stat-number,
+body.alto-contraste .modal-texto h2, 
+body.alto-contraste .modal-conteudo-texto,
+body.alto-contraste .frase-impacto p, 
+body.alto-contraste .info-card p,
+body.alto-contraste .hero-ambiente p, 
+body.alto-contraste .hero-ambiente h1,
+body.alto-contraste .painel-header h1, 
+body.alto-contraste .painel-header p,
+body.alto-contraste .janela-conteudo h2, 
+body.alto-contraste .janela-conteudo h3,
+body.alto-contraste .widget-info p, 
+body.alto-contraste .widget-info h3 {
+    color: #ffffff !important;
+    background: transparent !important;
+}
+
+/* 3.3 ALTO CONTRASTE - Gráficos */
+body.alto-contraste canvas {
+    background: #ffffff !important;       /* Fundo branco para gráficos */
+    border: 1px solid #ffee00 !important;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+body.alto-contraste .grafico-wrapper,
+body.alto-contraste .grafico-wrapper-pequeno {
+    background: #ffffff !important;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* 3.4 ALTO CONTRASTE - Quiz alternativas selecionadas */
+body.alto-contraste .quiz-alternativa.selected {
+    background: #ffee00 !important;
+    border-color: #ffffff !important;
+}
+
+body.alto-contraste .quiz-alternativa.selected .quiz-texto,
+body.alto-contraste .quiz-alternativa.selected .quiz-letra {
+    color: #000000 !important;
+}
+
+/* 3.5 ALTO CONTRASTE - Botões do quiz e referências */
+body.alto-contraste .quiz-btn, 
+body.alto-contraste .btn-voltar,
+body.alto-contraste .btn-compartilhar, 
+body.alto-contraste .btn-referencia {
+    background: #ffee00 !important;
+    color: #000000 !important;
+    border: 1px solid #ffffff !important;
+}
+
+body.alto-contraste .quiz-progresso-bar {
+    background: #ffee00 !important;
+}
+
+/* 3.6 ALTO CONTRASTE - Área de texto */
+body.alto-contraste textarea {
+    background: #333 !important;
+    color: #fff !important;
+    border: 1px solid #ffee00 !important;
+}
+
+/* 3.7 ALTO CONTRASTE - Modal */
+body.alto-contraste .fechar-modal {
+    background: #000 !important;
+    color: #ffee00 !important;
+    border: 1px solid #ffee00 !important;
+}
+
+/* 3.8 ALTO CONTRASTE - Legenda do mapa */
+body.alto-contraste .legenda-mapa span,
+body.alto-contraste .info-mapa,
+body.alto-contraste .info-mapa strong {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .legenda-cor {
+    border: 1px solid #ffee00 !important;
+}
+
+/* 3.9 ALTO CONTRASTE - Botão de passatempos */
+body.alto-contraste .botao-passatempos {
+    background: #1a1a1a !important;
+    border: 2px solid #ffee00 !important;
+    color: #ffffff !important;
+}
+
+body.alto-contraste .botao-passatempos::before {
+    display: none;
+}
+
+/* 3.10 ALTO CONTRASTE - Modal e textos especiais */
+body.alto-contraste .modal-conteudo {
+    background: #1a1a1a !important;
+}
+
+body.alto-contraste .modal-texto {
+    background: transparent !important;
+}
+
+/* 3.11 ALTO CONTRASTE - Cabeçalhos com gradiente */
+body.alto-contraste .noticias-header h2,
+body.alto-contraste .painel-header h1,
+body.alto-contraste .painel-header h2 {
+    background: none !important;
+    -webkit-text-fill-color: #ffee00 !important;
+    color: #ffee00 !important;
+}
+
+/* 3.12 ALTO CONTRASTE - Gráficos Chart.js */
+body.alto-contraste .chartjs-render-monitor {
+    filter: brightness(1) contrast(1.2);
+}
+
+/* 3.13 ALTO CONTRASTE - Links */
+body.alto-contraste a,
+body.alto-contraste .btn-referencia {
+    color: #ffee00 !important;
+}
+
+body.alto-contraste a:hover,
+body.alto-contraste .btn-referencia:hover {
+    color: #ffffff !important;
+}
+
+/* 3.14 DALTONISMO - Elementos principais da página */
+body.daltonismo .painel-aero, 
+body.daltonismo .janela-conteudo,
+body.daltonismo .quiz-container, 
+body.daltonismo .bloco-recurso,
+body.daltonismo .info-card, 
+body.daltonismo .stat-card,
+body.daltonismo .stat-card-mapeamento, 
+body.daltonismo .noticia-card,
+body.daltonismo .hero-ambiente, 
+body.daltonismo .highlight-box,
+body.daltonismo .frase-impacto, 
+body.daltonismo .modal-conteudo {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(230, 240, 255, 0.3) 100%) !important;
+    backdrop-filter: blur(25px) !important;
+}
+
+/* 3.15 DALTONISMO - Textos */
+body.daltonismo .noticia-card h3, 
+body.daltonismo .quiz-pergunta,
+body.daltonismo .stat-number-mapeamento, 
+body.daltonismo .stat-number,
+body.daltonismo .modal-texto h2, 
+body.daltonismo .frase-impacto p,
+body.daltonismo .painel-header h1, 
+body.daltonismo .janela-conteudo h2 {
+    color: #0055a5 !important;
+}
+
+/* 3.16 DALTONISMO - Quiz alternativas */
+body.daltonismo .quiz-alternativa:hover {
+    background: rgba(0, 85, 165, 0.2) !important;
+}
+
+body.daltonismo .quiz-alternativa.selected {
+    background: rgba(0, 85, 165, 0.3) !important;
+    border-color: #0055a5 !important;
+}
+
+/* 3.17 DALTONISMO - Botões do quiz */
+body.daltonismo .quiz-btn, 
+body.daltonismo .btn-voltar {
+    background: linear-gradient(135deg, #0055a5, #003d7a) !important;
+}
+
+/* 3.18 DALTONISMO - Categoria de notícias */
+body.daltonismo .noticia-categoria {
+    background: linear-gradient(135deg, #0055a5, #003d7a) !important;
+}
+
+/* 3.19 DALTONISMO - Botões do menu */
+body.daltonismo .botao-aero {
+    background: linear-gradient(to bottom, #0055a5 0%, #003d7a 45%, #002a5a 100%) !important;
+}
+
+body.daltonismo .botao-aero.azul {
+    background: linear-gradient(to bottom, #0055a5 0%, #003d7a 45%, #002a5a 100%) !important;
+}
+
+body.daltonismo .botao-aero.verde-claro {
+    background: linear-gradient(to bottom, #0055a5 0%, #003d7a 45%, #002a5a 100%) !important;
+}
+
+/* 3.20 DALTONISMO - Cabeçalhos */
+body.daltonismo .noticias-header h2 {
+    background: none !important;
+    -webkit-text-fill-color: #0055a5 !important;
+    color: #0055a5 !important;
+}
+
+body.daltonismo .painel-header h1, 
+body.daltonismo .painel-header h2 {
+    background: none !important;
+    -webkit-text-fill-color: #0055a5 !important;
+    color: #0055a5 !important;
+}
+
+/* 3.21 DALTONISMO - Botão de passatempos */
+body.daltonismo .botao-passatempos {
+    background: linear-gradient(135deg, #0055a5 0%, #003d7a 45%, #002a5a 100%) !important;
+}
+
+/* 3.22 ALTO CONTRASTE - Botões de referência (personalizados) */
+body.alto-contraste .btn-referencia,
+body.alto-contraste .bloco-recurso .btn-referencia,
+body.alto-contraste a.btn-referencia {
+    background: #000000 !important;
+    color: #ffee00 !important;
+    border: 2px solid #ffee00 !important;
+    text-decoration: none !important;
+}
+
+body.alto-contraste .btn-referencia span,
+body.alto-contraste .btn-referencia strong,
+body.alto-contraste .btn-referencia em,
+body.alto-contraste .btn-referencia * {
+    color: #ffee00 !important;
+}
+
+body.alto-contraste .btn-referencia:hover {
+    background: #ffee00 !important;
+    color: #000000 !important;
+}
+
+/* 3.23 ALTO CONTRASTE - Popups do mapa Leaflet */
+body.alto-contraste .leaflet-popup-content-wrapper,
+body.alto-contraste .leaflet-popup-tip {
+    background: #000000 !important;
+    border: 2px solid #ffee00 !important;
+    color: #ffffff !important;
+}
+
+body.alto-contraste .leaflet-popup-content {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .leaflet-popup-close-button {
+    color: #ffee00 !important;
+    background: transparent !important;
+}
+
+body.alto-contraste .leaflet-popup-close-button:hover {
+    color: #ffffff !important;
+}
+
+/* 3.24 ALTO CONTRASTE - Controles de zoom do mapa */
+body.alto-contraste .leaflet-control-zoom a,
+body.alto-contraste .leaflet-control-zoom-in,
+body.alto-contraste .leaflet-control-zoom-out {
+    background: #000000 !important;
+    color: #ffee00 !important;
+    border: 1px solid #ffee00 !important;
+}
+
+body.alto-contraste .leaflet-control-zoom a:hover {
+    background: #ffee00 !important;
+    color: #000000 !important;
+}
+
+/* 3.25 ALTO CONTRASTE - Camadas do mapa */
+body.alto-contraste .leaflet-tile {
+    filter: brightness(0.7) contrast(1.2) !important;
+}
+
+body.alto-contraste .leaflet-container {
+    background: #000000 !important;
+}
+
+/* 3.26 ALTO CONTRASTE - Gráficos (versão final) */
+body.alto-contraste canvas {
+    background: #000000 !important;
+    border: 1px solid #ffee00 !important;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+body.alto-contraste .grafico-wrapper,
+body.alto-contraste .grafico-wrapper-pequeno {
+    background: #000000 !important;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+body.alto-contraste .chartjs-render-monitor {
+    filter: brightness(1) contrast(1.5);
+}
+
+/* Textos dos gráficos no alto contraste */
+body.alto-contraste .chartjs-text,
+body.alto-contraste .chartjs-label,
+body.alto-contraste .chartjs-legend,
+body.alto-contraste .chartjs-tooltip,
+body.alto-contraste canvas + div {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .chartjs-render-monitor text,
+body.alto-contraste canvas ~ div text {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+
+body.alto-contraste .grafico-wrapper p,
+body.alto-contraste .grafico-wrapper-pequeno p,
+body.alto-contraste .bloco-recurso p {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .bloco-recurso h3 {
+    color: #ffee00 !important;
+}
+
+/* ============================================================================
+   SEÇÃO 4: ESTILOS ESPECÍFICOS DA PÁGINA DE PASSATEMPOS (passatempos.html)
+   ============================================================================ */
+
+/* 4.1 ALTO CONTRASTE - Passatempos */
+body.alto-contraste {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Cards e elementos principais */
+body.alto-contraste .card,
+body.alto-contraste .video-card,
+body.alto-contraste .navbar,
+body.alto-contraste .site-footer,
+body.alto-contraste .music-controls,
+body.alto-contraste .conquistas-detalhe,
+body.alto-contraste .nivel-mini-card,
+body.alto-contraste .popup-aero {
+    background: #1a1a1a !important;
+    backdrop-filter: none !important;
+    border-color: #ffff00 !important;
+    color: #ffffff !important;
+}
+
+/* Títulos no alto contraste */
+body.alto-contraste .card h2,
+body.alto-contraste .categoria-titulo,
+body.alto-contraste .page-title h1 {
+    color: #ffff00 !important;
+    background: transparent !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+}
+
+/* Botões no alto contraste */
+body.alto-contraste button,
+body.alto-contraste .btn-reset,
+body.alto-contraste .acao-boa,
+body.alto-contraste .acao-ruim,
+body.alto-contraste .btn-caminho,
+body.alto-contraste .btn-voltar {
+    background: #333333 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+}
+
+/* Links no alto contraste */
+body.alto-contraste a {
+    color: #ffff00 !important;
+}
+
+/* Elementos de texto no alto contraste */
+body.alto-contraste .fala,
+body.alto-contraste .resultado-produtor,
+body.alto-contraste .resultado-caminho,
+body.alto-contraste .tour-info {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* 4.2 DALTONISMO - Passatempos */
+/* Filtro para simular daltonismo (protanopia) */
+body.daltonismo {
+    filter: url(#protanopia);
+}
+
+/* Ações boas - azul no daltonismo */
+body.daltonismo .acao-boa {
+    background: linear-gradient(135deg, #0080ff, #0066cc) !important;
+}
+
+/* Ações ruins - laranja no daltonismo */
+body.daltonismo .acao-ruim {
+    background: linear-gradient(135deg, #ff8800, #cc6600) !important;
+}
+
+/* Botões verdadeiro/falso no daltonismo */
+body.daltonismo .btn-v {
+    background: linear-gradient(135deg, #0080ff, #0066cc) !important;
+}
+
+body.daltonismo .btn-f {
+    background: linear-gradient(135deg, #ff8800, #cc6600) !important;
+}
+
+/* Áreas de erro no daltonismo - azul em vez de vermelho */
+body.daltonismo .erro {
+    background: rgba(0, 100, 255, 0.5) !important;
+    border-color: #0080ff !important;
+}
+
+body.daltonismo .erro-encontrado {
+    background: rgba(0, 128, 0, 0.7) !important;
+}
+
+/* ============================================================================
+   SEÇÃO 5: CABEÇALHO E NAVBAR
+   ============================================================================ */
+
+/* 5.1 TAMANHOS DE FONTE COM ESCALA ACESSÍVEL */
+/* Todos os tamanhos de fonte usam a variável --font-scale para acessibilidade */
+h1 { font-size: calc(4.8rem * var(--font-scale)) !important; }
+h2, .section-title { font-size: calc(2.6rem * var(--font-scale)) !important; }
+.nav-links a { font-size: calc(1rem * var(--font-scale)) !important; }
+.btn { font-size: calc(1.1rem * var(--font-scale)) !important; }
+
+/* 5.2 BARRA DE NAVEGAÇÃO SUPERIOR (FIXA) */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    position: fixed;                    /* Fixa no topo */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;                      /* Fica acima de outros elementos */
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);       /* Efeito vidro fosco */
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.nav-container { 
+    display: flex; 
+    align-items: center; 
+    gap: 30px; 
+}
+
+/* 5.3 LOGO AGRINHO 2026 */
+.logo { 
+    font-size: 1.8rem; 
+    font-weight: 900; 
+    color: #032b13; 
+}
+
+.logo span { 
+    color: #2600ff;                    /* Destaque azul no ano */
+}
+
+/* Links de navegação */
+.nav-links { 
+    display: flex; 
+    list-style: none; 
+    gap: 20px; 
+}
+
+.nav-links a { 
+    text-decoration: none; 
+    color: #032b13; 
+    font-weight: 700; 
+}
+
+/* 5.4 BOTÃO DE ACESSIBILIDADE */
+.accessibility-wrapper { 
+    position: relative; 
+}
+
+.accessibility-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00b4ff 0%, #0077cc 50%, #0044aa 100%);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    color: white;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.accessibility-btn:hover {
+    transform: scale(1.08);            /* Efeito de zoom */
+    background: linear-gradient(135deg, #33c4ff 0%, #0088ee 50%, #0055cc 100%);
+}
+
+/* 5.5 MENU DE ACESSIBILIDADE (DROPDOWN) */
+.accessibility-menu {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(220, 245, 255, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    padding: 15px;
+    border-radius: 16px;
+    display: none;                     /* Escondido por padrão */
+    flex-direction: column;
+    gap: 10px;
+    min-width: 200px;
+    z-index: 101;
+}
+
+.accessibility-menu.active { 
+    display: flex;                     /* Mostra quando ativo */
+}
+
+.accessibility-menu button {
+    background: linear-gradient(to bottom, #ffffff 0%, #e6f7ff 100%);
+    border: 1px solid #a3d1ff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    color: #0055aa;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.accessibility-menu button:hover {
+    background: linear-gradient(to bottom, #e6f7ff 0%, #cceeff 100%);
+    border-color: #66b2ff;
+}
+
+/* ============================================================================
+   SEÇÃO 6: RODAPÉ (FOOTER)
+   ============================================================================ */
+
+/* Call-to-action do rodapé */
+.footer-cta { 
+    width: 85%; 
+    max-width: 900px; 
+    margin: 0 auto; 
+    padding: 60px 20px 120px 20px; 
+    position: relative; 
+    z-index: 2; 
+    text-align: center; 
+}
+
+.site-footer { 
+    background: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(15px); 
+    padding: 40px 8%; 
+    border-top: 1px solid rgba(255, 255, 255, 0.5); 
+}
+
+.footer-container { 
+    display: flex; 
+    justify-content: space-between; 
+    flex-wrap: wrap; 
+    gap: 30px; 
+}
+
+.footer-bottom { 
+    text-align: center; 
+    margin-top: 30px; 
+    font-weight: 700; 
+}
+
+/* Reset básico de margens e padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ============================================================================
+   SEÇÃO 7: ESTILOS ESPECÍFICOS DO INDEX.HTML
+   ============================================================================ */
+
+/* 7.1 TÍTULOS */
+h2 {
+    text-align: center;
+    font-weight: 900;
+    color: var(--title-color);
+    margin-bottom: 50px;
+    text-shadow: var(--text-shadow-white), 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* 7.2 POPUP README (MODAL DE INFORMAÇÕES) */
+.popup-readme {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-readme.show {
+    display: flex;
+}
+
+.popup-readme-conteudo {
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    border-radius: 20px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: popupFadeIn 0.3s ease;
+}
+
+/* Animação de entrada do popup */
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Botão de fechar do popup */
+.popup-readme-fechar {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: #ff5e62;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.popup-readme-fechar:hover {
+    background: #ff3333;
+    transform: scale(1.1);
+}
+
+/* Estilos do conteúdo do popup */
+.popup-readme-conteudo h1 {
+    color: #1b5e20;
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid #4caf50;
+    padding-bottom: 10px;
+}
+
+.popup-readme-conteudo h2 {
+    color: #2e7d32;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.popup-readme-conteudo h3 {
+    color: #0044cc;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+.popup-readme-conteudo p {
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.popup-readme-conteudo ul, 
+.popup-readme-conteudo ol {
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+.popup-readme-conteudo li {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+/* Estilos de tabela no popup */
+.popup-readme-conteudo table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.popup-readme-conteudo th, 
+.popup-readme-conteudo td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.popup-readme-conteudo th {
+    background: #4caf50;
+    color: white;
+}
+
+.popup-readme-conteudo hr {
+    margin: 20px 0;
+    border: 1px solid #ddd;
+}
+
+.popup-readme-conteudo strong {
+    color: #1b5e20;
+}
+
+/* 7.3 BOLHAS DECORATIVAS FLUTUANTES */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(1px);
+    animation: float 10s infinite ease-in-out;
+    z-index: 5;
+    cursor: grab;
+    user-select: none;
+}
+
+/* Posicionamento e tamanhos específicos das bolhas */
+.b1 { width: 140px; height: 140px; top: 150px; left: 5%; animation-duration: 9s; }
+.b2 { width: 90px; height: 90px; top: 400px; right: 8%; animation-duration: 12s; animation-delay: 1s; }
+.b3 { width: 60px; height: 60px; top: 650px; left: 12%; animation-duration: 8s; animation-delay: 2s; }
+.b4 { width: 160px; height: 160px; bottom: 80px; right: 15%; animation-duration: 14s; }
+
+/* 7.4 SEÇÃO HERO (TÍTULO PRINCIPAL) */
+.hero { 
+    min-height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 140px 8% 60px 8%; 
+    position: relative; 
+    z-index: 2; 
+}
+
+.hero-content { 
+    max-width: 1200px; 
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 60px; 
+}
+
+/* Estilo do título à esquerda */
+.left h1 {
+    line-height: 1.1;
+    font-weight: 900;
+    color: var(--hero-title-color);
+    text-shadow: var(--text-shadow-white), 0 4px 15px rgba(0, 40, 15, 0.3);
+    opacity: 0;
+    animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.2s;
+}
+
+/* Span do título (FUTURO SUSTENTÁVEL) */
+.left h1 span {
+    display: block;
+    margin-top: 5px;
+    background: var(--span-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 3px rgba(255,255,255,1)) drop-shadow(0 4px 8px rgba(0,82,204,0.3));
+    opacity: 0;
+    animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 0.6s;
+}
+
+/* 7.5 ÁREA DIREITA DO HERO */
+.right {
+    max-width: 460px;
+    background: var(--right-bg);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), inset 0 10px 20px rgba(255, 255, 255, 0.6), inset 0 -10px 20px rgba(0, 0, 0, 0.02);
+}
+
+.description { 
+    line-height: 1.6; 
+    margin-bottom: 25px; 
+    color: var(--text-color); 
+    font-weight: 700; 
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9); 
+}
+
+/* Tags temáticas */
+.tags { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 12px; 
+    margin-bottom: 30px; 
+}
+
+.tags span {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(215,240,255,0.6) 50%, rgba(175,220,255,0.75) 100%);
+    border: 1px solid rgba(0, 90, 180, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 119, 204, 0.15), inset 0 2px 3px rgba(255,255,255,1);
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #004488;
+}
+
+/* 7.6 BOTÕES PRINCIPAIS */
+.btn {
+    width: 100%;
+    background: var(--btn-gradient);
+    border: 1px solid var(--btn-border);
+    border-radius: 14px;
+    color: white;
+    padding: 16px 35px;
+    font-weight: 900;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(41, 145, 3, 0.35), inset 0 2px 5px rgba(255, 255, 255, 0.8), inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 -1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    background: var(--btn-hover);
+    box-shadow: 0 12px 25px rgba(41, 145, 3, 0.45), inset 0 3px 7px rgba(255, 255, 255, 0.8);
+}
+
+.btn-center { 
+    display: block; 
+    max-width: 320px; 
+    margin: 0 auto; 
+}
+
+/* 7.7 SEÇÃO DE CARDS INFORMATIVOS */
+.section { 
+    width: 85%; 
+    max-width: 1300px; 
+    margin: auto; 
+    padding-bottom: 80px; 
+    position: relative; 
+    z-index: 2; 
+}
+
+.section-title { 
+    text-align: center; 
+    font-weight: 900; 
+    color: var(--hero-title-color); 
+    margin-bottom: 50px; 
+    text-shadow: var(--text-shadow-white), 0 3px 6px rgba(0,0,0,0.15); 
+}
+
+.cards { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 30px; 
+}
+
+/* 7.8 CARTÕES INFORMATIVOS */
+.card {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 40px 30px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 15px 35px rgba(0, 30, 10, 0.06), inset 0 5px 15px rgba(255, 255, 255, 0.5);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(225, 248, 255, 0.6) 100%);
+    box-shadow: 0 25px 45px rgba(0, 80, 180, 0.12), inset 0 5px 20px rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 120, 220, 0.4);
+}
+
+.icon { 
+    font-size: 3.5rem; 
+    margin-bottom: 20px; 
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15)); 
+    display: inline-block; 
+}
+
+.card h3 { 
+    font-weight: 900; 
+    margin-bottom: 15px; 
+    color: #0044aa; 
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 1); 
+}
+
+.card p { 
+    line-height: 1.7; 
+    color: var(--text-color); 
+    font-weight: 700; 
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8); 
+}
+
+/* 7.9 SEÇÃO OBJETIVO */
+.objetivo {
+    width: 85%;
+    max-width: 900px;
+    margin: 80px auto 100px auto;
+    padding: 50px 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(220, 245, 255, 0.4) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 28px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.objetivo:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(225, 248, 255, 0.5) 100%);
+    box-shadow: 0 28px 55px rgba(0, 90, 200, 0.12), inset 0 6px 20px rgba(255, 255, 255, 0.8);
+    border-color: rgba(0, 150, 255, 0.3);
+}
+
+.objetivo h2 {
+    margin-bottom: 15px;
+    font-size: calc(2.2rem * var(--font-scale)) !important;
+}
+
+.objetivo .subtitle {
+    font-size: calc(1.6rem * var(--font-scale)) !important;
+    color: #0055cc;
+    margin-bottom: 35px;
+    font-weight: 800;
+}
+
+/* ============================================================================
+   SEÇÃO 8: ESTILOS DA PÁGINA PRINCIPAL (paginaprincipal.html)
+   ============================================================================ */
+
+/* 8.1 ESTRUTURA PRINCIPAL */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 110px 20px 40px 20px;
+    gap: 30px;
+    position: relative;
+    z-index: 10;
+}
+
+/* 8.2 PAINEL AERO (MENU PRINCIPAL) */
+.painel-aero {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(240, 248, 255, 0.15) 100%);
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 35px;
+    box-sizing: border-box;
+}
+
+.escondido { 
+    display: none !important;           /* Classe para esconder elementos */
+}
+
+.painel-header { 
+    text-align: center; 
+    margin-bottom: 25px; 
+}
+
+.painel-header h1 { 
+    font-size: 32px; 
+    font-weight: 900; 
+    margin: 0 0 10px 0; 
+    color: #0044cc;
+    text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+}
+
+.painel-header p { 
+    font-size: 15px; 
+    margin: 0; 
+    font-weight: 700; 
+    color: #333; 
+}
+
+/* 8.3 GRADE DE BOTÕES DO MENU */
+.grade-botoes { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px; 
+}
+
+/* Botão estilo aero (vidro) */
+.botao-aero {
+    background: linear-gradient(to bottom, #52c41a 0%, #389e0d 45%, #237804 100%);
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    color: white;
+    padding: 25px 15px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0,40,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+}
+
+/* Variações de cor dos botões */
+.botao-aero.azul { 
+    background: linear-gradient(to bottom, #1890ff 0%, #096dd9 45%, #0050b3 100%); 
+}
+
+.botao-aero.verde-claro { 
+    background: linear-gradient(to bottom, #13c2c2 0%, #08979c 45%, #006d75 100%); 
+}
+
+/* Efeito de brilho no topo do botão */
+.botao-aero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10%;
+    right: -10%;
+    height: 46%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 0 0 60% 60% / 0 0 30% 30%;
+}
+
+.botao-aero .icone { 
+    font-size: 34px; 
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2)); 
+}
+
+.botao-aero:hover { 
+    transform: translateY(-4px); 
+    filter: brightness(1.05); 
+    box-shadow: 0 10px 20px rgba(0,40,100,0.25); 
+}
+
+/* 8.4 SEÇÃO DE NOTÍCIAS */
+.noticias-container {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 10px;
+}
+
+.noticias-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 15px 25px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(240, 248, 255, 0.15) 100%);
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 60px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.noticias-header:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 68, 204, 0.25);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.noticias-header h2 {
+    font-size: 22px;
+    font-weight: 900;
+    color: #0044cc !important;
+    margin: 0;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.noticias-header .header-icon {
+    font-size: 28px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* 8.5 CARD DE NOTÍCIA */
+.noticia-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(240, 248, 255, 0.25) 100%);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 380px;
+}
+
+/* Linha superior animada no card */
+.noticia-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #52c41a, #1890ff, #13c2c2, #52c41a);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Animação de brilho deslizante */
+@keyframes shimmer {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+}
+
+.noticia-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 35px rgba(0, 40, 100, 0.2);
+    border-color: rgba(255, 255, 255, 0.9);
+}
+
+.noticia-imagem {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.noticia-card:hover .noticia-imagem {
+    transform: scale(1.02);
+}
+
+.noticia-conteudo {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.noticia-categoria {
+    display: inline-block;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #52c41a, #389e0d);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+.noticia-card h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0044cc;
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+}
+
+.noticia-card p {
+    font-size: 12px;
+    color: #2c2c2c;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    flex: 1;
+}
+
+.noticia-data {
+    font-size: 10px;
+    color: #555;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    margin-top: auto;
+}
+
+.noticia-data::before {
+    content: '📅';
+    font-size: 10px;
+}
+
+/* 8.6 MODAL DE NOTÍCIA */
+.modal-noticia {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-conteudo {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 248, 255, 0.95) 100%);
+    backdrop-filter: blur(30px);
+    border-radius: 32px;
+    max-width: 750px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    animation: modalAbrir 0.35s ease;
+}
+
+@keyframes modalAbrir {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-imagem {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 32px 32px 0 0;
+}
+
+.modal-texto {
+    padding: 25px;
+}
+
+.modal-texto h2 {
+    color: #0044cc;
+    font-size: 24px;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+}
+
+/* Meta informações do modal */
+.modal-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(0, 68, 204, 0.2);
+}
+
+.modal-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #555;
+    background: rgba(0, 68, 204, 0.1);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* Tags do modal */
+.modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.modal-tag {
+    background: linear-gradient(135deg, #52c41a20, #1890ff20);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    color: #0044cc;
+    font-weight: 600;
+}
+
+.modal-conteudo-texto {
+    color: #333;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-fonte {
+    font-size: 12px;
+    color: #888;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Botão de compartilhar */
+.btn-compartilhar {
+    background: linear-gradient(135deg, #1890ff, #096dd9);
+    border: none;
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.btn-compartilhar:hover {
+    transform: scale(1.05);
+}
+
+/* Botão de fechar modal */
+.fechar-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+}
+
+.fechar-modal:hover {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.1);
+}
+
+/* 8.7 JANELAS DE CONTEÚDO (ABAS) */
+.janela-conteudo {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(225, 240, 255, 0.2) 100%);
+    backdrop-filter: blur(25px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 35px;
+    box-sizing: border-box;
+    display: none;
+    animation: abrirJanela 0.35s ease-out forwards;
+}
+
+@keyframes abrirJanela {
+    from { opacity: 0; transform: scale(0.97) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.janela-conteudo h2 { 
+    font-size: 26px; 
+    margin-top: 0; 
+    color: #0044cc; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    border-bottom: 2px solid rgba(0,68,204,0.2); 
+    padding-bottom: 15px; 
+    margin-bottom: 25px; 
+}
+
+/* 8.8 BLOCO DE RECURSOS */
+.bloco-recurso { 
+    background: rgba(255, 255, 255, 0.3); 
+    border: 1px solid rgba(255, 255, 255, 0.4); 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 25px; 
+}
+
+/* 8.9 ESTATÍSTICAS DO MAPEAMENTO */
+.stats-grid-mapeamento {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card-mapeamento {
+    background: rgba(255,255,255,0.4);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.6);
+    transition: transform 0.2s;
+}
+
+.stat-card-mapeamento:hover { 
+    transform: translateY(-5px); 
+}
+
+.stat-number-mapeamento { 
+    font-size: 32px; 
+    font-weight: 900; 
+    color: #52c41a; 
+    display: block; 
+}
+
+.stat-label-mapeamento { 
+    font-size: 12px; 
+    color: #0044cc; 
+    font-weight: 700; 
+    margin-top: 8px; 
+}
+
+/* 8.10 GRÁFICOS */
+.grafico-wrapper {
+    width: 100%;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 14px;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.5);
+    margin-bottom: 15px;
+}
+
+.grafico-wrapper-pequeno {
+    width: 100%;
+    height: 250px;
+    background: rgba(255, 255, 255, 0.45);
+    border-radius: 14px;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+/* 8.11 QUIZ */
+.quiz-container {
+    background: rgba(255,255,255,0.35);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.quiz-pergunta {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0044cc;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(0,68,204,0.3);
+}
+
+.quiz-alternativas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+/* 8.12 ALTERNATIVAS DO QUIZ */
+.quiz-alternativa {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.quiz-alternativa:hover {
+    background: rgba(82, 196, 26, 0.2);
+    transform: translateX(5px);
+    border-color: #52c41a;
+}
+
+.quiz-alternativa.selected {
+    background: rgba(82, 196, 26, 0.3);
+    border-color: #52c41a;
+}
+
+.quiz-letra {
+    font-weight: 900;
+    font-size: 18px;
+    color: #0044cc;
+    background: rgba(255,255,255,0.8);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.quiz-texto {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    flex: 1;
+}
+
+/* 8.13 BOTÕES DO QUIZ */
+.quiz-botoes {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.quiz-btn {
+    background: linear-gradient(135deg, #1890ff, #096dd9);
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 14px;
+    transition: transform 0.2s;
+}
+
+.quiz-btn:hover { 
+    transform: scale(1.02); 
+}
+
+.quiz-btn:disabled { 
+    opacity: 0.5; 
+    cursor: not-allowed; 
+    transform: none; 
+}
+
+/* 8.14 RESULTADO DO QUIZ */
+.quiz-resultado {
+    background: rgba(255,255,255,0.5);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.quiz-pontuacao {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0044cc;
+}
+
+/* 8.15 BARRA DE PROGRESSO DO QUIZ */
+.quiz-progresso {
+    background: rgba(255,255,255,0.3);
+    border-radius: 30px;
+    height: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.quiz-progresso-bar {
+    background: linear-gradient(90deg, #52c41a, #1890ff);
+    height: 100%;
+    border-radius: 30px;
+    transition: width 0.3s ease;
+}
+
+.quiz-contador {
+    text-align: right;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* 8.16 BOTÃO DE PASSATEMPOS */
+.botao-passatempos {
+    background: linear-gradient(135deg, #03ad28 0%, #017a11 45%, #005a14 100%);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 60px;
+    color: white;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 40, 100, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.botao-passatempos::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10%;
+    right: -10%;
+    height: 46%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 0 0 60% 60% / 0 0 30% 30%;
+    pointer-events: none;
+}
+
+.botao-passatempos:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 28px rgba(0, 255, 55, 0.4);
+    border-color: rgba(255, 255, 255, 0.9);
+    filter: brightness(1.05);
+}
+
+.botao-passatempos:active {
+    transform: translateY(2px);
+}
+
+/* Ícones do botão de passatempos */
+.icone-passatempo {
+    font-size: 24px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.seta-passatempo {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.botao-passatempos:hover .seta-passatempo {
+    transform: translateX(5px);
+}
+
+/* 8.17 MAPA INTERATIVO */
+.mapa-interativo-container {
+    width: 100%;
+    height: 500px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 2px solid rgba(255,255,255,0.6);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+#mapaMundialInterativo {
+    width: 100%;
+    height: 100%;
+    background: #1a237e;
+}
+
+/* 8.18 LEGENDA DO MAPA */
+.legenda-mapa {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 12px;
+}
+
+.legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+}
+
+.info-mapa {
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 13px;
+    color: #333;
+}
+
+/* 8.19 FRASE DE IMPACTO */
+.frase-impacto {
+    background: linear-gradient(135deg, rgba(82, 196, 26, 0.2), rgba(24, 144, 255, 0.15));
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 20px;
+    border-left: 4px solid #52c41a;
+}
+
+.frase-impacto p {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0044cc;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* 8.20 BOTÃO DE VOLTAR */
+.btn-voltar {
+    background: linear-gradient(to bottom, #ff5e62 0%, #ff9966 100%);
+    border: 2px solid white;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 12px 28px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
+}
+
+.btn-voltar:hover { 
+    transform: scale(1.03); 
+    filter: brightness(1.1); 
+}
+
+/* 8.21 WIDGETS (RELÓGIO E CLIMA) */
+.barra-widgets { 
+    display: flex; 
+    gap: 25px; 
+    width: 100%; 
+    max-width: 1100px; 
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.widget-item {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(12px);
+    transition: transform 0.2s ease;
+}
+
+.widget-item:hover { 
+    transform: translateY(-3px); 
+}
+
+.widget-info h3 { 
+    margin: 0; 
+    font-size: 13px; 
+    color: #007722; 
+    font-weight: 800; 
+}
+
+.widget-info p { 
+    margin: 6px 0 0 0; 
+    font-size: 26px; 
+    font-weight: 900; 
+    color: #0044cc; 
+}
+
+.widget-icone { 
+    font-size: 38px; 
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15)); 
+}
+
+/* 8.22 ESTATÍSTICAS GERAIS */
+.stats-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 20px; 
+    margin: 25px 0; 
+}
+
+.stat-card { 
+    background: rgba(255,255,255,0.4); 
+    border-radius: 16px; 
+    padding: 20px; 
+    text-align: center; 
+    border: 1px solid rgba(255,255,255,0.6); 
+    transition: transform 0.2s; 
+}
+
+.stat-card:hover { 
+    transform: translateY(-5px); 
+}
+
+.stat-number { 
+    font-size: 36px; 
+    font-weight: 900; 
+    color: #52c41a; 
+    display: block; 
+}
+
+.stat-label { 
+    font-size: 12px; 
+    color: #0044cc; 
+    font-weight: 700; 
+    margin-top: 8px; 
+}
+
+/* 8.23 CARDS DE INFORMAÇÃO */
+.info-card { 
+    background: rgba(255,255,255,0.35); 
+    border-radius: 16px; 
+    padding: 20px; 
+    margin-bottom: 20px; 
+    border-left: 4px solid #52c41a; 
+}
+
+.info-card h3 { 
+    color: #0044cc; 
+    margin-top: 0; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.info-card p { 
+    color: #333; 
+    line-height: 1.6; 
+    margin-bottom: 0; 
+}
+
+/* 8.24 COLUNAS DUPLAS */
+.two-columns { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px; 
+    margin: 20px 0; 
+}
+
+/* 8.25 CAIXA DE DESTAQUE */
+.highlight-box { 
+    background: linear-gradient(135deg, rgba(82, 196, 26, 0.2), rgba(24, 144, 255, 0.1)); 
+    border-radius: 16px; 
+    padding: 20px; 
+    text-align: center; 
+}
+
+/* 8.26 IMAGEM ILUSTRATIVA */
+.img-ilustrativa { 
+    width: 100%; 
+    border-radius: 16px; 
+    margin: 15px 0; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); 
+}
+
+/* 8.27 LISTA DE TECNOLOGIAS */
+.tech-list { 
+    list-style: none; 
+    padding: 0; 
+}
+
+.tech-list li { 
+    padding: 8px 0; 
+    padding-left: 28px; 
+    position: relative; 
+}
+
+.tech-list li:before { 
+    content: "🌱"; 
+    position: absolute; 
+    left: 0; 
+}
+
+/* 8.28 BOTÕES DE REFERÊNCIA */
+.btn-referencia { 
+    background: linear-gradient(135deg, #52c41a, #1890ff); 
+    border: none; 
+    color: white; 
+    padding: 8px 16px; 
+    border-radius: 20px; 
+    font-size: 12px; 
+    text-decoration: none; 
+    display: inline-block; 
+    margin-top: 10px; 
+}
+
+/* ============================================================================
+   SEÇÃO 9: ESTILOS ESPECÍFICOS DA PÁGINA DE PASSATEMPOS (passatempos.html)
+   ============================================================================ */
+
+/* Reset específico para passatempos */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+main {
+    flex: 1;
+    padding: 100px 20px 40px 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* 9.1 CATEGORIAS */
+.categoria-secao { 
+    margin-bottom: 40px; 
+}
+
+.categoria-titulo {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(16px);
+    border-radius: 60px;
+    padding: 12px 28px;
+    margin-bottom: 25px;
+    font-size: calc(26px * var(--font-scale));
+    font-weight: 800;
+    color: #1b5e20;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+}
+
+/* 9.2 GRADE DE PASSATEMPOS */
+.passatempos-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px; 
+}
+
+/* 9.3 CARD GENÉRICO */
+.card {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 25px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 35px rgba(0, 40, 100, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.card:hover { 
+    transform: translateY(-5px); 
+}
+
+.card h2 { 
+    color: #0044cc; 
+    font-size: calc(24px * var(--font-scale)); 
+    margin-bottom: 20px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    border-bottom: 2px solid rgba(0, 68, 204, 0.3); 
+    padding-bottom: 10px; 
+}
+
+/* Botão de reset */
+.btn-reset { 
+    background: linear-gradient(135deg, #ff9800, #f57c00); 
+    border: none; 
+    color: white; 
+    padding: 8px 16px; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-weight: 700; 
+    font-size: 12px; 
+}
+
+.btn-reset:hover { 
+    transform: scale(1.05); 
+}
+
+/* 9.4 JOGO - PRODUTOR SUSTENTÁVEL */
+.jogo-produtor { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+}
+
+.dialogo-container { 
+    background: rgba(0, 0, 0, 0.6); 
+    border-radius: 20px; 
+    padding: 15px; 
+    display: flex; 
+    gap: 15px; 
+    align-items: center; 
+}
+
+.avatar { 
+    width: 70px; 
+    height: 70px; 
+    background: linear-gradient(135deg, #f5a623, #f7c948); 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 40px; 
+    border: 2px solid white; 
+}
+
+.fala { 
+    flex: 1; 
+    background: white; 
+    border-radius: 20px; 
+    padding: 15px; 
+    position: relative; 
+    color: #333; 
+    font-weight: 600; 
+}
+
+/* Balão de fala */
+.fala::before { 
+    content: ''; 
+    position: absolute; 
+    left: -10px; 
+    top: 25px; 
+    border-style: solid; 
+    border-width: 10px 10px 10px 0; 
+    border-color: transparent white transparent transparent; 
+}
+
+.fazenda-img { 
+    background: linear-gradient(135deg, #6b8c42, #4a6b2f); 
+    border-radius: 20px; 
+    padding: 20px; 
+    text-align: center; 
+    position: relative; 
+    min-height: 180px; 
+    border: 2px solid rgba(255,255,255,0.5); 
+}
+
+.fazenda-emoji { 
+    font-size: 80px; 
+}
+
+.estacao-badge { 
+    position: absolute; 
+    top: 10px; 
+    right: 15px; 
+    background: rgba(0,0,0,0.6); 
+    padding: 5px 12px; 
+    border-radius: 20px; 
+    color: white; 
+    font-size: 12px; 
+    font-weight: bold; 
+}
+
+/* Status da fazenda */
+.status-fazenda { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 16px; 
+    padding: 12px; 
+    text-align: center; 
+    color: white; 
+}
+
+.status-valor { 
+    font-size: 24px; 
+    font-weight: 900; 
+}
+
+.status-label { 
+    font-size: 11px; 
+    opacity: 0.8; 
+}
+
+/* Ações do jogo */
+.acoes-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; 
+    margin: 15px 0; 
+}
+
+.acao-boa, .acao-ruim { 
+    padding: 12px; 
+    border: none; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+}
+
+.acao-boa { 
+    background: linear-gradient(135deg, #4caf50, #2e7d32); 
+    color: white; 
+}
+
+.acao-ruim { 
+    background: linear-gradient(135deg, #f44336, #c62828); 
+    color: white; 
+}
+
+.resultado-produtor { 
+    background: rgba(0, 0, 0, 0.7); 
+    color: white; 
+    padding: 15px; 
+    border-radius: 12px; 
+    margin-top: 15px; 
+    font-size: 14px; 
+}
+
+.progresso-jogo { 
+    background: rgba(0,0,0,0.3); 
+    border-radius: 20px; 
+    height: 8px; 
+    overflow: hidden; 
+}
+
+.progresso-bar { 
+    background: linear-gradient(90deg, #4caf50, #ffd700); 
+    width: 0%; 
+    height: 100%; 
+    transition: width 0.5s ease; 
+}
+
+.ano-info { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: 10px; 
+}
+
+/* 9.5 JOGO - CAÇA AO ERRO */
+.caca-erro-container { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.fazenda-ilustrada { 
+    background: linear-gradient(135deg, #8bc34a, #558b2f); 
+    border-radius: 16px; 
+    padding: 20px; 
+    position: relative; 
+    min-height: 350px; 
+    border: 2px solid rgba(255,255,255,0.5); 
+    overflow: hidden; 
+}
+
+/* Elementos da cena */
+.ceu { 
+    position: absolute; 
+    top: 10px; 
+    left: 0; 
+    right: 0; 
+    text-align: center; 
+    font-size: 30px; 
+}
+
+.sol { 
+    position: absolute; 
+    top: 10px; 
+    right: 20px; 
+    font-size: 40px; 
+    animation: girar 10s linear infinite; 
+}
+
+@keyframes girar { 
+    from { transform: rotate(0deg); } 
+    to { transform: rotate(360deg); } 
+}
+
+.arvores { 
+    position: absolute; 
+    bottom: 80px; 
+    left: 20px; 
+    font-size: 50px; 
+}
+
+.rio { 
+    position: absolute; 
+    bottom: 40px; 
+    left: 100px; 
+    right: 100px; 
+    background: #4fc3f7; 
+    height: 30px; 
+    border-radius: 15px; 
+    text-align: center; 
+    line-height: 30px; 
+}
+
+.casa { 
+    position: absolute; 
+    bottom: 80px; 
+    right: 30px; 
+    font-size: 45px; 
+}
+
+.trator { 
+    position: absolute; 
+    bottom: 20px; 
+    left: 200px; 
+    font-size: 35px; 
+    animation: moverTrator 4s linear infinite; 
+}
+
+@keyframes moverTrator { 
+    0% { transform: translateX(-10px); } 
+    50% { transform: translateX(10px); } 
+    100% { transform: translateX(-10px); } 
+}
+
+/* Áreas de erro */
+.erro { 
+    position: absolute; 
+    background: rgba(255, 0, 0, 0.5); 
+    border: 3px solid #ff0000; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    z-index: 10; 
+}
+
+.erro-encontrado { 
+    background: rgba(76, 175, 80, 0.7); 
+    border-color: #4caf50; 
+}
+
+.caca-erro-score { 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 12px; 
+    padding: 12px; 
+    display: flex; 
+    justify-content: space-between; 
+    color: white; 
+}
+
+.caca-erro-score span { 
+    font-size: 28px; 
+    font-weight: 900; 
+    color: #ffd700; 
+}
+
+.erro-info { 
+    background: rgba(0,0,0,0.7); 
+    backdrop-filter: blur(5px); 
+    padding: 15px; 
+    border-radius: 12px; 
+    color: white; 
+    font-size: 14px; 
+}
+
+/* 9.6 JOGO - VERDADEIRO OU FALSO */
+.vf-container { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+}
+
+.vf-pergunta { 
+    font-weight: 700; 
+    color: #0044cc; 
+    background: rgba(255,255,255,0.3); 
+    padding: 15px; 
+    border-radius: 12px; 
+}
+
+.vf-botoes { 
+    display: flex; 
+    gap: 15px; 
+}
+
+.btn-v, .btn-f { 
+    padding: 10px 25px; 
+    border: none; 
+    border-radius: 30px; 
+    cursor: pointer; 
+    font-weight: 700; 
+}
+
+.btn-v { 
+    background: linear-gradient(135deg, #4caf50, #2e7d32); 
+    color: white; 
+}
+
+.btn-f { 
+    background: linear-gradient(135deg, #f44336, #c62828); 
+    color: white; 
+}
+
+.vf-resultado { 
+    background: rgba(0,0,0,0.5); 
+    padding: 12px; 
+    border-radius: 12px; 
+    color: white; 
+}
+
+.vf-score { 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 12px; 
+    padding: 12px; 
+    display: flex; 
+    justify-content: space-between; 
+    color: white; 
+    margin-top: 15px; 
+}
+
+.vf-score span { 
+    font-size: 24px; 
+    font-weight: 900; 
+    color: #ffd700; 
+}
+
+.vf-progresso { 
+    background: rgba(0,0,0,0.3); 
+    border-radius: 20px; 
+    height: 8px; 
+    overflow: hidden; 
+}
+
+.vf-progresso-bar { 
+    background: linear-gradient(90deg, #4caf50, #ffd700); 
+    width: 0%; 
+    height: 100%; 
+    transition: width 0.3s ease; 
+}
+
+/* 9.7 JOGO - ARRASTE E SOLTE (DRAG & DROP) */
+.drag-drop-area { 
+    display: flex; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+}
+
+.itens-area, .categoria { 
+    background: rgba(0, 0, 0, 0.1); 
+    padding: 15px; 
+    border-radius: 16px; 
+    flex: 1; 
+    min-width: 200px; 
+}
+
+.itens-area h3, .categoria h3 { 
+    color: #0044cc; 
+    margin-bottom: 15px; 
+    text-align: center; 
+}
+
+.item-drag { 
+    background: linear-gradient(135deg, #4caf50, #2e7d32); 
+    color: white; 
+    padding: 12px; 
+    margin: 8px 0; 
+    border-radius: 12px; 
+    cursor: grab; 
+    text-align: center; 
+    font-weight: 600; 
+}
+
+.drop-zone { 
+    min-height: 250px; 
+    border: 2px dashed #4caf50; 
+    border-radius: 12px; 
+    padding: 10px; 
+    background: rgba(255,255,255,0.2); 
+    transition: all 0.2s; 
+}
+
+.drop-zone.drag-over { 
+    background: rgba(76, 175, 80, 0.3); 
+    border-color: #ffd700; 
+}
+
+.drop-item { 
+    background: #2e7d32; 
+    color: white; 
+    padding: 10px; 
+    margin: 5px 0; 
+    border-radius: 10px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.drag-score { 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 12px; 
+    padding: 10px; 
+    margin-top: 15px; 
+    text-align: center; 
+    color: white; 
+    display: flex; 
+    justify-content: space-between; 
+}
+
+.drag-score span { 
+    font-size: 24px; 
+    font-weight: 900; 
+    color: #ffd700; 
+}
+
+.feedback-message { 
+    margin-top: 10px; 
+    padding: 10px; 
+    border-radius: 10px; 
+    text-align: center; 
+    font-weight: 600; 
+}
+
+.feedback-correct { 
+    background: #4caf50; 
+    color: white; 
+}
+
+.feedback-wrong { 
+    background: #f44336; 
+    color: white; 
+}
+
+/* 9.8 SIMULADOR E CALCULADORA */
+.simulador-controles { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.controle label { 
+    font-weight: 700; 
+    color: #0044cc; 
+}
+
+input[type="range"] { 
+    width: 100%; 
+}
+
+.resultado-simulador { 
+    background: rgba(0,0,0,0.7); 
+    color: white; 
+    padding: 15px; 
+    border-radius: 12px; 
+    margin-top: 15px; 
+}
+
+.calculadora-form { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px; 
+}
+
+.calculadora-form select, 
+.calculadora-form input { 
+    padding: 12px; 
+    border-radius: 12px; 
+    border: 1px solid rgba(0,68,204,0.3); 
+    background: rgba(255,255,255,0.8); 
+}
+
+.btn-calcular { 
+    background: linear-gradient(135deg, #1890ff, #096dd9); 
+    color: white; 
+    padding: 12px; 
+    border: none; 
+    border-radius: 12px; 
+    cursor: pointer; 
+    font-weight: 700; 
+}
+
+.resultado-calc { 
+    margin-top: 15px; 
+    padding: 15px; 
+    border-radius: 12px; 
+    text-align: center; 
+    font-weight: 700; 
+}
+
+/* 9.9 INFOGRÁFICOS */
+.infograficos { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.infografico-item { 
+    background: rgba(255, 255, 255, 0.5); 
+    padding: 15px; 
+    border-radius: 12px; 
+    text-align: center; 
+}
+
+.numero-animado { 
+    font-size: calc(36px * var(--font-scale)); 
+    font-weight: 900; 
+    color: #0044cc; 
+}
+
+/* 9.10 JOGO - ESCOLHA SEU CAMINHO */
+.escolha-caminho { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.pergunta-container {
+    background: rgba(0,0,0,0.3);
+    border-radius: 16px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.pergunta-texto { 
+    font-weight: 700; 
+    color: #1b5e20; 
+    margin-bottom: 12px; 
+    font-size: 15px; 
+}
+
+.opcoes-caminho { 
+    display: flex; 
+    gap: 12px; 
+    flex-wrap: wrap; 
+}
+
+.btn-caminho {
+    background: linear-gradient(135deg, #1890ff, #096dd9);
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
+    transition: transform 0.2s;
+    flex: 1;
+    min-width: 120px;
+}
+
+.btn-caminho:hover { 
+    transform: scale(1.02); 
+    filter: brightness(1.05); 
+}
+
+.resultado-caminho { 
+    background: rgba(0,0,0,0.7); 
+    color: white; 
+    padding: 15px; 
+    border-radius: 12px; 
+    margin-top: 10px; 
+    font-size: 13px; 
+}
+
+.caminho-score { 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 12px; 
+    padding: 12px; 
+    margin-top: 15px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    color: white; 
+}
+
+.caminho-score span:last-child { 
+    font-size: 28px; 
+    font-weight: 900; 
+    color: #ffd700; 
+}
+
+.btn-proxima, .btn-reiniciar-caminho {
+    background: linear-gradient(135deg, #ff9800, #f57c00);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* 9.11 TOUR VIRTUAL */
+.tour-container { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px; 
+}
+
+.tour-areas { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; 
+}
+
+.tour-item { 
+    background: linear-gradient(135deg, #52c41a, #389e0d); 
+    color: white; 
+    padding: 15px; 
+    border-radius: 12px; 
+    text-align: center; 
+    cursor: pointer; 
+    font-weight: 700; 
+    transition: transform 0.2s; 
+}
+
+.tour-item:hover { 
+    transform: scale(1.02); 
+    filter: brightness(1.05); 
+}
+
+.tour-guia { 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 16px; 
+    padding: 12px; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+}
+
+.tour-guia-avatar { 
+    font-size: 45px; 
+    background: #ffd700; 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.tour-guia-fala { 
+    flex: 1; 
+    background: white; 
+    border-radius: 20px; 
+    padding: 12px; 
+    color: #1b5e20; 
+    font-weight: 600; 
+    font-size: 13px; 
+    position: relative; 
+}
+
+.tour-guia-fala::before { 
+    content: ''; 
+    position: absolute; 
+    left: -10px; 
+    top: 20px; 
+    border-style: solid; 
+    border-width: 10px 10px 10px 0; 
+    border-color: transparent white transparent transparent; 
+}
+
+.tour-info { 
+    margin-top: 15px; 
+    padding: 15px; 
+    background: rgba(0,0,0,0.7); 
+    backdrop-filter: blur(10px); 
+    color: white; 
+    border-radius: 12px; 
+    font-size: 14px; 
+}
+
+.tour-score { 
+    background: rgba(0,0,0,0.5); 
+    border-radius: 12px; 
+    padding: 10px; 
+    display: flex; 
+    justify-content: space-between; 
+    color: white; 
+}
+
+.tour-score span { 
+    font-size: 24px; 
+    font-weight: 900; 
+    color: #ffd700; 
+}
+
+/* 9.12 VÍDEOS */
+.info-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.videos-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.video-card {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+    transition: transform 0.3s ease;
+}
+
+.video-card:hover { 
+    transform: translateY(-3px); 
+    background: rgba(255, 255, 255, 0.6); 
+}
+
+.video-title { 
+    font-size: 14px; 
+    font-weight: 800; 
+    color: #1b5e20; 
+    margin-bottom: 10px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    line-height: 1.3; 
+}
+
+.video-wrapper { 
+    position: relative; 
+    width: 100%; 
+    aspect-ratio: 16 / 9; 
+    border-radius: 14px; 
+    overflow: hidden; 
+    margin-bottom: 10px; 
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15); 
+}
+
+.video-wrapper iframe { 
+    width: 100%; 
+    height: 100%; 
+    border: none; 
+}
+
+.video-description { 
+    font-size: 11px; 
+    color: #2c5e2c; 
+    margin-bottom: 8px; 
+    line-height: 1.3; 
+}
+
+.video-credits { 
+    font-size: 10px; 
+    color: #555; 
+    padding-top: 6px; 
+    border-top: 1px solid rgba(0,0,0,0.1); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    flex-wrap: wrap; 
+    gap: 5px; 
+}
+
+.video-credits a { 
+    color: #0044cc; 
+    text-decoration: none; 
+    font-weight: 600; 
+    transition: 0.2s; 
+}
+
+.video-credits a:hover { 
+    color: #ffd700; 
+    text-decoration: underline; 
+}
+
+.channel-badge { 
+    background: rgba(0,0,0,0.6); 
+    padding: 2px 8px; 
+    border-radius: 15px; 
+    color: #ffd700; 
+    font-size: 9px; 
+    font-weight: 600; 
+}
+
+/* 9.13 CONTROLES DE MÚSICA */
+.music-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 60px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255,255,255,0.6);
+    margin-bottom: 80px;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.music-controls.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.music-btn {
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.2s ease;
+    color: #1b5e20;
+    backdrop-filter: blur(4px);
+}
+
+.music-btn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.05);
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(0,0,0,0.2);
+    border-radius: 5px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4caf50;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.volume-icon {
+    font-size: 14px;
+    color: #1b5e20;
+}
+
+/* 9.14 SISTEMA DE CONQUISTAS */
+.conquistas-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.nivel-mini-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border-radius: 60px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255,255,255,0.6);
+    transition: all 0.3s ease;
+}
+
+.nivel-mini-card:hover { 
+    transform: scale(1.02); 
+    background: rgba(255, 255, 255, 0.8); 
+}
+
+.nivel-icone { 
+    font-size: 28px; 
+}
+
+.nivel-info { 
+    color: #1b5e20; 
+}
+
+.nivel-info-nome { 
+    font-size: 11px; 
+    font-weight: 700; 
+    color: #2e7d32; 
+}
+
+.nivel-info-valor { 
+    font-size: 14px; 
+    font-weight: 900; 
+    color: #1b5e20; 
+}
+
+.nivel-info-barra { 
+    width: 80px; 
+    height: 5px; 
+    background: rgba(0,0,0,0.12); 
+    border-radius: 3px; 
+    margin-top: 4px; 
+    overflow: hidden; 
+}
+
+.nivel-info-progresso { 
+    height: 100%; 
+    background: linear-gradient(90deg, #4caf50, #ffd700); 
+    width: 0%; 
+    border-radius: 3px; 
+}
+
+/* Detalhe das conquistas */
+.conquistas-detalhe {
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    width: 320px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(28px);
+    border-radius: 28px;
+    padding: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.7);
+    transform: scale(0.9);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    pointer-events: none;
+}
+
+.conquistas-detalhe.open {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.conquistas-detalhe h3 { 
+    color: #1b5e20; 
+    margin-bottom: 15px; 
+    font-size: 18px; 
+    text-align: center; 
+    font-weight: 800; 
+}
+
+.conquistas-lista { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin-bottom: 15px; 
+}
+
+.conq-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    padding: 10px; 
+    background: rgba(255, 255, 255, 0.45); 
+    border-radius: 16px; 
+    border: 1px solid rgba(255,255,255,0.5); 
+}
+
+.conq-item.obtida { 
+    background: linear-gradient(135deg, rgba(255,215,0,0.25), rgba(255,140,0,0.2)); 
+    border-left: 4px solid #ffd700; 
+}
+
+.conq-icone { 
+    font-size: 24px; 
+}
+
+.conq-titulo { 
+    font-weight: 800; 
+    color: #1b5e20; 
+    font-size: 13px; 
+}
+
+.conq-desc { 
+    font-size: 10px; 
+    color: #4a6b2f; 
+}
+
+.fechar-panel { 
+    background: rgba(100, 100, 100, 0.2); 
+    border: 1px solid rgba(255,255,255,0.5); 
+    color: #1b5e20; 
+    padding: 8px; 
+    border-radius: 25px; 
+    cursor: pointer; 
+    width: 100%; 
+    font-weight: 700; 
+    margin-top: 8px; 
+}
+
+.fechar-panel:hover { 
+    background: rgba(100, 100, 100, 0.3); 
+}
+
+/* 9.15 POPUP DE NÍVEL MÁXIMO */
+.popup-aero {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(30px);
+    border-radius: 48px;
+    padding: 35px 45px;
+    text-align: center;
+    z-index: 2000;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.7);
+    max-width: 480px;
+    width: 90%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.popup-aero.show { 
+    opacity: 1; 
+    visibility: visible; 
+    transform: translate(-50%, -50%) scale(1); 
+}
+
+.popup-aero .emoji { 
+    font-size: 80px; 
+    margin-bottom: 15px; 
+    display: block; 
+}
+
+.popup-aero h3 { 
+    font-size: 36px; 
+    margin: 10px 0; 
+    background: linear-gradient(135deg, #1b5e20, #ffd700); 
+    -webkit-background-clip: text; 
+    background-clip: text; 
+    color: transparent; 
+}
+
+.popup-aero button { 
+    background: linear-gradient(135deg, #4caf50, #2e7d32); 
+    border: none; 
+    padding: 12px 32px; 
+    border-radius: 60px; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 16px; 
+    cursor: pointer; 
+}
+
+/* ============================================================================
+   SEÇÃO 10: ANIMAÇÕES GLOBAIS
+   ============================================================================ */
+
+/* 10.1 ANIMAÇÃO DE ENTRADA (FADE IN UP) */
+.painel-aero, .janela-conteudo {
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 10.2 ANIMAÇÃO DE DESLIZAMENTO (SLIDE IN LEFT) */
+.stat-card, .stat-card-mapeamento {
+    animation: slideInLeft 0.5s ease forwards;
+    opacity: 0;
+}
+
+/* Delays para cada card */
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+.stat-card-mapeamento:nth-child(1) { animation-delay: 0.1s; }
+.stat-card-mapeamento:nth-child(2) { animation-delay: 0.2s; }
+.stat-card-mapeamento:nth-child(3) { animation-delay: 0.3s; }
+.stat-card-mapeamento:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 10.3 ANIMAÇÃO DOS BOTÕES NO HOVER */
+.botao-aero, .btn-voltar, .btn-referencia, .quiz-btn {
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.botao-aero:hover, .btn-voltar:hover, .btn-referencia:hover, .quiz-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.botao-aero:active, .btn-voltar:active, .quiz-btn:active {
+    transform: translateY(2px) scale(0.98);
+}
+
+/* 10.4 EFEITO RIPPLE NOS BOTÕES */
+.botao-aero::after, .btn-voltar::after, .quiz-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.botao-aero:active::after, .btn-voltar:active::after, .quiz-btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* 10.5 ANIMAÇÃO DE PULSO PARA ÍCONES */
+.icone, .icone-passatempo, .header-icon {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* 10.6 ANIMAÇÃO DOS CARDS NO HOVER */
+.card, .info-card, .video-card, .bloco-recurso {
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover, .info-card:hover, .video-card:hover, .bloco-recurso:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* 10.7 EFEITO DE BRILHO NOS CARDS */
+.card::before, .info-card::before, .bloco-recurso::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.card:hover::before, .info-card:hover::before, .bloco-recurso:hover::before {
+    left: 100%;
+}
+
+/* 10.8 ANIMAÇÃO DE ROTAÇÃO DO SOL */
+.sol {
+    animation: girarSuave 20s linear infinite;
+}
+
+@keyframes girarSuave {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 10.9 ANIMAÇÃO DE FLUTUAÇÃO DAS BOLHAS */
+.bubble {
+    animation: flutuar 8s ease-in-out infinite;
+}
+
+.b1 { animation-delay: 0s; }
+.b2 { animation-delay: 2s; }
+.b3 { animation-delay: 4s; }
+.b4 { animation-delay: 6s; }
+
+@keyframes flutuar {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+        transform: translateY(10px) translateX(-10px);
+    }
+    75% {
+        transform: translateY(-10px) translateX(5px);
+    }
+}
+
+/* 10.10 ANIMAÇÃO DOS NÚMEROS (CONTADOR) */
+.stat-number, .stat-number-mapeamento {
+    display: inline-block;
+    animation: contar 1.5s ease-out forwards;
+}
+
+@keyframes contar {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 10.11 ANIMAÇÃO DE GRADIENTE PARA TÍTULOS */
+.page-title h1, .painel-header h1, .hero-ambiente h1 {
+    background-size: 200% auto;
+    animation: gradienteAnimado 3s ease infinite;
+}
+
+@keyframes gradienteAnimado {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* 10.12 ANIMAÇÃO DE ENTRADA DOS WIDGETS */
+.widget-item {
+    animation: slideInRight 0.6s ease forwards;
+    opacity: 0;
+}
+
+.widget-item:nth-child(1) { animation-delay: 0.1s; }
+.widget-item:nth-child(2) { animation-delay: 0.3s; }
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 10.13 ANIMAÇÃO DE ZOOM PARA NOTÍCIAS */
+.noticia-card {
+    animation: zoomIn 0.5s ease forwards;
+    opacity: 0;
+}
+
+.noticia-card:nth-child(1) { animation-delay: 0.1s; }
+.noticia-card:nth-child(2) { animation-delay: 0.2s; }
+.noticia-card:nth-child(3) { animation-delay: 0.3s; }
+.noticia-card:nth-child(4) { animation-delay: 0.4s; }
+.noticia-card:nth-child(5) { animation-delay: 0.5s; }
+.noticia-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 10.14 ANIMAÇÃO DE ENTRADA DOS ITENS DA LISTA DE TECNOLOGIAS */
+.tech-list li {
+    animation: fadeInLeft 0.4s ease forwards;
+    opacity: 0;
+}
+
+.tech-list li:nth-child(1) { animation-delay: 0.1s; }
+.tech-list li:nth-child(2) { animation-delay: 0.2s; }
+.tech-list li:nth-child(3) { animation-delay: 0.3s; }
+.tech-list li:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 10.15 ANIMAÇÃO DE SHAKE NOS ERROS (AO PASSAR MOUSE) */
+.erro {
+    animation: shake 0.5s ease-in-out infinite;
+    animation-play-state: paused;
+}
+
+.erro:hover {
+    animation-play-state: running;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* 10.16 ANIMAÇÃO DO MODAL */
+.modal-noticia.show {
+    animation: modalFadeIn 0.3s ease forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(5px);
+    }
+}
+
+.modal-conteudo {
+    animation: modalSlideUp 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 10.17 ANIMAÇÃO DA BARRA DE PROGRESSO */
+.quiz-progresso-bar {
+    transition: width 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+/* 10.18 ANIMAÇÃO DOS ITENS DO TOUR */
+.tour-item {
+    transition: all 0.3s ease;
+}
+
+.tour-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* 10.19 ANIMAÇÃO DE ROTAÇÃO PARA ÍCONES DE CARREGAMENTO */
+.fa-spinner, .loading-icon {
+    animation: rodar 1s linear infinite;
+}
+
+@keyframes rodar {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 10.20 ANIMAÇÃO DE BRILHO PARA CONQUISTAS OBTIDAS */
+.conq-item.obtida {
+    animation: conquistaBrilho 0.8s ease-out;
+}
+
+@keyframes conquistaBrilho {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
+}
+
+/* ============================================================================
+   SEÇÃO 11: ANIMAÇÕES ESPECÍFICAS DA PÁGINA DE PASSATEMPOS
+   ============================================================================ */
+
+/* 11.1 ANIMAÇÃO DOS CARDS AO CARREGAR */
+.card, .video-card {
+    animation: slideInLeft 0.5s ease forwards;
+    opacity: 0;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* 11.2 ANIMAÇÃO DOS ITENS DO TOUR */
+.tour-item {
+    animation: zoomIn 0.4s ease forwards;
+    opacity: 0;
+}
+
+.tour-item:nth-child(1) { animation-delay: 0.05s; }
+.tour-item:nth-child(2) { animation-delay: 0.1s; }
+.tour-item:nth-child(3) { animation-delay: 0.15s; }
+.tour-item:nth-child(4) { animation-delay: 0.2s; }
+.tour-item:nth-child(5) { animation-delay: 0.25s; }
+.tour-item:nth-child(6) { animation-delay: 0.3s; }
+
+/* 11.3 ANIMAÇÃO DO GUIA DO TOUR */
+.tour-guia-avatar {
+    animation: shake 3s ease-in-out infinite;
+}
+
+/* 11.4 ANIMAÇÃO DOS CARDS DE CONQUISTA AO PASSAR MOUSE */
+.conq-item {
+    transition: all 0.3s ease;
+}
+
+.conq-item:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+/* 11.5 ANIMAÇÃO DOS CONTROLES DE MÚSICA */
+.music-btn {
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    transform: scale(1.1) rotate(360deg);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* 11.6 ANIMAÇÃO DOS ITENS DRAG AND DROP */
+.item-drag {
+    transition: all 0.3s ease;
+}
+
+.item-drag:hover {
+    transform: translateX(5px);
+    cursor: grab;
+}
+
+.item-drag:active {
+    cursor: grabbing;
+}
+
+/* 11.7 ANIMAÇÃO DOS ERROS */
+.erro {
+    transition: all 0.3s ease;
+}
+
+.erro:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+/* 11.8 ANIMAÇÃO DO MINI CARD DE NÍVEL */
+.nivel-mini-card {
+    transition: all 0.3s ease;
+}
+
+.nivel-mini-card:hover {
+    transform: scale(1.05);
+}
+
+/* 11.9 ANIMAÇÃO DO POPUP MÁXIMO */
+.popup-aero.show {
+    animation: modalFadeIn 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 11.10 ANIMAÇÃO DO DROPDOWN DE ACESSIBILIDADE */
+.accessibility-menu {
+    transition: all 0.3s ease;
+}
+
+.accessibility-menu.active {
+    animation: dropdownSlide 0.3s ease forwards;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================================================
+   SEÇÃO 12: RESPONSIVIDADE (MEDIA QUERIES)
+   ============================================================================ */
+
+/* 12.1 RESPONSIVIDADE PARA TELAS MÉDIAS (até 950px) */
+@media (max-width: 950px) {
+    .hero {
+        padding: 120px 5% 40px 5%;
+    }
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+    .left h1 {
+        font-size: calc(3.5rem * var(--font-scale)) !important;
+    }
+    .left h1 span {
+        font-size: calc(2.8rem * var(--font-scale)) !important;
+    }
+    .navbar { 
+        flex-direction: row; 
+        padding: 15px 5%; 
+    }
+    .right { 
+        max-width: 100%; 
+    }
+    .tags { 
+        justify-content: center; 
+    }
+    .nav-links { 
+        display: none; 
+    }
+}
+
+/* 12.2 RESPONSIVIDADE PARA CELULARES PEQUENOS (até 576px) */
+@media (max-width: 576px) {
+    .left h1 {
+        font-size: calc(10vw * var(--font-scale)) !important; 
+    }
+    .left h1 span {
+        font-size: calc(7.5vw * var(--font-scale)) !important;
+    }
+}
+
+/* 12.3 RESPONSIVIDADE ADICIONAL PARA 950px */
+@media(max-width: 950px){
+    .hero { 
+        padding: 120px 5% 40px 5%; 
+    }
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+    .left h1 { 
+        font-size: calc(3.5rem * var(--font-scale)) !important; 
+    }
+    .left h1 span { 
+        font-size: calc(2.8rem * var(--font-scale)) !important; 
+    }
+}
+
+/* 12.4 ANIMAÇÃO GENÉRICA DE ENTRADA */
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 12.5 ANIMAÇÃO DE FLUTUAÇÃO */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-25px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* 12.6 RESPONSIVIDADE PARA TABLET (até 900px) */
+@media (max-width: 900px) { 
+    .noticias-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+    } 
+    .two-columns { 
+        grid-template-columns: 1fr; 
+    } 
+}
+
+/* 12.7 RESPONSIVIDADE PARA CELULAR (até 600px) */
+@media (max-width: 600px) { 
+    .noticias-grid { 
+        grid-template-columns: 1fr; 
+    } 
+    .barra-widgets { 
+        flex-direction: column; 
+        gap: 15px; 
+    } 
+    .noticias-header h2 { 
+        font-size: 12px; 
+    } 
+    .noticias-header { 
+        padding: 10px 18px; 
+    } 
+    .painel-aero, .janela-conteudo { 
+        padding: 20px; 
+    } 
+    .mapa-interativo-container { 
+        height: 350px; 
+    } 
+}
+
+/* 12.8 RESPONSIVIDADE PARA NOTEBOOK (até 1000px) */
+@media (max-width: 1000px) {
+    .passatempos-grid { 
+        grid-template-columns: 1fr; 
+    }
+    .info-layout { 
+        grid-template-columns: 1fr; 
+    }
+}
+
+/* 12.9 RESPONSIVIDADE PARA DESKTOP (até 1200px) */
+@media (max-width: 1200px) {
+    .container, main, .hero-content {
+        width: 95%;
+    }
+}
+
+/* 12.10 RESPONSIVIDADE PARA TABLET GRANDE (até 992px) */
+@media (max-width: 992px) {
+    .passatempos-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .info-layout {
+        grid-template-columns: 1fr !important;
+    }
+    .two-columns {
+        grid-template-columns: 1fr !important;
+    }
+    .grade-botoes {
+        grid-template-columns: 1fr !important;
+    }
+    .stats-grid, .stats-grid-mapeamento {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* 12.11 RESPONSIVIDADE PARA CELULAR (até 768px) */
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    .navbar {
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+    .card {
+        margin: 0 10px !important;
+    }
+    .grafico-wrapper, .grafico-wrapper-pequeno {
+        height: 250px !important;
+    }
+    .noticias-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .barra-widgets {
+        flex-direction: column !important;
+    }
+    .mapa-interativo-container {
+        height: 300px !important;
+    }
+    .tour-areas {
+        grid-template-columns: 1fr !important;
+    }
+    .acoes-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .music-controls {
+        bottom: 70px !important;
+    }
+}
+
+/* 12.12 RESPONSIVIDADE PARA CELULAR MUITO PEQUENO (até 480px) */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px !important;
+    }
+    h1 {
+        font-size: 24px !important;
+    }
+    .page-title h1 {
+        font-size: 22px !important;
+    }
+    .categoria-titulo {
+        font-size: 18px !important;
+        padding: 8px 16px !important;
+    }
+    .card {
+        padding: 15px !important;
+    }
+    .status-fazenda {
+        flex-direction: column !important;
+    }
+    .popup-readme-conteudo {
+        padding: 15px !important;
+        width: 95% !important;
+    }
+}

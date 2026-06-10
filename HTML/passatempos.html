@@ -1,0 +1,772 @@
+<!-- ============================================================================ -->
+<!-- AUTOR: [Gabriel de Moraes Rocha]                                             -->
+<!-- DATA: Junho/Julho de 2026                                                    -->
+<!-- PROJETO: Agrinho 2026 - Agro forte futuro sustentável                        -->
+<!-- ARQUIVO: passatempos.html - Área de Jogos e Atividades Interativas           -->
+<!-- DESCRIÇÃO: Página de passatempos contendo:                                   -->
+<!--            - Jogo Produtor Sustentável (simulação de fazenda com 10 anos)    -->
+<!--            - Caça ao Erro Ambiental (encontre 4 problemas na fazenda)        -->
+<!--            - Quiz Verdadeiro ou Falso (35 perguntas)                         -->
+<!--            - Classificação Sustentável (Drag & Drop com 6 itens)             -->
+<!--            - Escolha seu Caminho (jogo de decisões com 6 perguntas)          -->
+<!--            - Simulador de Impacto Ambiental (sliders interativos)            -->
+<!--            - Calculadora de Pegada Ecológica                                 -->
+<!--            - Tour Virtual Interativo (6 áreas da fazenda)                    -->
+<!--            - Infográficos Animados e Vídeos Educativos                       -->
+<!--            - Sistema de Conquistas e Níveis (4 conquistas, 4 níveis)         -->
+<!--            - Controles de música de fundo (play/pause/volume)                -->
+<!-- ============================================================================ -->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- ===== METADADOS E CONFIGURAÇÕES ===== -->
+    <meta charset="UTF-8" />                               <!-- Define codificação UTF-8 para suporte a acentos -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" /> <!-- Responsividade e zoom permitido -->
+    <title>Passatempos - Agro Sustentável</title>          <!-- Título exibido na aba do navegador -->
+    
+    <!-- ===== FONTES EXTERNAS ===== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />      <!-- Pré-conexão para otimizar carregamento -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> <!-- Pré-conexão para otimizar carregamento -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet" /> <!-- Fonte Nunito do Google Fonts -->
+    
+    <!-- ===== ESTILOS CSS ===== -->
+    <link rel="stylesheet" href="/CSS/style.css" />        <!-- Link para o arquivo de estilos principal -->
+
+</head>
+<body>
+    <!-- ===== BOLHAS DECORATIVAS INTERATIVAS ===== -->
+    <div class="bubble b1"></div>   <!-- Bolha 1 - posicionada na área esquerda -->
+    <div class="bubble b2"></div>   <!-- Bolha 2 - posicionada na área direita -->
+    <div class="bubble b3"></div>   <!-- Bolha 3 - posicionada na área inferior -->
+
+    <!-- ===== CABEÇALHO (NAVBAR) ===== -->
+    <header class="navbar">
+        <div class="logo">
+            Agrinho<span>2026</span>                       <!-- Logo do projeto com destaque no ano -->
+        </div>
+        <div class="accessibility-wrapper">
+            <!-- Botão que abre o menu de acessibilidade -->
+            <button class="accessibility-btn" id="accessibleToggle" aria-label="Menu de Acessibilidade" title="Acessibilidade">♿</button>
+            <!-- Menu dropdown com opções de acessibilidade -->
+            <div class="accessibility-menu" id="accessibleMenu">
+                <button id="btnIncText">➕ Aumentar Texto</button>                <!-- Aumenta a escala da fonte -->
+                <button id="btnDecText">➖ Diminuir Texto</button>                <!-- Diminui a escala da fonte -->
+                <button id="btnContrast">☯️ Alto Contraste</button>              <!-- Ativa modo de alto contraste -->
+                <button id="btnDaltonismo">👁️ Modo Daltonismo (Vermelho/Verde)</button> <!-- Ativa modo para daltônicos -->
+                <button id="btnModoEscuro">🌙 Modo Escuro</button>               <!-- Ativa modo escuro -->
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CONTEÚDO PRINCIPAL (MAIN) ===== -->
+    <main>
+        <!-- Título da página de passatempos -->
+        <div class="page-title"><h1>🌱 Área de Passatempos 🌍</h1><p>Aprenda sobre Agro Sustentável se divertindo!</p></div>
+
+        <!-- ==================== SEÇÃO: JOGOS ==================== -->
+        <div class="categoria-secao">
+            <div class="categoria-titulo">🎮 JOGOS</div>   <!-- Título da seção de jogos -->
+            <div class="passatempos-grid">                 <!-- Grid responsivo para os cards -->
+                
+                <!-- ===== JOGO 1: PRODUTOR SUSTENTÁVEL ===== -->
+                <!-- Simulação de administração de fazenda com decisões sustentáveis -->
+                <div class="card"><h2>🎮 Produtor Sustentável</h2><div class="jogo-produtor"><div class="dialogo-container"><div class="avatar">👨‍🌾</div><div class="fala"><p>🌾 Olá! Vamos administrar a fazenda?</p></div></div><div class="fazenda-img"><div class="fazenda-emoji" id="fazendaEmoji">🌾🚜🌳</div><div class="estacao-badge" id="estacaoTexto">🌱 Primavera</div></div><div class="status-fazenda"><div><div class="status-valor" id="lucroValor">0</div><div class="status-label">💰 Lucro</div></div><div><div class="status-valor" id="ambientalValor">0</div><div class="status-label">🌿 Ambiental</div></div><div><div class="status-valor" id="sustentavelValor">0</div><div class="status-label">🌱 Sustentável</div></div></div><div class="progresso-jogo"><div class="progresso-bar" id="progressoBar"></div></div><div class="ano-info"><span>📅 <strong id="anoAtual">1</strong>/10 anos</span><button class="btn-reset" onclick="resetarJogoProdutor()">🔄 Reiniciar</button></div><div class="acoes-grid"><button class="acao-boa" onclick="acaoProdutor('recuperar')">🌱 Recuperar pastagens</button><button class="acao-boa" onclick="acaoProdutor('arvores')">🌳 Plantar árvores</button><button class="acao-boa" onclick="acaoProdutor('drones')">🛸 Utilizar drones</button><button class="acao-boa" onclick="acaoProdutor('agua')">💧 Irrigação eficiente</button><button class="acao-ruim" onclick="acaoProdutor('desmatar')">🔥 Desmatar</button><button class="acao-ruim" onclick="acaoProdutor('desperdicar')">💦 Desperdiçar água</button><button class="acao-ruim" onclick="acaoProdutor('inadequado')">⚠️ Uso inadequado</button><button class="acao-boa" onclick="acaoProdutor('compostagem')">♻️ Compostagem</button></div><div id="resultadoProdutor" class="resultado-produtor">🌾 Clique em uma ação para começar!</div></div></div>
+                
+                <!-- ===== JOGO 2: CAÇA AO ERRO AMBIENTAL ===== -->
+                <!-- Encontre os erros ambientais escondidos na fazenda -->
+                <div class="card"><h2>🔍 Caça ao Erro Ambiental</h2><div class="caca-erro-container"><div class="fazenda-ilustrada"><div class="ceu">☁️☁️☁️</div><div class="sol">☀️</div><div class="arvores">🌳🌳🌳</div><div class="rio">💧 Rio</div><div class="casa">🏠</div><div class="trator">🚜</div><div class="erro" id="erroRio" style="top:100px;right:120px;width:80px;height:35px" data-tipo="rio"></div><div class="erro" id="erroQueimada" style="bottom:130px;left:150px;width:60px;height:30px" data-tipo="queimada"></div><div class="erro" id="erroErosao" style="bottom:180px;right:180px;width:70px;height:25px" data-tipo="erosao"></div><div class="erro" id="erroAgua" style="top:170px;left:250px;width:50px;height:25px" data-tipo="agua"></div></div><div class="caca-erro-score"><span>🔍 Erros Encontrados</span><span id="cacaPontos">0</span><span>/4</span></div><div id="erroInfoBox" class="erro-info">🕵️ Clique nas áreas vermelhas para encontrar os erros ambientais!</div><button class="btn-reset" onclick="resetCaca()" style="width:100%">🔄 Reiniciar Caça</button></div></div>
+            </div>
+        </div>
+
+        <!-- ==================== SEÇÃO: QUIZ ==================== -->
+        <div class="categoria-secao">
+            <div class="categoria-titulo">📝 QUIZ</div>     <!-- Título da seção de quiz -->
+            <div class="passatempos-grid">
+    
+                <!-- ===== JOGO 3: VERDADEIRO OU FALSO ===== -->
+                <!-- 35 perguntas sobre agricultura sustentável -->
+                <div class="card"><h2>⚡ Verdadeiro ou Falso</h2><div class="vf-container"><div class="vf-progresso"><div class="vf-progresso-bar" id="vfBar"></div></div><div class="vf-pergunta" id="vfPergunta"></div><div class="vf-botoes"><button class="btn-v" id="btnV">✅ Verdadeiro</button><button class="btn-f" id="btnF">❌ Falso</button></div><div id="vfMsg" class="vf-resultado"></div><div class="vf-score"><span>🏆 Pontuação</span><span id="vfPontos">0</span><span>/35</span></div><button class="btn-reset" id="resetQuizBtn" style="width:100%">🔄 Reiniciar Quiz</button></div></div>
+                
+                <!-- ===== JOGO 4: CLASSIFICAÇÃO SUSTENTÁVEL (DRAG & DROP) ===== -->
+                <!-- Arraste os itens para a categoria correta (sustentável/não sustentável) -->
+                <div class="card"><h2>🖱️ Classificação Sustentável</h2><div class="drag-drop-area"><div class="itens-area"><h3>📦 Arraste os Itens</h3><div id="itensContainer"><div class="item-drag" data-cat="sustentavel" data-nome="Agricultura de precisão">🛸 Agricultura de precisão</div><div class="item-drag" data-cat="sustentavel" data-nome="Reflorestamento">🌳 Reflorestamento</div><div class="item-drag" data-cat="sustentavel" data-nome="Irrigação eficiente">💧 Irrigação eficiente</div><div class="item-drag" data-cat="nao" data-nome="Queimadas ilegais">🔥 Queimadas ilegais</div><div class="item-drag" data-cat="nao" data-nome="Desmatamento excessivo">🪓 Desmatamento excessivo</div><div class="item-drag" data-cat="nao" data-nome="Desperdício de água">💦 Desperdício de água</div></div></div><div class="categoria"><h3>✅ Sustentável 🌱</h3><div id="dropSust" class="drop-zone" data-zona="sustentavel"></div></div><div class="categoria"><h3>❌ Não Sustentável ⚠️</h3><div id="dropNao" class="drop-zone" data-zona="nao"></div></div></div><div class="drag-score"><span>🏆 Pontuação</span><span id="dragPontos">0</span><span>/6</span></div><div id="dragMsg" class="feedback-message" style="display:none"></div><button class="btn-reset" onclick="resetDrag()" style="width:100%; margin-top:10px">🔄 Reiniciar Jogo</button></div>
+                
+                <!-- ===== JOGO 5: ESCOLHA SEU CAMINHO ===== -->
+                <!-- Jogo de decisões com 6 perguntas sobre sustentabilidade -->
+                <div class="card">
+                    <h2>🎲 Escolha seu Caminho</h2>
+                    <div class="escolha-caminho">
+                        <div id="perguntaContainer" class="pergunta-container">
+                            <div class="pergunta-texto" id="perguntaTexto">Sua lavoura está sofrendo com a seca. O que fazer?</div>
+                            <div class="opcoes-caminho" id="opcoesContainer">
+                                <button class="btn-caminho" onclick="responderCaminho(0)">A) Instalar irrigação eficiente</button>
+                                <button class="btn-caminho" onclick="responderCaminho(1)">B) Ignorar o problema</button>
+                            </div>
+                        </div>
+                        <div id="resultadoCaminho" class="resultado-caminho"></div>
+                        <div class="caminho-score"><span>🏆 Pontuação Total</span><span id="caminhoPontuacao">0</span><span>/ 6</span></div>
+                        <button class="btn-proxima" id="btnProximaPergunta" onclick="proximaPergunta()" style="display: none;">▶ Próxima Pergunta</button>
+                        <button class="btn-reiniciar-caminho" onclick="reiniciarCaminho()">🔄 Reiniciar Jogo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SEÇÃO: CÁLCULO E ESTATÍSTICA ==================== -->
+        <div class="categoria-secao">
+            <div class="categoria-titulo">📊 CÁLCULO E ESTATÍSTICA</div> <!-- Título da seção de ferramentas -->
+            <div class="passatempos-grid">
+                
+                <!-- ===== FERRAMENTA 1: SIMULADOR DE IMPACTO ===== -->
+                <!-- Sliders para ajustar variáveis e ver resultados em tempo real -->
+                <div class="card"><h2>📊 Simulador de Impacto</h2><div class="simulador-controles"><div class="controle"><label>🌳 Árvores: <span id="arvVal">500</span></label><input type="range" id="arvoresSlider" min="0" max="1000" value="500"></div><div class="controle"><label>💧 Água: <span id="aguaVal">500</span>L</label><input type="range" id="aguaSlider" min="0" max="1000" value="500"></div><div class="controle"><label>🧪 Fertilizantes: <span id="fertVal">250</span>kg</label><input type="range" id="fertSlider" min="0" max="500" value="250"></div><div class="controle"><label>🚜 Tecnologia: <span id="tecVal">50</span>%</label><input type="range" id="tecSlider" min="0" max="100" value="50"></div></div><div id="simResultado" class="resultado-simulador">Ajuste os controles!</div></div>
+                
+                <!-- ===== FERRAMENTA 2: CALCULADORA DE PEGADA ECOLÓGICA ===== -->
+                <!-- Calcula o impacto ambiental baseado em parâmetros agrícolas -->
+                <div class="card"><h2>🌎 Calculadora de Pegada</h2><div class="calculadora-form"><input type="number" id="hectares" placeholder="Hectares" value="100"><select id="irrigacao"><option value="sim">Irrigação - Sim</option><option value="nao">Irrigação - Não</option></select><select id="areaPres"><option value="sim">Área preservada - Sim</option><option value="nao">Área preservada - Não</option></select><select id="reflor"><option value="sim">Reflorestamento - Sim</option><option value="nao">Reflorestamento - Não</option></select><button class="btn-calcular" onclick="calcPegada()">Calcular</button></div><div id="calcRes" class="resultado-calc"></div></div>
+                
+                <!-- ===== FERRAMENTA 3: INFOGRÁFICOS ANIMADOS ===== -->
+                <!-- Exibe estatísticas com animação de contagem -->
+                <div class="card"><h2>📈 Infográficos</h2><div class="infograficos"><div class="infografico-item"><div class="numero-animado" id="inf1">0%</div><p>vegetação nativa preservada</p></div><div class="infografico-item"><div class="numero-animado" id="inf2">0%</div><p>território agropecuário</p></div><div class="infografico-item"><div class="numero-animado" id="inf3">0</div><p>milhões de hectares recuperáveis</p></div></div></div>
+            </div>
+        </div>
+
+        <!-- ==================== SEÇÃO: INFORMATIVO ==================== -->
+        <div class="categoria-secao">
+            <div class="categoria-titulo">🎥 INFORMATIVO</div> <!-- Título da seção informativa -->
+            <div class="info-layout">
+                
+                <!-- ===== VÍDEOS EDUCATIVOS ===== -->
+                <div class="videos-grid">
+                    <!-- Vídeo 1: Embrapa Meio Ambiente -->
+                    <div class="video-card">
+                        <div class="video-title"><span>🌱</span> Agricultura e Meio Ambiente: Revolução Científica</div>
+                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/8dIgTNJPUcc" title="Embrapa Meio Ambiente" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        <div class="video-description">Produção agrícola sustentável, biodiversidade, sequestro de carbono e restauração florestal.</div>
+                        <div class="video-credits"><span class="channel-badge">Embrapa Meio Ambiente</span><a href="https://www.youtube.com/watch?v=8dIgTNJPUcc" target="_blank">Assistir</a></div>
+                    </div>
+                    <!-- Vídeo 2: Agro Bayer Brasil -->
+                    <div class="video-card">
+                        <div class="video-title"><span>🚜</span> Agricultura Sustentável: o Futuro do Agro</div>
+                        <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/MYtTIkC_UjI" title="Agro Bayer Brasil" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                        <div class="video-description">Agricultura regenerativa, carbono no solo, tecnologia sustentável e casos reais de produtores.</div>
+                        <div class="video-credits"><span class="channel-badge">Agro Bayer Brasil</span><a href="https://www.youtube.com/watch?v=MYtTIkC_UjI" target="_blank">Assistir</a></div>
+                    </div>
+                </div>
+                
+                <!-- ===== TOUR VIRTUAL PELA FAZENDA SUSTENTÁVEL ===== -->
+                <!-- Tour interativo com 6 áreas da fazenda e guia virtual -->
+                <div class="card">
+                    <h2>🚁 Tour Virtual pela Fazenda Sustentável</h2>
+                    <div class="tour-container">
+                        <div class="tour-guia"><div class="tour-guia-avatar">🧭</div><div class="tour-guia-fala" id="guiaFala">Bem-vindo ao Tour Virtual! Sou seu guia, João. Clique em qualquer área da fazenda para aprender sobre práticas sustentáveis!</div></div>
+                        <div class="tour-areas">
+                            <div class="tour-item" onclick="visitarTour('plantio')">🌾 Plantio</div>
+                            <div class="tour-item" onclick="visitarTour('floresta')">🌳 Reserva</div>
+                            <div class="tour-item" onclick="visitarTour('irrigacao')">💧 Irrigação</div>
+                            <div class="tour-item" onclick="visitarTour('drones')">🛸 Drones</div>
+                            <div class="tour-item" onclick="visitarTour('pastagens')">🌱 Pastagens</div>
+                            <div class="tour-item" onclick="visitarTour('compostagem')">♻️ Compostagem</div>
+                        </div>
+                        <div class="tour-score"><span>🔍 Áreas Visitadas</span><span id="tourPontos">0</span><span>/6</span></div>
+                        <div id="tourInfo" class="tour-info">🌿 Clique em uma área para começar o tour!</div>
+                        <button class="btn-reset" onclick="resetTour()" style="width:100%; margin-top:10px">🔄 Reiniciar Tour</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão para voltar à página principal -->
+        <div class="text-center"><a href="paginaprincipal.html" class="btn-voltar">← Voltar</a></div>
+    </main>
+
+    <!-- Espaçamento vertical para separar do rodapé -->
+    <br><br><br><br><br><br><br><br>
+    
+    <!-- ===== RODAPÉ (FOOTER) ===== -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo">Agrinho<span>2026</span></div>   <!-- Logo do projeto no rodapé -->
+                <p>Conectando a pureza da natureza com a inovação tecnológica para cultivar o amanhã.</p> <!-- Slogan -->
+            </div>
+        </div>
+
+        <!-- Créditos das mídias utilizadas (conforme exigido pelo regulamento) -->
+        <div class="creditos">
+            <p>Imagens: Unsplash - Licença gratuita</p>
+            <p>Música: Licença gratuita</p>
+        </div>
+
+        <!-- Informações institucionais -->
+        <div class="footer-bottom">
+            <p>@sistema.faep</p>      <!-- SENAR/FAEP - Instituição promotora -->
+            <p>Agrinho @agrinho</p>    <!-- Marca do programa Agrinho -->
+        </div>
+    </footer>
+
+    <!-- ===== CONTROLES DE MÚSICA ===== -->
+    <div class="music-controls" id="musicControls">
+        <button class="music-btn" id="playPauseBtn" title="Play/Pause">⏸️</button>  <!-- Botão Play/Pause -->
+        <div class="volume-control">
+            <span class="volume-icon">🔊</span>                                      <!-- Ícone de volume -->
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="50"> <!-- Controle deslizante de volume -->
+        </div>
+    </div>
+
+    <!-- ===== SISTEMA DE CONQUISTAS E NÍVEL ===== -->
+    <div class="conquistas-panel">
+        <!-- Mini card de nível (visível sempre) -->
+        <div class="nivel-mini-card" id="nivelMiniCard">
+            <div class="nivel-icone" id="nivelMiniIcone">🌾</div>
+            <div class="nivel-info">
+                <div class="nivel-info-nome">Nível Ecológico</div>
+                <div class="nivel-info-valor" id="nivelMiniNome">Aprendiz</div>
+                <div class="nivel-info-barra"><div class="nivel-info-progresso" id="nivelMiniBarra" style="width:0%"></div></div>
+            </div>
+        </div>
+        
+        <!-- Painel de conquistas (expandido ao clicar no mini card) -->
+        <div class="conquistas-detalhe" id="conquistasDetalhe">
+            <h3>🏆 SUAS CONQUISTAS</h3>
+            <div class="conquistas-lista">
+                <div id="conq1" class="conq-item"><div class="conq-icone">🥉</div><div class="conq-texto"><div class="conq-titulo">Aprendiz do Campo</div><div class="conq-desc">Complete o Quiz</div></div></div>
+                <div id="conq2" class="conq-item"><div class="conq-icone">🥈</div><div class="conq-texto"><div class="conq-titulo">Defensor da Natureza</div><div class="conq-desc">Complete o Drag & Drop</div></div></div>
+                <div id="conq3" class="conq-item"><div class="conq-icone">🥇</div><div class="conq-texto"><div class="conq-titulo">Especialista</div><div class="conq-desc">Encontre todos os erros</div></div></div>
+                <div id="conq4" class="conq-item"><div class="conq-icone">🏆</div><div class="conq-texto"><div class="conq-titulo">Herói do Agro</div><div class="conq-desc">Finalize Produtor + Tour</div></div></div>
+            </div>
+            <!-- Informações de nível -->
+            <div class="nivel-info" style="margin-top:12px; padding-top:8px; border-top:1px solid rgba(0,0,0,0.1); text-align:center">
+                <div style="font-size:11px; font-weight:700; color:#2e7d32">Nível Atual</div>
+                <div style="font-size:20px; font-weight:900; color:#1b5e20" id="detalheNivelNome">🌾 Aprendiz</div>
+                <div class="nivel-barra" style="margin:8px 0; background:rgba(0,0,0,0.1)"><div class="nivel-progresso" id="detalheNivelBarra" style="width:0%; background:linear-gradient(90deg,#4caf50,#ffd700)"></div></div>
+                <div id="detalheNivelProx" style="font-size:10px; color:#4a6b2f">Complete conquistas para evoluir</div>
+            </div>
+            <button class="fechar-panel" id="fecharConquistasBtn">Fechar</button>  <!-- Botão para fechar o painel -->
+        </div>
+    </div>
+
+    <!-- ===== POPUP DE NÍVEL MÁXIMO ===== -->
+    <!-- Popup exibido quando o usuário atinge o nível máximo (Herói do Agro) -->
+    <div id="popupMax" class="popup-aero">
+        <span class="emoji">🏆🌱✨</span>
+        <h3>AGRICULTOR LENDÁRIO!</h3>
+        <p>Você atingiu o nível máximo!<br>Completou todas as conquistas e tornou-se um guardião do agro sustentável.</p>
+        <button onclick="fecharPopup()">Continuar Jornada</button>
+    </div>
+
+    <!-- ===== VLIBRAS - FERRAMENTA DE ACESSIBILIDADE ===== -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>      <!-- Botão flutuante do VLibras -->
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>    <!-- Container do plugin do VLibras -->
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS E INICIALIZAÇÃO ===== -->
+    <!-- ========================================= -->
+    <!-- SCRIPT PRINCIPAL: LÓGICA DE JOGOS, QUIZ, TOUR, CONQUISTAS, MÚSICA -->
+    <!-- ========================================= -->
+    <script>
+        // ========== CONTROLE DE VISIBILIDADE DOS CONTROLES DE MÚSICA ==========
+        // Referências aos elementos do DOM para controle de visibilidade
+        const musicControlsDiv = document.getElementById('musicControls');
+        const conquistasDetalheDiv = document.getElementById('conquistasDetalhe');
+
+        // Função para esconder/mostrar os controles de música
+        function toggleMusicControlsVisibility(shouldHide) {
+            if (shouldHide) {
+                musicControlsDiv.classList.add('hidden');      // Adiciona classe para esconder
+            } else {
+                musicControlsDiv.classList.remove('hidden');   // Remove classe para mostrar
+            }
+        }
+
+        // Abre o painel de conquistas e esconde os controles de música
+        function abrirPainelConquistas() {
+            conquistasDetalheDiv.classList.add('open');        // Adiciona classe para abrir o painel
+            toggleMusicControlsVisibility(true);               // Esconde controles de música
+        }
+
+        // Fecha o painel de conquistas e mostra os controles de música
+        function fecharPainelConquistas() {
+            conquistasDetalheDiv.classList.remove('open');     // Remove classe para fechar o painel
+            toggleMusicControlsVisibility(false);              // Mostra controles de música
+        }
+
+        // Eventos para abrir/fechar o painel de conquistas
+        document.getElementById("nivelMiniCard").addEventListener("click", abrirPainelConquistas);
+        document.getElementById('fecharConquistasBtn').addEventListener('click', fecharPainelConquistas);
+
+        // ========== MÚSICA DE FUNDO ==========
+        // Cria o objeto de áudio com caminho para o arquivo de música
+        const audio = new Audio('/ASSETS/passatempo.mp3');
+        audio.loop = true;      // Reproduz em loop contínuo
+        audio.volume = 0.5;     // Volume inicial em 50%
+
+        let isPlaying = false;   // Estado da reprodução (tocando ou pausado)
+
+        // Alterna entre play e pause
+        function togglePlayPause() {
+            if (isPlaying) {
+                audio.pause();                                 // Pausa a música
+                document.getElementById('playPauseBtn').innerHTML = '▶️';  // Muda ícone para play
+            } else {
+                audio.play().catch(e => console.log('Autoplay blocked - user interaction needed')); // Inicia a reprodução
+                document.getElementById('playPauseBtn').innerHTML = '⏸️';  // Muda ícone para pause
+            }
+            isPlaying = !isPlaying;  // Inverte o estado
+        }
+
+        // Ajusta o volume da música
+        function setVolume(value) {
+            audio.volume = value / 100;  // Converte valor 0-100 para 0-1
+        }
+
+        // Tenta iniciar a música automaticamente ao primeiro clique do usuário
+        document.body.addEventListener('click', function initAudio() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById('playPauseBtn').innerHTML = '⏸️';
+                }).catch(() => {});
+            }
+            document.body.removeEventListener('click', initAudio);  // Remove após executar uma vez
+        });
+
+        // Eventos dos controles de música
+        document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+        document.getElementById('volumeSlider').addEventListener('input', (e) => setVolume(e.target.value));
+
+        // ========== ESCOLHA SEU CAMINHO - JOGO DE DECISÕES ==========
+        // Array com as 6 perguntas, opções, respostas corretas e feedbacks
+        const perguntasCaminho = [
+            { texto: "🌾 Sua lavoura está sofrendo com a seca. O que fazer?", opcoes: ["A) Instalar irrigação eficiente", "B) Ignorar o problema"], correta: 0, feedback: ["✅ Excelente! A irrigação eficiente economiza água e mantém a produção.", "❌ Infelizmente, ignorar a seca leva à perda total da safra."], pontos: [1, 0] },
+            { texto: "🐛 Você identificou pragas na plantação. Qual a melhor abordagem sustentável?", opcoes: ["A) Usar agrotóxicos em excesso", "B) Implementar controle biológico com inimigos naturais"], correta: 1, feedback: ["❌ Agrotóxicos em excesso contaminam o solo e a água.", "✅ Correto! O controle biológico é sustentável e não agride o meio ambiente."], pontos: [0, 1] },
+            { texto: "🌳 Uma área de mata nativa em sua propriedade pode ser desmatada para plantio. O que fazer?", opcoes: ["A) Desmatar para aumentar a produção", "B) Preservar a mata e buscar outras áreas degradadas para recuperar"], correta: 1, feedback: ["❌ O desmatamento causa perda de biodiversidade e erosão do solo.", "✅ Perfeito! Preservar a mata e recuperar áreas degradadas é o caminho sustentável."], pontos: [0, 1] },
+            { texto: "💧 O solo da sua fazenda está mostrando sinais de erosão. Qual atitude tomar?", opcoes: ["A) Ignorar e continuar plantando", "B) Adotar plantio direto e curvas de nível"], correta: 1, feedback: ["❌ Ignorar a erosão piora a perda de solo e nutrientes.", "✅ Ótimo! O plantio direto e as curvas de nível previnem a erosão."], pontos: [0, 1] },
+            { texto: "♻️ Você tem resíduos orgânicos na propriedade. Qual destino mais sustentável?", opcoes: ["A) Queimar ou descartar em aterro", "B) Transformar em adubo através da compostagem"], correta: 1, feedback: ["❌ Queimar libera CO₂ e desperdiça nutrientes.", "✅ Excelente! A compostagem recicla nutrientes e enriquece o solo."], pontos: [0, 1] },
+            { texto: "🌱 Como aumentar a produtividade sem expandir a área cultivada?", opcoes: ["A) Desmatar novas áreas", "B) Investir em tecnologia e integração lavoura-pecuária-floresta (ILPF)"], correta: 1, feedback: ["❌ Desmatar é insustentável e prejudicial ao meio ambiente.", "✅ Perfeito! A ILPF aumenta a produtividade de forma sustentável."], pontos: [0, 1] }
+        ];
+
+        // Variáveis de controle do jogo
+        let perguntaAtualCaminho = 0, pontuacaoCaminho = 0, respostasDadasCaminho = new Array(6).fill(false), jogoFinalizadoCaminho = false;
+
+        // Carrega a pergunta atual do jogo
+        function carregarPerguntaCaminho() {
+            if (jogoFinalizadoCaminho || perguntaAtualCaminho >= perguntasCaminho.length) { finalizarJogoCaminho(); return; }
+            const pergunta = perguntasCaminho[perguntaAtualCaminho];
+            document.getElementById('perguntaTexto').innerHTML = pergunta.texto;
+            const opcoesContainer = document.getElementById('opcoesContainer');
+            opcoesContainer.innerHTML = '';
+            pergunta.opcoes.forEach((opcao, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-caminho';
+                btn.innerHTML = opcao;
+                btn.onclick = () => responderCaminho(idx);
+                opcoesContainer.appendChild(btn);
+            });
+            document.getElementById('resultadoCaminho').innerHTML = '';
+            document.getElementById('btnProximaPergunta').style.display = 'none';
+        }
+
+        // Processa a resposta do usuário
+        function responderCaminho(resposta) {
+            if (jogoFinalizadoCaminho || respostasDadasCaminho[perguntaAtualCaminho]) return;
+            const pergunta = perguntasCaminho[perguntaAtualCaminho];
+            const isCorrect = (resposta === pergunta.correta);
+            if (isCorrect) pontuacaoCaminho += pergunta.pontos[resposta];
+            respostasDadasCaminho[perguntaAtualCaminho] = true;
+            document.getElementById('caminhoPontuacao').innerText = pontuacaoCaminho;
+            const resultadoDiv = document.getElementById('resultadoCaminho');
+            resultadoDiv.innerHTML = pergunta.feedback[resposta];
+            resultadoDiv.style.background = isCorrect ? '#4caf50' : '#f44336';
+            resultadoDiv.style.color = 'white';
+            document.getElementById('btnProximaPergunta').style.display = 'block';
+        }
+
+        // Avança para a próxima pergunta ou finaliza
+        function proximaPergunta() {
+            if (jogoFinalizadoCaminho) return;
+            perguntaAtualCaminho++;
+            if (perguntaAtualCaminho < perguntasCaminho.length) carregarPerguntaCaminho();
+            else finalizarJogoCaminho();
+        }
+
+        // Finaliza o jogo e exibe pontuação final
+        function finalizarJogoCaminho() {
+            jogoFinalizadoCaminho = true;
+            const porcentagem = (pontuacaoCaminho / 6) * 100;
+            let mensagem = pontuacaoCaminho === 6 ? "🏆 PARABÉNS! Você é um MESTRE em sustentabilidade agrícola!" : pontuacaoCaminho >= 4 ? "🌱 Muito bem! Continue assim!" : pontuacaoCaminho >= 2 ? "📚 Bom trabalho! Estude mais!" : "🌍 Continue aprendendo!";
+            document.getElementById('resultadoCaminho').innerHTML = `<strong>🎉 JOGO FINALIZADO! 🎉</strong><br><br>📊 Pontuação: ${pontuacaoCaminho} de 6 (${Math.round(porcentagem)}%)<br>${mensagem}<br><br><button class="btn-reiniciar-caminho" onclick="reiniciarCaminho()" style="margin-top:10px;">🔄 Jogar Novamente</button>`;
+            document.getElementById('resultadoCaminho').style.background = '#2e7d32';
+            document.getElementById('opcoesContainer').innerHTML = '';
+            document.getElementById('btnProximaPergunta').style.display = 'none';
+            if (!quizCompleto && pontuacaoCaminho === 6) { quizCompleto = true; verificarTodas(); }
+        }
+
+        // Reinicia o jogo
+        function reiniciarCaminho() { perguntaAtualCaminho = 0; pontuacaoCaminho = 0; respostasDadasCaminho = new Array(6).fill(false); jogoFinalizadoCaminho = false; document.getElementById('caminhoPontuacao').innerText = '0'; carregarPerguntaCaminho(); }
+
+        // ========== SISTEMA DE CONQUISTAS E NÍVEL ==========
+        // Objeto que controla quais conquistas já foram obtidas
+        let conquistasFeitas = { c1: false, c2: false, c3: false, c4: false };
+        let nivelAtual = 0;  // 0 = Aprendiz, 1 = Defensor, 2 = Especialista, 3 = Herói do Agro
+        const niveisNomes = ["🌾 Aprendiz", "🛡️ Defensor da Natureza", "🎓 Especialista", "🌟 Herói do Agro"];
+
+        // Atualiza a interface do usuário com o nível atual
+        function atualizarUI_Nivel() {
+            let progresso = (nivelAtual / 3) * 100;  // Barra de progresso (0 a 100%)
+            document.getElementById("nivelMiniNome").innerHTML = niveisNomes[nivelAtual];
+            document.getElementById("nivelMiniBarra").style.width = progresso + "%";
+            let iconeMap = {0:"🌾",1:"🛡️",2:"🎓",3:"🌟"};
+            document.getElementById("nivelMiniIcone").innerHTML = iconeMap[nivelAtual];
+            document.getElementById("detalheNivelNome").innerHTML = niveisNomes[nivelAtual];
+            document.getElementById("detalheNivelBarra").style.width = progresso + "%";
+            let proxTexto = nivelAtual < 3 ? `Próximo: ${niveisNomes[nivelAtual+1]}` : "🏆 MÁXIMO! Lenda do agro!";
+            document.getElementById("detalheNivelProx").innerHTML = proxTexto;
+            document.getElementById("conq1").classList.toggle("obtida", conquistasFeitas.c1);
+            document.getElementById("conq2").classList.toggle("obtida", conquistasFeitas.c2);
+            document.getElementById("conq3").classList.toggle("obtida", conquistasFeitas.c3);
+            document.getElementById("conq4").classList.toggle("obtida", conquistasFeitas.c4);
+        }
+
+        // Desbloqueia uma conquista e atualiza o nível
+        function desbloquearConquista(id) { if(conquistasFeitas[id]) return; conquistasFeitas[id] = true; let novas = Object.values(conquistasFeitas).filter(Boolean).length; let novoNivel = Math.min(3, Math.floor(novas)); if(novoNivel > nivelAtual) { nivelAtual = novoNivel; atualizarUI_Nivel(); if(nivelAtual === 3) document.getElementById("popupMax").classList.add("show"); } else { atualizarUI_Nivel(); } }
+        function fecharPopup() { document.getElementById("popupMax").classList.remove("show"); }
+
+        // Flags para controlar quais jogos foram completados
+        let dragCompleto = false, cacaCompleto = false, quizCompleto = false, produtorCompleto = false, tourCompleto = false;
+        function verificarTodas() { if(dragCompleto && !conquistasFeitas.c1) desbloquearConquista("c1"); if(cacaCompleto && !conquistasFeitas.c2) desbloquearConquista("c2"); if(quizCompleto && !conquistasFeitas.c3) desbloquearConquista("c3"); if(produtorCompleto && tourCompleto && !conquistasFeitas.c4) desbloquearConquista("c4"); }
+
+        // ========== PRODUTOR SUSTENTÁVEL ==========
+        // Estado do jogo do produtor sustentável
+        let prodEstado = { lucro:0, amb:0, sust:0, ano:1 };
+        
+        // Atualiza a interface do jogo Produtor Sustentável
+        function atualizarProdUI() {
+            document.getElementById('lucroValor').innerText = prodEstado.lucro;
+            document.getElementById('ambientalValor').innerText = prodEstado.amb;
+            document.getElementById('sustentavelValor').innerText = prodEstado.sust;
+            document.getElementById('anoAtual').innerText = prodEstado.ano;
+            document.getElementById('progressoBar').style.width = ((prodEstado.ano-1)/10*100)+'%';
+            let estacoes = ["🌱 Primavera","☀️ Verão","🍂 Outono","❄️ Inverno"];
+            let idx = (prodEstado.ano-1)%4;
+            document.getElementById('estacaoTexto').innerHTML = estacoes[idx];
+            document.getElementById('fazendaEmoji').innerHTML = ["🌾🚜🌳","🌻🐄🌲","🍎🌽🌿","🌲🦌❄️"][idx];
+        }
+        
+        // Executa uma ação do produtor (boa ou ruim)
+        function acaoProdutor(tipo) {
+            if(prodEstado.ano > 10) { document.getElementById('resultadoProdutor').innerHTML = "🎮 Jogo finalizado! Reinicie."; return; }
+            let msg="";
+            if(tipo==='recuperar'){ prodEstado.lucro+=15; prodEstado.amb+=20; prodEstado.sust+=15; msg="🌱 Pastagens recuperadas!"; }
+            else if(tipo==='arvores'){ prodEstado.lucro+=10; prodEstado.amb+=25; prodEstado.sust+=20; msg="🌳 Árvores plantadas!"; }
+            else if(tipo==='drones'){ prodEstado.lucro+=20; prodEstado.amb+=10; prodEstado.sust+=15; msg="🛸 Drones em ação!"; }
+            else if(tipo==='agua'){ prodEstado.lucro+=10; prodEstado.amb+=15; prodEstado.sust+=20; msg="💧 Irrigação eficiente!"; }
+            else if(tipo==='compostagem'){ prodEstado.lucro+=12; prodEstado.amb+=18; prodEstado.sust+=18; msg="♻️ Compostagem!"; }
+            else if(tipo==='desmatar'){ prodEstado.lucro+=25; prodEstado.amb-=30; prodEstado.sust-=25; msg="🔥 Desmatamento!"; }
+            else if(tipo==='desperdicar'){ prodEstado.lucro-=10; prodEstado.amb-=20; prodEstado.sust-=15; msg="💦 Água desperdiçada!"; }
+            else if(tipo==='inadequado'){ prodEstado.lucro-=5; prodEstado.amb-=25; prodEstado.sust-=20; msg="⚠️ Uso inadequado!"; }
+            prodEstado.ano++; atualizarProdUI();
+            document.getElementById('resultadoProdutor').innerHTML = `<strong>📊 ${msg}</strong><br>💰 Lucro:${prodEstado.lucro} 🌿Amb:${prodEstado.amb} 🌱Sust:${prodEstado.sust}<br>📅 Ano ${prodEstado.ano-1}`;
+            if(prodEstado.ano > 10) { if(!produtorCompleto){ produtorCompleto=true; verificarTodas(); } }
+        }
+        
+        // Reinicia o jogo do produtor sustentável
+        function resetarJogoProdutor() { prodEstado = { lucro:0, amb:0, sust:0, ano:1 }; produtorCompleto=false; atualizarProdUI(); document.getElementById('resultadoProdutor').innerHTML = "🌾 Jogo reiniciado!"; }
+
+        // ========== DRAG AND DROP (COM SUPORTE PARA DISPOSITIVOS MÓVEIS) ==========
+        // Variáveis do jogo de arrastar e soltar
+        let dragScore = 0, dragItens = [];
+        let itemSendoArrastado = null;  // Para controle no mobile
+        let offsetX = 0, offsetY = 0;   // Para posicionamento no mobile
+
+        // Inicializa os eventos de drag and drop (desktop e mobile)
+        function initDrag() {
+            // Configuração para desktop (mouse)
+            document.querySelectorAll('.item-drag').forEach(el => {
+                el.setAttribute('draggable', 'true');
+                
+                // Eventos para desktop
+                el.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({
+                        nome: el.dataset.nome,
+                        cat: el.dataset.cat,
+                        html: el.outerHTML
+                    }));
+                    el.style.opacity = '0.5';
+                });
+                
+                el.addEventListener('dragend', e => {
+                    el.style.opacity = '1';
+                });
+                
+                // ===== EVENTOS PARA DISPOSITIVOS MÓVEIS (TOQUE) =====
+                el.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    itemSendoArrastado = this;
+                    const rect = this.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    offsetX = touch.clientX - rect.left;
+                    offsetY = touch.clientY - rect.top;
+                    this.style.position = 'fixed';
+                    this.style.zIndex = '9999';
+                    this.style.opacity = '0.8';
+                    this.style.width = rect.width + 'px';
+                    this.style.left = (touch.clientX - offsetX) + 'px';
+                    this.style.top = (touch.clientY - offsetY) + 'px';
+                });
+                
+                el.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                    if (!itemSendoArrastado) return;
+                    const touch = e.touches[0];
+                    itemSendoArrastado.style.left = (touch.clientX - offsetX) + 'px';
+                    itemSendoArrastado.style.top = (touch.clientY - offsetY) + 'px';
+                    
+                    // Verifica sobre qual drop zone está
+                    document.querySelectorAll('.drop-zone').forEach(zone => {
+                        const rect = zone.getBoundingClientRect();
+                        if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                            touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                            zone.classList.add('drag-over');
+                        } else {
+                            zone.classList.remove('drag-over');
+                        }
+                    });
+                });
+                
+                el.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    if (!itemSendoArrastado) return;
+                    
+                    const touch = e.changedTouches[0];
+                    let dropZoneEncontrada = null;
+                    
+                    // Verifica em qual drop zone o item foi solto
+                    document.querySelectorAll('.drop-zone').forEach(zone => {
+                        const rect = zone.getBoundingClientRect();
+                        if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                            touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                            dropZoneEncontrada = zone;
+                        }
+                        zone.classList.remove('drag-over');
+                    });
+                    
+                    // Se encontrou uma drop zone, processa o drop
+                    if (dropZoneEncontrada) {
+                        const data = {
+                            nome: itemSendoArrastado.dataset.nome,
+                            cat: itemSendoArrastado.dataset.cat,
+                            html: itemSendoArrastado.outerHTML
+                        };
+                        
+                        if (data.cat === dropZoneEncontrada.dataset.zona && !dragItens.includes(data.nome)) {
+                            dragItens.push(data.nome);
+                            dragScore++;
+                            document.getElementById('dragPontos').innerText = dragScore;
+                            
+                            const dropDiv = document.createElement('div');
+                            dropDiv.className = 'drop-item';
+                            dropDiv.innerHTML = `${data.html} <button onclick="removerItemDrag(this,'${data.nome}','${data.cat}')">✖</button>`;
+                            dropZoneEncontrada.appendChild(dropDiv);
+                            itemSendoArrastado.remove();
+                            
+                            const msgDiv = document.getElementById('dragMsg');
+                            msgDiv.innerHTML = '✅ Correto! +1';
+                            msgDiv.className = 'feedback-message feedback-correct';
+                            msgDiv.style.display = 'block';
+                            setTimeout(() => msgDiv.style.display = 'none', 1500);
+                            
+                            if (dragScore === 6 && !dragCompleto) {
+                                dragCompleto = true;
+                                verificarTodas();
+                            }
+                        } else {
+                            const msgDiv = document.getElementById('dragMsg');
+                            msgDiv.innerHTML = `❌ "${data.nome}" não pertence aqui!`;
+                            msgDiv.className = 'feedback-message feedback-wrong';
+                            msgDiv.style.display = 'block';
+                            setTimeout(() => msgDiv.style.display = 'none', 1500);
+                        }
+                    }
+                    
+                    // Restaura o estilo do item
+                    itemSendoArrastado.style.position = '';
+                    itemSendoArrastado.style.zIndex = '';
+                    itemSendoArrastado.style.opacity = '1';
+                    itemSendoArrastado.style.left = '';
+                    itemSendoArrastado.style.top = '';
+                    itemSendoArrastado.style.width = '';
+                    itemSendoArrastado = null;
+                });
+            });
+            
+            // Configuração das zonas de drop
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                // Eventos para desktop
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+                
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                    
+                    if (data.cat === zone.dataset.zona && !dragItens.includes(data.nome)) {
+                        dragItens.push(data.nome);
+                        dragScore++;
+                        document.getElementById('dragPontos').innerText = dragScore;
+                        const dropDiv = document.createElement('div');
+                        dropDiv.className = 'drop-item';
+                        dropDiv.innerHTML = `${data.html} <button onclick="removerItemDrag(this,'${data.nome}','${data.cat}')">✖</button>`;
+                        zone.appendChild(dropDiv);
+                        document.querySelector(`.item-drag[data-nome="${data.nome}"]`)?.remove();
+                        
+                        const msgDiv = document.getElementById('dragMsg');
+                        msgDiv.innerHTML = '✅ Correto! +1';
+                        msgDiv.className = 'feedback-message feedback-correct';
+                        msgDiv.style.display = 'block';
+                        setTimeout(() => msgDiv.style.display = 'none', 1500);
+                        
+                        if (dragScore === 6 && !dragCompleto) {
+                            dragCompleto = true;
+                            verificarTodas();
+                        }
+                    } else {
+                        const msgDiv = document.getElementById('dragMsg');
+                        msgDiv.innerHTML = `❌ "${data.nome}" não pertence aqui!`;
+                        msgDiv.className = 'feedback-message feedback-wrong';
+                        msgDiv.style.display = 'block';
+                        setTimeout(() => msgDiv.style.display = 'none', 1500);
+                    }
+                });
+            });
+        }
+        
+        // Remove um item da zona de drop e devolve para a área de origem
+        function removerItemDrag(btn, nome, cat) {
+            let parent = btn.parentElement;
+            parent.remove();
+            let idx = dragItens.indexOf(nome);
+            if (idx !== -1) dragItens.splice(idx, 1);
+            dragScore--;
+            document.getElementById('dragPontos').innerText = dragScore;
+            let container = document.getElementById('itensContainer');
+            let novo = document.createElement('div');
+            novo.className = 'item-drag';
+            novo.setAttribute('data-cat', cat);
+            novo.setAttribute('data-nome', nome);
+            let emoji = nome.includes('Agricultura') ? '🛸' : nome.includes('Reflore') ? '🌳' : nome.includes('Irrigação') ? '💧' : nome.includes('Queimada') ? '🔥' : nome.includes('Desmatamento') ? '🪓' : '💦';
+            novo.innerHTML = `${emoji} ${nome}`;
+            novo.setAttribute('draggable', 'true');
+            container.appendChild(novo);
+            initDrag();
+        }
+        
+        // Reinicia o jogo de drag and drop
+        function resetDrag() {
+            dragScore = 0;
+            dragItens = [];
+            dragCompleto = false;
+            document.getElementById('dragPontos').innerText = '0';
+            document.getElementById('dropSust').innerHTML = '';
+            document.getElementById('dropNao').innerHTML = '';
+            document.getElementById('itensContainer').innerHTML = `
+                <div class="item-drag" data-cat="sustentavel" data-nome="Agricultura de precisão">🛸 Agricultura de precisão</div>
+                <div class="item-drag" data-cat="sustentavel" data-nome="Reflorestamento">🌳 Reflorestamento</div>
+                <div class="item-drag" data-cat="sustentavel" data-nome="Irrigação eficiente">💧 Irrigação eficiente</div>
+                <div class="item-drag" data-cat="nao" data-nome="Queimadas ilegais">🔥 Queimadas ilegais</div>
+                <div class="item-drag" data-cat="nao" data-nome="Desmatamento excessivo">🪓 Desmatamento excessivo</div>
+                <div class="item-drag" data-cat="nao" data-nome="Desperdício de água">💦 Desperdício de água</div>
+            `;
+            initDrag();
+        }
+
+        // ========== CAÇA AO ERRO ==========
+        // Array para armazenar erros já encontrados e pontuação
+        let errosEncontradosCaca=[], cacaScore=0;
+        const errosInfo={ rio:"💧 Rio Poluído", queimada:"🔥 Queimada", erosao:"⛰️ Erosão", agua:"💦 Desperdício" };
+        
+        // Função para encontrar um erro ambiental
+        function encontrarErroGame(el,tipo){ if(errosEncontradosCaca.includes(tipo)) return; errosEncontradosCaca.push(tipo); cacaScore++; document.getElementById('cacaPontos').innerText=cacaScore; el.classList.add('erro-encontrado'); document.getElementById('erroInfoBox').innerHTML=`<strong>🔍 ${errosInfo[tipo]}</strong> encontrado! (${cacaScore}/4)`; if(cacaScore===4 && !cacaCompleto){ cacaCompleto=true; verificarTodas(); document.getElementById('erroInfoBox').innerHTML="🎉 PARABÉNS! Todos os erros encontrados!"; } }
+        
+        // Reinicia o jogo da caça ao erro
+        function resetCaca(){ errosEncontradosCaca=[]; cacaScore=0; cacaCompleto=false; document.getElementById('cacaPontos').innerText='0'; document.querySelectorAll('.erro').forEach(e=>{ e.classList.remove('erro-encontrado'); e.style.background='rgba(255,0,0,0.5)'; }); document.getElementById('erroInfoBox').innerHTML="🕵️ Clique nas áreas vermelhas!"; }
+
+        // ========== QUIZ VERDADEIRO OU FALSO ==========
+        // Array com as 35 perguntas e respostas do quiz
+        const perguntasVF = ["A agricultura sustentável busca produzir sem comprometer recursos futuros.","O desmatamento é a única forma de aumentar produção.","Agricultura de precisão usa GPS e drones.","Uso consciente da água é importante.","Mudanças climáticas não afetam produção agrícola.","Recuperar pastagens evita abrir novas áreas.","Preservar matas ciliares protege rios.","Erosão do solo prejudica produtividade.","Brasil possui biomas a serem preservados.","Desperdício de água contribui para sustentabilidade.","Drones monitoram lavouras.","Plantio direto conserva solo.","Biodiversidade é irrelevante para agricultura.","Tecnologia reduz desperdícios.","ILPF é prática sustentável.","Produzir mais sempre exige mais terra.","Árvores capturam carbono.","Queimadas ilegais causam danos.","Educação ambiental é importante.","Solo é essencial para agricultura.","Agricultura sustentável equilibra produção e ambiente.","Bioinsumos reduzem químicos.","APPs não têm importância ambiental.","Poluição dos rios afeta produção.","Agronegócio sustentável gera benefícios econômicos e ambientais.","Sensores monitoram umidade do solo.","Preservação impede totalmente agricultura.","Reciclagem de resíduos contribui.","Florestas regulam clima.","Sustentabilidade é só dos agricultores.","Tecnologia aumenta produtividade sem expandir área.","Recuperar áreas degradadas reduz desmatamento.","Mudanças climáticas aumentam secas e enchentes.","Conservação do solo ajuda segurança alimentar.","Produção e preservação são incompatíveis."];
+        const respostasVF = [true,false,true,true,false,true,true,true,true,false,true,true,false,true,true,false,true,true,true,true,true,true,false,true,true,true,false,true,true,false,true,true,true,true,false];
+        let quizIdx=0, quizPontos=0, quizFinalizadoVF=false;
+        
+        // Carrega a pergunta atual do quiz
+        function carregarQuiz(){ if(quizFinalizadoVF) return; document.getElementById('vfPergunta').innerHTML=`${quizIdx+1}. ${perguntasVF[quizIdx]}`; document.getElementById('vfBar').style.width=`${((quizIdx+1)/35)*100}%`; }
+        
+        // Processa a resposta do usuário no quiz
+        function responderQuiz(resp){ if(quizFinalizadoVF) return; let correto=(resp===respostasVF[quizIdx]); if(correto) quizPontos++; document.getElementById('vfPontos').innerText=quizPontos; let msgDiv=document.getElementById('vfMsg'); msgDiv.innerHTML=correto?"✅ Correto!":`❌ Errado! Resposta: ${respostasVF[quizIdx]?"Verdadeiro":"Falso"}`; msgDiv.style.background=correto?"#4caf50":"#f44336"; setTimeout(()=>{ if(quizIdx<34){ quizIdx++; carregarQuiz(); } else{ quizFinalizadoVF=true; if(!quizCompleto){ quizCompleto=true; verificarTodas(); } msgDiv.innerHTML=`🎉 QUIZ FINALIZADO! Pontos: ${quizPontos}/35. Parabéns!`; msgDiv.style.background="#2e7d32"; } },1200); }
+        
+        // Reinicia o quiz
+        function resetQuiz(){ quizIdx=0; quizPontos=0; quizFinalizadoVF=false; quizCompleto=false; document.getElementById('vfPontos').innerText='0'; document.getElementById('vfBar').style.width='0%'; carregarQuiz(); document.getElementById('vfMsg').innerHTML=""; }
+
+        // ========== TOUR VIRTUAL ==========
+        // Array para armazenar áreas já visitadas e pontuação
+        let areasVisit=[], tourScore=0;
+        const areasDesc={ plantio:"🌾 Área de Plantio - Técnicas sustentáveis.", floresta:"🌳 Reserva Florestal - Preserva biodiversidade.", irrigacao:"💧 Irrigação eficiente - Economiza 40% de água.", drones:"🛸 Drones - Monitoramento preciso.", pastagens:"🌱 Pastagens - Manejo rotacionado.", compostagem:"♻️ Compostagem - Adubo natural." };
+        
+        // Visita uma área do tour
+        function visitarTour(area){ if(!areasVisit.includes(area)){ areasVisit.push(area); tourScore++; document.getElementById('tourPontos').innerText=tourScore; document.getElementById('tourInfo').innerHTML=`📍 ${areasDesc[area]}<br>✅ Área visitada!`; document.getElementById('guiaFala').innerHTML=`Ótimo! ${area==='plantio'?'🌾 O plantio sustentável é a base!':area==='floresta'?'🌳 Preservar é cuidar do futuro!':'💚 Sustentabilidade em ação!'}`; if(tourScore===6 && !tourCompleto){ tourCompleto=true; verificarTodas(); document.getElementById('tourInfo').innerHTML+="<br><br>🏆 Tour completo!"; document.getElementById('guiaFala').innerHTML="🏆 Fantástico! Você conheceu todas as áreas!"; } } else{ document.getElementById('tourInfo').innerHTML=`${areasDesc[area]}<br><br>⚠️ Você já visitou.`; } }
+        
+        // Reinicia o tour virtual
+        function resetTour(){ areasVisit=[]; tourScore=0; tourCompleto=false; document.getElementById('tourPontos').innerText='0'; document.getElementById('tourInfo').innerHTML="🌿 Clique para começar!"; document.getElementById('guiaFala').innerHTML="Bem-vindo ao Tour Virtual! Clique em qualquer área!"; }
+
+        // ========== SIMULADOR ==========
+        // Calcula e exibe os resultados do simulador em tempo real
+        function simular(){ let a=document.getElementById('arvoresSlider').value,ag=document.getElementById('aguaSlider').value,f=document.getElementById('fertSlider').value,t=document.getElementById('tecSlider').value; document.getElementById('arvVal').innerText=a; document.getElementById('aguaVal').innerText=ag; document.getElementById('fertVal').innerText=f; document.getElementById('tecVal').innerText=t; let prod=(a*0.1+(1000-ag)*0.05+t*2).toFixed(0); let emi=(f*0.5+(1000-a)*0.1).toFixed(0); let sus=((a/10)+t-(f/5)).toFixed(0); document.getElementById('simResultado').innerHTML=`📈 Produção: ${prod} t<br>🌫️ CO₂: ${emi} kg<br>🌱 Sustentabilidade: ${sus}`; }
+        
+        // Calcula a pegada ecológica com base nos parâmetros fornecidos
+        function calcPegada(){ let h=parseInt(document.getElementById('hectares').value)||0, p=0; if(h>200)p+=10; else if(h>100)p+=20; else p+=30; if(document.getElementById('irrigacao').value==='sim')p-=10; if(document.getElementById('areaPres').value==='sim')p+=25; if(document.getElementById('reflor').value==='sim')p+=20; let r=p>=60?'🌱 Baixo Impacto':p>=35?'🌳 Sustentável':'🚜 Em Transição'; document.getElementById('calcRes').innerHTML=`<strong>${r}</strong><br>Pontuação: ${p}/75`; document.getElementById('calcRes').style.background='#4caf50'; document.getElementById('calcRes').style.color='white'; }
+
+        // ========== INFOGRÁFICOS ANIMADOS ==========
+        // Anima os números dos infográficos contando progressivamente
+        setTimeout(()=>{ let n1=0,n2=0,n3=0; let i=setInterval(()=>{ if(n1<65.6){n1+=1;document.getElementById('inf1').innerText=n1.toFixed(1)+'%';} if(n2<31.3){n2+=0.5;document.getElementById('inf2').innerText=n2.toFixed(1)+'%';} if(n3<28){n3+=0.5;document.getElementById('inf3').innerText=Math.floor(n3);} if(n1>=65.6&&n2>=31.3&&n3>=28)clearInterval(i); },50); },500);
+
+        // ========== EVENTOS E INICIALIZAÇÃO ==========
+        // Configuração dos eventos dos botões e inicialização dos jogos
+        document.getElementById('btnV').onclick=()=>responderQuiz(true);
+        document.getElementById('btnF').onclick=()=>responderQuiz(false);
+        document.getElementById('resetQuizBtn').onclick=resetQuiz;
+        document.getElementById('arvoresSlider').oninput=simular;
+        document.getElementById('aguaSlider').oninput=simular;
+        document.getElementById('fertSlider').oninput=simular;
+        document.getElementById('tecSlider').oninput=simular;
+        document.getElementById('erroRio').onclick=()=>encontrarErroGame(document.getElementById('erroRio'),'rio');
+        document.getElementById('erroQueimada').onclick=()=>encontrarErroGame(document.getElementById('erroQueimada'),'queimada');
+        document.getElementById('erroErosao').onclick=()=>encontrarErroGame(document.getElementById('erroErosao'),'erosao');
+        document.getElementById('erroAgua').onclick=()=>encontrarErroGame(document.getElementById('erroAgua'),'agua');
+
+        // Inicialização de todos os jogos e funcionalidades
+        initDrag();                    // Inicia o drag and drop
+        carregarQuiz();               // Carrega o quiz verdadeiro/falso
+        atualizarProdUI();            // Atualiza a interface do produtor sustentável
+        simular();                    // Calcula os valores iniciais do simulador
+        atualizarUI_Nivel();          // Atualiza a interface de nível e conquistas
+        carregarPerguntaCaminho();    // Carrega a primeira pergunta do jogo "Escolha seu Caminho"
+
+    </script>
+
+    <!-- ===== BIBLIOTECA VLIBRAS (carregada após o script principal) ===== -->
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script> new window.VLibras.Widget('https://vlibras.gov.br/app'); </script>
+    <script src="/JS/main.js"></script>
+
+</body>
+</html>
