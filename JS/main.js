@@ -688,3 +688,500 @@ if (localStorage.getItem('modoEscuro') === 'true') {
 
 // Adicionar botão no menu de acessibilidade
 document.getElementById('btnModoEscuro')?.addEventListener('click', toggleModoEscuro);
+
+// ============================================================================
+// 13. PASSATEMPOS
+// ============================================================================
+// Parte lógica dos passatempos, incluindo controle de música e jogo de decisões
+
+// ========== CONTROLE DE VISIBILIDADE DOS CONTROLES DE MÚSICA ==========
+        // Referências aos elementos do DOM para controle de visibilidade
+        const musicControlsDiv = document.getElementById('musicControls');
+        const conquistasDetalheDiv = document.getElementById('conquistasDetalhe');
+
+        // Função para esconder/mostrar os controles de música
+        function toggleMusicControlsVisibility(shouldHide) {
+            if (shouldHide) {
+                musicControlsDiv.classList.add('hidden');      // Adiciona classe para esconder
+            } else {
+                musicControlsDiv.classList.remove('hidden');   // Remove classe para mostrar
+            }
+        }
+
+        // Abre o painel de conquistas e esconde os controles de música
+        function abrirPainelConquistas() {
+            conquistasDetalheDiv.classList.add('open');        // Adiciona classe para abrir o painel
+            toggleMusicControlsVisibility(true);               // Esconde controles de música
+        }
+
+        // Fecha o painel de conquistas e mostra os controles de música
+        function fecharPainelConquistas() {
+            conquistasDetalheDiv.classList.remove('open');     // Remove classe para fechar o painel
+            toggleMusicControlsVisibility(false);              // Mostra controles de música
+        }
+
+        // Eventos para abrir/fechar o painel de conquistas
+        document.getElementById("nivelMiniCard").addEventListener("click", abrirPainelConquistas);
+        document.getElementById('fecharConquistasBtn').addEventListener('click', fecharPainelConquistas);
+
+        // ========== MÚSICA DE FUNDO ==========
+        // Cria o objeto de áudio com caminho para o arquivo de música
+        const audio = new Audio('/ASSETS/passatempo.mp3');
+        audio.loop = true;      // Reproduz em loop contínuo
+        audio.volume = 0.5;     // Volume inicial em 50%
+
+        let isPlaying = false;   // Estado da reprodução (tocando ou pausado)
+
+        // Alterna entre play e pause
+        function togglePlayPause() {
+            if (isPlaying) {
+                audio.pause();                                 // Pausa a música
+                document.getElementById('playPauseBtn').innerHTML = '▶️';  // Muda ícone para play
+            } else {
+                audio.play().catch(e => console.log('Autoplay blocked - user interaction needed')); // Inicia a reprodução
+                document.getElementById('playPauseBtn').innerHTML = '⏸️';  // Muda ícone para pause
+            }
+            isPlaying = !isPlaying;  // Inverte o estado
+        }
+
+        // Ajusta o volume da música
+        function setVolume(value) {
+            audio.volume = value / 100;  // Converte valor 0-100 para 0-1
+        }
+
+        // Tenta iniciar a música automaticamente ao primeiro clique do usuário
+        document.body.addEventListener('click', function initAudio() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    document.getElementById('playPauseBtn').innerHTML = '⏸️';
+                }).catch(() => {});
+            }
+            document.body.removeEventListener('click', initAudio);  // Remove após executar uma vez
+        });
+
+        // Eventos dos controles de música
+        document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+        document.getElementById('volumeSlider').addEventListener('input', (e) => setVolume(e.target.value));
+
+        // ========== ESCOLHA SEU CAMINHO - JOGO DE DECISÕES ==========
+        // Array com as 6 perguntas, opções, respostas corretas e feedbacks
+        const perguntasCaminho = [
+            { texto: "🌾 Sua lavoura está sofrendo com a seca. O que fazer?", opcoes: ["A) Instalar irrigação eficiente", "B) Ignorar o problema"], correta: 0, feedback: ["✅ Excelente! A irrigação eficiente economiza água e mantém a produção.", "❌ Infelizmente, ignorar a seca leva à perda total da safra."], pontos: [1, 0] },
+            { texto: "🐛 Você identificou pragas na plantação. Qual a melhor abordagem sustentável?", opcoes: ["A) Usar agrotóxicos em excesso", "B) Implementar controle biológico com inimigos naturais"], correta: 1, feedback: ["❌ Agrotóxicos em excesso contaminam o solo e a água.", "✅ Correto! O controle biológico é sustentável e não agride o meio ambiente."], pontos: [0, 1] },
+            { texto: "🌳 Uma área de mata nativa em sua propriedade pode ser desmatada para plantio. O que fazer?", opcoes: ["A) Desmatar para aumentar a produção", "B) Preservar a mata e buscar outras áreas degradadas para recuperar"], correta: 1, feedback: ["❌ O desmatamento causa perda de biodiversidade e erosão do solo.", "✅ Perfeito! Preservar a mata e recuperar áreas degradadas é o caminho sustentável."], pontos: [0, 1] },
+            { texto: "💧 O solo da sua fazenda está mostrando sinais de erosão. Qual atitude tomar?", opcoes: ["A) Ignorar e continuar plantando", "B) Adotar plantio direto e curvas de nível"], correta: 1, feedback: ["❌ Ignorar a erosão piora a perda de solo e nutrientes.", "✅ Ótimo! O plantio direto e as curvas de nível previnem a erosão."], pontos: [0, 1] },
+            { texto: "♻️ Você tem resíduos orgânicos na propriedade. Qual destino mais sustentável?", opcoes: ["A) Queimar ou descartar em aterro", "B) Transformar em adubo através da compostagem"], correta: 1, feedback: ["❌ Queimar libera CO₂ e desperdiça nutrientes.", "✅ Excelente! A compostagem recicla nutrientes e enriquece o solo."], pontos: [0, 1] },
+            { texto: "🌱 Como aumentar a produtividade sem expandir a área cultivada?", opcoes: ["A) Desmatar novas áreas", "B) Investir em tecnologia e integração lavoura-pecuária-floresta (ILPF)"], correta: 1, feedback: ["❌ Desmatar é insustentável e prejudicial ao meio ambiente.", "✅ Perfeito! A ILPF aumenta a produtividade de forma sustentável."], pontos: [0, 1] }
+        ];
+
+        // Variáveis de controle do jogo
+        let perguntaAtualCaminho = 0, pontuacaoCaminho = 0, respostasDadasCaminho = new Array(6).fill(false), jogoFinalizadoCaminho = false;
+
+        // Carrega a pergunta atual do jogo
+        function carregarPerguntaCaminho() {
+            if (jogoFinalizadoCaminho || perguntaAtualCaminho >= perguntasCaminho.length) { finalizarJogoCaminho(); return; }
+            const pergunta = perguntasCaminho[perguntaAtualCaminho];
+            document.getElementById('perguntaTexto').innerHTML = pergunta.texto;
+            const opcoesContainer = document.getElementById('opcoesContainer');
+            opcoesContainer.innerHTML = '';
+            pergunta.opcoes.forEach((opcao, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-caminho';
+                btn.innerHTML = opcao;
+                btn.onclick = () => responderCaminho(idx);
+                opcoesContainer.appendChild(btn);
+            });
+            document.getElementById('resultadoCaminho').innerHTML = '';
+            document.getElementById('btnProximaPergunta').style.display = 'none';
+        }
+
+        // Processa a resposta do usuário
+        function responderCaminho(resposta) {
+            if (jogoFinalizadoCaminho || respostasDadasCaminho[perguntaAtualCaminho]) return;
+            const pergunta = perguntasCaminho[perguntaAtualCaminho];
+            const isCorrect = (resposta === pergunta.correta);
+            if (isCorrect) pontuacaoCaminho += pergunta.pontos[resposta];
+            respostasDadasCaminho[perguntaAtualCaminho] = true;
+            document.getElementById('caminhoPontuacao').innerText = pontuacaoCaminho;
+            const resultadoDiv = document.getElementById('resultadoCaminho');
+            resultadoDiv.innerHTML = pergunta.feedback[resposta];
+            resultadoDiv.style.background = isCorrect ? '#4caf50' : '#f44336';
+            resultadoDiv.style.color = 'white';
+            document.getElementById('btnProximaPergunta').style.display = 'block';
+        }
+
+        // Avança para a próxima pergunta ou finaliza
+        function proximaPergunta() {
+            if (jogoFinalizadoCaminho) return;
+            perguntaAtualCaminho++;
+            if (perguntaAtualCaminho < perguntasCaminho.length) carregarPerguntaCaminho();
+            else finalizarJogoCaminho();
+        }
+
+        // Finaliza o jogo e exibe pontuação final
+        function finalizarJogoCaminho() {
+            jogoFinalizadoCaminho = true;
+            const porcentagem = (pontuacaoCaminho / 6) * 100;
+            let mensagem = pontuacaoCaminho === 6 ? "🏆 PARABÉNS! Você é um MESTRE em sustentabilidade agrícola!" : pontuacaoCaminho >= 4 ? "🌱 Muito bem! Continue assim!" : pontuacaoCaminho >= 2 ? "📚 Bom trabalho! Estude mais!" : "🌍 Continue aprendendo!";
+            document.getElementById('resultadoCaminho').innerHTML = `<strong>🎉 JOGO FINALIZADO! 🎉</strong><br><br>📊 Pontuação: ${pontuacaoCaminho} de 6 (${Math.round(porcentagem)}%)<br>${mensagem}<br><br><button class="btn-reiniciar-caminho" onclick="reiniciarCaminho()" style="margin-top:10px;">🔄 Jogar Novamente</button>`;
+            document.getElementById('resultadoCaminho').style.background = '#2e7d32';
+            document.getElementById('opcoesContainer').innerHTML = '';
+            document.getElementById('btnProximaPergunta').style.display = 'none';
+            if (!quizCompleto && pontuacaoCaminho === 6) { quizCompleto = true; verificarTodas(); }
+        }
+
+        // Reinicia o jogo
+        function reiniciarCaminho() { perguntaAtualCaminho = 0; pontuacaoCaminho = 0; respostasDadasCaminho = new Array(6).fill(false); jogoFinalizadoCaminho = false; document.getElementById('caminhoPontuacao').innerText = '0'; carregarPerguntaCaminho(); }
+
+        // ========== SISTEMA DE CONQUISTAS E NÍVEL ==========
+        // Objeto que controla quais conquistas já foram obtidas
+        let conquistasFeitas = { c1: false, c2: false, c3: false, c4: false };
+        let nivelAtual = 0;  // 0 = Aprendiz, 1 = Defensor, 2 = Especialista, 3 = Herói do Agro
+        const niveisNomes = ["🌾 Aprendiz", "🛡️ Defensor da Natureza", "🎓 Especialista", "🌟 Herói do Agro"];
+
+        // Atualiza a interface do usuário com o nível atual
+        function atualizarUI_Nivel() {
+            let progresso = (nivelAtual / 3) * 100;  // Barra de progresso (0 a 100%)
+            document.getElementById("nivelMiniNome").innerHTML = niveisNomes[nivelAtual];
+            document.getElementById("nivelMiniBarra").style.width = progresso + "%";
+            let iconeMap = {0:"🌾",1:"🛡️",2:"🎓",3:"🌟"};
+            document.getElementById("nivelMiniIcone").innerHTML = iconeMap[nivelAtual];
+            document.getElementById("detalheNivelNome").innerHTML = niveisNomes[nivelAtual];
+            document.getElementById("detalheNivelBarra").style.width = progresso + "%";
+            let proxTexto = nivelAtual < 3 ? `Próximo: ${niveisNomes[nivelAtual+1]}` : "🏆 MÁXIMO! Lenda do agro!";
+            document.getElementById("detalheNivelProx").innerHTML = proxTexto;
+            document.getElementById("conq1").classList.toggle("obtida", conquistasFeitas.c1);
+            document.getElementById("conq2").classList.toggle("obtida", conquistasFeitas.c2);
+            document.getElementById("conq3").classList.toggle("obtida", conquistasFeitas.c3);
+            document.getElementById("conq4").classList.toggle("obtida", conquistasFeitas.c4);
+        }
+
+        // Desbloqueia uma conquista e atualiza o nível
+        function desbloquearConquista(id) { if(conquistasFeitas[id]) return; conquistasFeitas[id] = true; let novas = Object.values(conquistasFeitas).filter(Boolean).length; let novoNivel = Math.min(3, Math.floor(novas)); if(novoNivel > nivelAtual) { nivelAtual = novoNivel; atualizarUI_Nivel(); if(nivelAtual === 3) document.getElementById("popupMax").classList.add("show"); } else { atualizarUI_Nivel(); } }
+        function fecharPopup() { document.getElementById("popupMax").classList.remove("show"); }
+
+        // Flags para controlar quais jogos foram completados
+        let dragCompleto = false, cacaCompleto = false, quizCompleto = false, produtorCompleto = false, tourCompleto = false;
+        function verificarTodas() { if(dragCompleto && !conquistasFeitas.c1) desbloquearConquista("c1"); if(cacaCompleto && !conquistasFeitas.c2) desbloquearConquista("c2"); if(quizCompleto && !conquistasFeitas.c3) desbloquearConquista("c3"); if(produtorCompleto && tourCompleto && !conquistasFeitas.c4) desbloquearConquista("c4"); }
+
+        // ========== PRODUTOR SUSTENTÁVEL ==========
+        // Estado do jogo do produtor sustentável
+        let prodEstado = { lucro:0, amb:0, sust:0, ano:1 };
+        
+        // Atualiza a interface do jogo Produtor Sustentável
+        function atualizarProdUI() {
+            document.getElementById('lucroValor').innerText = prodEstado.lucro;
+            document.getElementById('ambientalValor').innerText = prodEstado.amb;
+            document.getElementById('sustentavelValor').innerText = prodEstado.sust;
+            document.getElementById('anoAtual').innerText = prodEstado.ano;
+            document.getElementById('progressoBar').style.width = ((prodEstado.ano-1)/10*100)+'%';
+            let estacoes = ["🌱 Primavera","☀️ Verão","🍂 Outono","❄️ Inverno"];
+            let idx = (prodEstado.ano-1)%4;
+            document.getElementById('estacaoTexto').innerHTML = estacoes[idx];
+            document.getElementById('fazendaEmoji').innerHTML = ["🌾🚜🌳","🌻🐄🌲","🍎🌽🌿","🌲🦌❄️"][idx];
+        }
+        
+        // Executa uma ação do produtor (boa ou ruim)
+        function acaoProdutor(tipo) {
+            if(prodEstado.ano > 10) { document.getElementById('resultadoProdutor').innerHTML = "🎮 Jogo finalizado! Reinicie."; return; }
+            let msg="";
+            if(tipo==='recuperar'){ prodEstado.lucro+=15; prodEstado.amb+=20; prodEstado.sust+=15; msg="🌱 Pastagens recuperadas!"; }
+            else if(tipo==='arvores'){ prodEstado.lucro+=10; prodEstado.amb+=25; prodEstado.sust+=20; msg="🌳 Árvores plantadas!"; }
+            else if(tipo==='drones'){ prodEstado.lucro+=20; prodEstado.amb+=10; prodEstado.sust+=15; msg="🛸 Drones em ação!"; }
+            else if(tipo==='agua'){ prodEstado.lucro+=10; prodEstado.amb+=15; prodEstado.sust+=20; msg="💧 Irrigação eficiente!"; }
+            else if(tipo==='compostagem'){ prodEstado.lucro+=12; prodEstado.amb+=18; prodEstado.sust+=18; msg="♻️ Compostagem!"; }
+            else if(tipo==='desmatar'){ prodEstado.lucro+=25; prodEstado.amb-=30; prodEstado.sust-=25; msg="🔥 Desmatamento!"; }
+            else if(tipo==='desperdicar'){ prodEstado.lucro-=10; prodEstado.amb-=20; prodEstado.sust-=15; msg="💦 Água desperdiçada!"; }
+            else if(tipo==='inadequado'){ prodEstado.lucro-=5; prodEstado.amb-=25; prodEstado.sust-=20; msg="⚠️ Uso inadequado!"; }
+            prodEstado.ano++; atualizarProdUI();
+            document.getElementById('resultadoProdutor').innerHTML = `<strong>📊 ${msg}</strong><br>💰 Lucro:${prodEstado.lucro} 🌿Amb:${prodEstado.amb} 🌱Sust:${prodEstado.sust}<br>📅 Ano ${prodEstado.ano-1}`;
+            if(prodEstado.ano > 10) { if(!produtorCompleto){ produtorCompleto=true; verificarTodas(); } }
+        }
+        
+        // Reinicia o jogo do produtor sustentável
+        function resetarJogoProdutor() { prodEstado = { lucro:0, amb:0, sust:0, ano:1 }; produtorCompleto=false; atualizarProdUI(); document.getElementById('resultadoProdutor').innerHTML = "🌾 Jogo reiniciado!"; }
+
+        // ========== DRAG AND DROP (COM SUPORTE PARA DISPOSITIVOS MÓVEIS) ==========
+        // Variáveis do jogo de arrastar e soltar
+        let dragScore = 0, dragItens = [];
+        let itemSendoArrastado = null;  // Para controle no mobile
+        let offsetX = 0, offsetY = 0;   // Para posicionamento no mobile
+
+        // Inicializa os eventos de drag and drop (desktop e mobile)
+        function initDrag() {
+            // Configuração para desktop (mouse)
+            document.querySelectorAll('.item-drag').forEach(el => {
+                el.setAttribute('draggable', 'true');
+                
+                // Eventos para desktop
+                el.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({
+                        nome: el.dataset.nome,
+                        cat: el.dataset.cat,
+                        html: el.outerHTML
+                    }));
+                    el.style.opacity = '0.5';
+                });
+                
+                el.addEventListener('dragend', e => {
+                    el.style.opacity = '1';
+                });
+                
+                // ===== EVENTOS PARA DISPOSITIVOS MÓVEIS (TOQUE) =====
+                el.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    itemSendoArrastado = this;
+                    const rect = this.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    offsetX = touch.clientX - rect.left;
+                    offsetY = touch.clientY - rect.top;
+                    this.style.position = 'fixed';
+                    this.style.zIndex = '9999';
+                    this.style.opacity = '0.8';
+                    this.style.width = rect.width + 'px';
+                    this.style.left = (touch.clientX - offsetX) + 'px';
+                    this.style.top = (touch.clientY - offsetY) + 'px';
+                });
+                
+                el.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                    if (!itemSendoArrastado) return;
+                    const touch = e.touches[0];
+                    itemSendoArrastado.style.left = (touch.clientX - offsetX) + 'px';
+                    itemSendoArrastado.style.top = (touch.clientY - offsetY) + 'px';
+                    
+                    // Verifica sobre qual drop zone está
+                    document.querySelectorAll('.drop-zone').forEach(zone => {
+                        const rect = zone.getBoundingClientRect();
+                        if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                            touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                            zone.classList.add('drag-over');
+                        } else {
+                            zone.classList.remove('drag-over');
+                        }
+                    });
+                });
+                
+                el.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    if (!itemSendoArrastado) return;
+                    
+                    const touch = e.changedTouches[0];
+                    let dropZoneEncontrada = null;
+                    
+                    // Verifica em qual drop zone o item foi solto
+                    document.querySelectorAll('.drop-zone').forEach(zone => {
+                        const rect = zone.getBoundingClientRect();
+                        if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+                            touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+                            dropZoneEncontrada = zone;
+                        }
+                        zone.classList.remove('drag-over');
+                    });
+                    
+                    // Se encontrou uma drop zone, processa o drop
+                    if (dropZoneEncontrada) {
+                        const data = {
+                            nome: itemSendoArrastado.dataset.nome,
+                            cat: itemSendoArrastado.dataset.cat,
+                            html: itemSendoArrastado.outerHTML
+                        };
+                        
+                        if (data.cat === dropZoneEncontrada.dataset.zona && !dragItens.includes(data.nome)) {
+                            dragItens.push(data.nome);
+                            dragScore++;
+                            document.getElementById('dragPontos').innerText = dragScore;
+                            
+                            const dropDiv = document.createElement('div');
+                            dropDiv.className = 'drop-item';
+                            dropDiv.innerHTML = `${data.html} <button onclick="removerItemDrag(this,'${data.nome}','${data.cat}')">✖</button>`;
+                            dropZoneEncontrada.appendChild(dropDiv);
+                            itemSendoArrastado.remove();
+                            
+                            const msgDiv = document.getElementById('dragMsg');
+                            msgDiv.innerHTML = '✅ Correto! +1';
+                            msgDiv.className = 'feedback-message feedback-correct';
+                            msgDiv.style.display = 'block';
+                            setTimeout(() => msgDiv.style.display = 'none', 1500);
+                            
+                            if (dragScore === 6 && !dragCompleto) {
+                                dragCompleto = true;
+                                verificarTodas();
+                            }
+                        } else {
+                            const msgDiv = document.getElementById('dragMsg');
+                            msgDiv.innerHTML = `❌ "${data.nome}" não pertence aqui!`;
+                            msgDiv.className = 'feedback-message feedback-wrong';
+                            msgDiv.style.display = 'block';
+                            setTimeout(() => msgDiv.style.display = 'none', 1500);
+                        }
+                    }
+                    
+                    // Restaura o estilo do item
+                    itemSendoArrastado.style.position = '';
+                    itemSendoArrastado.style.zIndex = '';
+                    itemSendoArrastado.style.opacity = '1';
+                    itemSendoArrastado.style.left = '';
+                    itemSendoArrastado.style.top = '';
+                    itemSendoArrastado.style.width = '';
+                    itemSendoArrastado = null;
+                });
+            });
+            
+            // Configuração das zonas de drop
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                // Eventos para desktop
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+                
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+                
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                    
+                    if (data.cat === zone.dataset.zona && !dragItens.includes(data.nome)) {
+                        dragItens.push(data.nome);
+                        dragScore++;
+                        document.getElementById('dragPontos').innerText = dragScore;
+                        const dropDiv = document.createElement('div');
+                        dropDiv.className = 'drop-item';
+                        dropDiv.innerHTML = `${data.html} <button onclick="removerItemDrag(this,'${data.nome}','${data.cat}')">✖</button>`;
+                        zone.appendChild(dropDiv);
+                        document.querySelector(`.item-drag[data-nome="${data.nome}"]`)?.remove();
+                        
+                        const msgDiv = document.getElementById('dragMsg');
+                        msgDiv.innerHTML = '✅ Correto! +1';
+                        msgDiv.className = 'feedback-message feedback-correct';
+                        msgDiv.style.display = 'block';
+                        setTimeout(() => msgDiv.style.display = 'none', 1500);
+                        
+                        if (dragScore === 6 && !dragCompleto) {
+                            dragCompleto = true;
+                            verificarTodas();
+                        }
+                    } else {
+                        const msgDiv = document.getElementById('dragMsg');
+                        msgDiv.innerHTML = `❌ "${data.nome}" não pertence aqui!`;
+                        msgDiv.className = 'feedback-message feedback-wrong';
+                        msgDiv.style.display = 'block';
+                        setTimeout(() => msgDiv.style.display = 'none', 1500);
+                    }
+                });
+            });
+        }
+        
+        // Remove um item da zona de drop e devolve para a área de origem
+        function removerItemDrag(btn, nome, cat) {
+            let parent = btn.parentElement;
+            parent.remove();
+            let idx = dragItens.indexOf(nome);
+            if (idx !== -1) dragItens.splice(idx, 1);
+            dragScore--;
+            document.getElementById('dragPontos').innerText = dragScore;
+            let container = document.getElementById('itensContainer');
+            let novo = document.createElement('div');
+            novo.className = 'item-drag';
+            novo.setAttribute('data-cat', cat);
+            novo.setAttribute('data-nome', nome);
+            let emoji = nome.includes('Agricultura') ? '🛸' : nome.includes('Reflore') ? '🌳' : nome.includes('Irrigação') ? '💧' : nome.includes('Queimada') ? '🔥' : nome.includes('Desmatamento') ? '🪓' : '💦';
+            novo.innerHTML = `${emoji} ${nome}`;
+            novo.setAttribute('draggable', 'true');
+            container.appendChild(novo);
+            initDrag();
+        }
+        
+        // Reinicia o jogo de drag and drop
+        function resetDrag() {
+            dragScore = 0;
+            dragItens = [];
+            dragCompleto = false;
+            document.getElementById('dragPontos').innerText = '0';
+            document.getElementById('dropSust').innerHTML = '';
+            document.getElementById('dropNao').innerHTML = '';
+            document.getElementById('itensContainer').innerHTML = `
+                <div class="item-drag" data-cat="sustentavel" data-nome="Agricultura de precisão">🛸 Agricultura de precisão</div>
+                <div class="item-drag" data-cat="sustentavel" data-nome="Reflorestamento">🌳 Reflorestamento</div>
+                <div class="item-drag" data-cat="sustentavel" data-nome="Irrigação eficiente">💧 Irrigação eficiente</div>
+                <div class="item-drag" data-cat="nao" data-nome="Queimadas ilegais">🔥 Queimadas ilegais</div>
+                <div class="item-drag" data-cat="nao" data-nome="Desmatamento excessivo">🪓 Desmatamento excessivo</div>
+                <div class="item-drag" data-cat="nao" data-nome="Desperdício de água">💦 Desperdício de água</div>
+            `;
+            initDrag();
+        }
+
+        // ========== CAÇA AO ERRO ==========
+        // Array para armazenar erros já encontrados e pontuação
+        let errosEncontradosCaca=[], cacaScore=0;
+        const errosInfo={ rio:"💧 Rio Poluído", queimada:"🔥 Queimada", erosao:"⛰️ Erosão", agua:"💦 Desperdício" };
+        
+        // Função para encontrar um erro ambiental
+        function encontrarErroGame(el,tipo){ if(errosEncontradosCaca.includes(tipo)) return; errosEncontradosCaca.push(tipo); cacaScore++; document.getElementById('cacaPontos').innerText=cacaScore; el.classList.add('erro-encontrado'); document.getElementById('erroInfoBox').innerHTML=`<strong>🔍 ${errosInfo[tipo]}</strong> encontrado! (${cacaScore}/4)`; if(cacaScore===4 && !cacaCompleto){ cacaCompleto=true; verificarTodas(); document.getElementById('erroInfoBox').innerHTML="🎉 PARABÉNS! Todos os erros encontrados!"; } }
+        
+        // Reinicia o jogo da caça ao erro
+        function resetCaca(){ errosEncontradosCaca=[]; cacaScore=0; cacaCompleto=false; document.getElementById('cacaPontos').innerText='0'; document.querySelectorAll('.erro').forEach(e=>{ e.classList.remove('erro-encontrado'); e.style.background='rgba(255,0,0,0.5)'; }); document.getElementById('erroInfoBox').innerHTML="🕵️ Clique nas áreas vermelhas!"; }
+
+        // ========== QUIZ VERDADEIRO OU FALSO ==========
+        // Array com as 35 perguntas e respostas do quiz
+        const perguntasVF = ["A agricultura sustentável busca produzir sem comprometer recursos futuros.","O desmatamento é a única forma de aumentar produção.","Agricultura de precisão usa GPS e drones.","Uso consciente da água é importante.","Mudanças climáticas não afetam produção agrícola.","Recuperar pastagens evita abrir novas áreas.","Preservar matas ciliares protege rios.","Erosão do solo prejudica produtividade.","Brasil possui biomas a serem preservados.","Desperdício de água contribui para sustentabilidade.","Drones monitoram lavouras.","Plantio direto conserva solo.","Biodiversidade é irrelevante para agricultura.","Tecnologia reduz desperdícios.","ILPF é prática sustentável.","Produzir mais sempre exige mais terra.","Árvores capturam carbono.","Queimadas ilegais causam danos.","Educação ambiental é importante.","Solo é essencial para agricultura.","Agricultura sustentável equilibra produção e ambiente.","Bioinsumos reduzem químicos.","APPs não têm importância ambiental.","Poluição dos rios afeta produção.","Agronegócio sustentável gera benefícios econômicos e ambientais.","Sensores monitoram umidade do solo.","Preservação impede totalmente agricultura.","Reciclagem de resíduos contribui.","Florestas regulam clima.","Sustentabilidade é só dos agricultores.","Tecnologia aumenta produtividade sem expandir área.","Recuperar áreas degradadas reduz desmatamento.","Mudanças climáticas aumentam secas e enchentes.","Conservação do solo ajuda segurança alimentar.","Produção e preservação são incompatíveis."];
+        const respostasVF = [true,false,true,true,false,true,true,true,true,false,true,true,false,true,true,false,true,true,true,true,true,true,false,true,true,true,false,true,true,false,true,true,true,true,false];
+        let quizIdx=0, quizPontos=0, quizFinalizadoVF=false;
+        
+        // Carrega a pergunta atual do quiz
+        function carregarQuiz(){ if(quizFinalizadoVF) return; document.getElementById('vfPergunta').innerHTML=`${quizIdx+1}. ${perguntasVF[quizIdx]}`; document.getElementById('vfBar').style.width=`${((quizIdx+1)/35)*100}%`; }
+        
+        // Processa a resposta do usuário no quiz
+        function responderQuiz(resp){ if(quizFinalizadoVF) return; let correto=(resp===respostasVF[quizIdx]); if(correto) quizPontos++; document.getElementById('vfPontos').innerText=quizPontos; let msgDiv=document.getElementById('vfMsg'); msgDiv.innerHTML=correto?"✅ Correto!":`❌ Errado! Resposta: ${respostasVF[quizIdx]?"Verdadeiro":"Falso"}`; msgDiv.style.background=correto?"#4caf50":"#f44336"; setTimeout(()=>{ if(quizIdx<34){ quizIdx++; carregarQuiz(); } else{ quizFinalizadoVF=true; if(!quizCompleto){ quizCompleto=true; verificarTodas(); } msgDiv.innerHTML=`🎉 QUIZ FINALIZADO! Pontos: ${quizPontos}/35. Parabéns!`; msgDiv.style.background="#2e7d32"; } },1200); }
+        
+        // Reinicia o quiz
+        function resetQuiz(){ quizIdx=0; quizPontos=0; quizFinalizadoVF=false; quizCompleto=false; document.getElementById('vfPontos').innerText='0'; document.getElementById('vfBar').style.width='0%'; carregarQuiz(); document.getElementById('vfMsg').innerHTML=""; }
+
+        // ========== TOUR VIRTUAL ==========
+        // Array para armazenar áreas já visitadas e pontuação
+        let areasVisit=[], tourScore=0;
+        const areasDesc={ plantio:"🌾 Área de Plantio - Técnicas sustentáveis.", floresta:"🌳 Reserva Florestal - Preserva biodiversidade.", irrigacao:"💧 Irrigação eficiente - Economiza 40% de água.", drones:"🛸 Drones - Monitoramento preciso.", pastagens:"🌱 Pastagens - Manejo rotacionado.", compostagem:"♻️ Compostagem - Adubo natural." };
+        
+        // Visita uma área do tour
+        function visitarTour(area){ if(!areasVisit.includes(area)){ areasVisit.push(area); tourScore++; document.getElementById('tourPontos').innerText=tourScore; document.getElementById('tourInfo').innerHTML=`📍 ${areasDesc[area]}<br>✅ Área visitada!`; document.getElementById('guiaFala').innerHTML=`Ótimo! ${area==='plantio'?'🌾 O plantio sustentável é a base!':area==='floresta'?'🌳 Preservar é cuidar do futuro!':'💚 Sustentabilidade em ação!'}`; if(tourScore===6 && !tourCompleto){ tourCompleto=true; verificarTodas(); document.getElementById('tourInfo').innerHTML+="<br><br>🏆 Tour completo!"; document.getElementById('guiaFala').innerHTML="🏆 Fantástico! Você conheceu todas as áreas!"; } } else{ document.getElementById('tourInfo').innerHTML=`${areasDesc[area]}<br><br>⚠️ Você já visitou.`; } }
+        
+        // Reinicia o tour virtual
+        function resetTour(){ areasVisit=[]; tourScore=0; tourCompleto=false; document.getElementById('tourPontos').innerText='0'; document.getElementById('tourInfo').innerHTML="🌿 Clique para começar!"; document.getElementById('guiaFala').innerHTML="Bem-vindo ao Tour Virtual! Clique em qualquer área!"; }
+
+        // ========== SIMULADOR ==========
+        // Calcula e exibe os resultados do simulador em tempo real
+        function simular(){ let a=document.getElementById('arvoresSlider').value,ag=document.getElementById('aguaSlider').value,f=document.getElementById('fertSlider').value,t=document.getElementById('tecSlider').value; document.getElementById('arvVal').innerText=a; document.getElementById('aguaVal').innerText=ag; document.getElementById('fertVal').innerText=f; document.getElementById('tecVal').innerText=t; let prod=(a*0.1+(1000-ag)*0.05+t*2).toFixed(0); let emi=(f*0.5+(1000-a)*0.1).toFixed(0); let sus=((a/10)+t-(f/5)).toFixed(0); document.getElementById('simResultado').innerHTML=`📈 Produção: ${prod} t<br>🌫️ CO₂: ${emi} kg<br>🌱 Sustentabilidade: ${sus}`; }
+        
+        // Calcula a pegada ecológica com base nos parâmetros fornecidos
+        function calcPegada(){ let h=parseInt(document.getElementById('hectares').value)||0, p=0; if(h>200)p+=10; else if(h>100)p+=20; else p+=30; if(document.getElementById('irrigacao').value==='sim')p-=10; if(document.getElementById('areaPres').value==='sim')p+=25; if(document.getElementById('reflor').value==='sim')p+=20; let r=p>=60?'🌱 Baixo Impacto':p>=35?'🌳 Sustentável':'🚜 Em Transição'; document.getElementById('calcRes').innerHTML=`<strong>${r}</strong><br>Pontuação: ${p}/75`; document.getElementById('calcRes').style.background='#4caf50'; document.getElementById('calcRes').style.color='white'; }
+
+        // ========== INFOGRÁFICOS ANIMADOS ==========
+        // Anima os números dos infográficos contando progressivamente
+        setTimeout(()=>{ let n1=0,n2=0,n3=0; let i=setInterval(()=>{ if(n1<65.6){n1+=1;document.getElementById('inf1').innerText=n1.toFixed(1)+'%';} if(n2<31.3){n2+=0.5;document.getElementById('inf2').innerText=n2.toFixed(1)+'%';} if(n3<28){n3+=0.5;document.getElementById('inf3').innerText=Math.floor(n3);} if(n1>=65.6&&n2>=31.3&&n3>=28)clearInterval(i); },50); },500);
+
+        // ========== EVENTOS E INICIALIZAÇÃO ==========
+        // Configuração dos eventos dos botões e inicialização dos jogos
+        document.getElementById('btnV').onclick=()=>responderQuiz(true);
+        document.getElementById('btnF').onclick=()=>responderQuiz(false);
+        document.getElementById('resetQuizBtn').onclick=resetQuiz;
+        document.getElementById('arvoresSlider').oninput=simular;
+        document.getElementById('aguaSlider').oninput=simular;
+        document.getElementById('fertSlider').oninput=simular;
+        document.getElementById('tecSlider').oninput=simular;
+        document.getElementById('erroRio').onclick=()=>encontrarErroGame(document.getElementById('erroRio'),'rio');
+        document.getElementById('erroQueimada').onclick=()=>encontrarErroGame(document.getElementById('erroQueimada'),'queimada');
+        document.getElementById('erroErosao').onclick=()=>encontrarErroGame(document.getElementById('erroErosao'),'erosao');
+        document.getElementById('erroAgua').onclick=()=>encontrarErroGame(document.getElementById('erroAgua'),'agua');
+
+        // Inicialização de todos os jogos e funcionalidades
+        initDrag();                    // Inicia o drag and drop
+        carregarQuiz();               // Carrega o quiz verdadeiro/falso
+        atualizarProdUI();            // Atualiza a interface do produtor sustentável
+        simular();                    // Calcula os valores iniciais do simulador
+        atualizarUI_Nivel();          // Atualiza a interface de nível e conquistas
+        carregarPerguntaCaminho();    // Carrega a primeira pergunta do jogo "Escolha seu Caminho"
