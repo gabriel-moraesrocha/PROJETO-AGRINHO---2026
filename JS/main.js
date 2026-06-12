@@ -692,9 +692,9 @@ document.getElementById('btnModoEscuro')?.addEventListener('click', toggleModoEs
 // ============================================================================
 // 13. PASSATEMPOS
 // ============================================================================
-// Parte lógica dos passatempos, incluindo controle de música e jogo de decisões
+// passatempo: controle de música, painel de conquistas e jogo de decisões
 
-// ========== CONTROLE DE VISIBILIDADE DOS CONTROLES DE MÚSICA ==========
+ // ========== CONTROLE DE VISIBILIDADE DOS CONTROLES DE MÚSICA ==========
         // Referências aos elementos do DOM para controle de visibilidade
         const musicControlsDiv = document.getElementById('musicControls');
         const conquistasDetalheDiv = document.getElementById('conquistasDetalhe');
@@ -726,7 +726,7 @@ document.getElementById('btnModoEscuro')?.addEventListener('click', toggleModoEs
 
         // ========== MÚSICA DE FUNDO ==========
         // Cria o objeto de áudio com caminho para o arquivo de música
-        const audio = new Audio('/ASSETS/passatempo.mp3');
+        const audio = new Audio('../ASSETS/passatempo.mp3');
         audio.loop = true;      // Reproduz em loop contínuo
         audio.volume = 0.5;     // Volume inicial em 50%
 

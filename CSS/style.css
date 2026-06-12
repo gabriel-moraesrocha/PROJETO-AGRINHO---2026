@@ -591,6 +591,31 @@ body.alto-contraste .chartjs-render-monitor {
     filter: brightness(1) contrast(1.5);
 }
 
+/* Textos dos gráficos no alto contraste */
+body.alto-contraste .chartjs-text,
+body.alto-contraste .chartjs-label,
+body.alto-contraste .chartjs-legend,
+body.alto-contraste .chartjs-tooltip,
+body.alto-contraste canvas + div {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .chartjs-render-monitor text,
+body.alto-contraste canvas ~ div text {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+
+body.alto-contraste .grafico-wrapper p,
+body.alto-contraste .grafico-wrapper-pequeno p,
+body.alto-contraste .bloco-recurso p {
+    color: #ffffff !important;
+}
+
+body.alto-contraste .bloco-recurso h3 {
+    color: #ffee00 !important;
+}
+
 /* Cor principal do texto na seção ambiente */
 .janela-conteudo#janela-ambiente,
 .janela-conteudo#janela-ambiente .hero-ambiente,
@@ -622,31 +647,6 @@ body.alto-contraste .chartjs-render-monitor {
 /* Números estatísticos */
 .janela-conteudo#janela-ambiente .stat-number {
     color: #1b5e20 !important;                           /* Verde para números estatísticos */
-}
-
-/* Textos dos gráficos no alto contraste */
-body.alto-contraste .chartjs-text,
-body.alto-contraste .chartjs-label,
-body.alto-contraste .chartjs-legend,
-body.alto-contraste .chartjs-tooltip,
-body.alto-contraste canvas + div {
-    color: #ffffff !important;
-}
-
-body.alto-contraste .chartjs-render-monitor text,
-body.alto-contraste canvas ~ div text {
-    fill: #ffffff !important;
-    color: #ffffff !important;
-}
-
-body.alto-contraste .grafico-wrapper p,
-body.alto-contraste .grafico-wrapper-pequeno p,
-body.alto-contraste .bloco-recurso p {
-    color: #ffffff !important;
-}
-
-body.alto-contraste .bloco-recurso h3 {
-    color: #ffee00 !important;
 }
 
 /* ============================================================================
